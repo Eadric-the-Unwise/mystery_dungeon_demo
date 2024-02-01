@@ -394,3 +394,31 @@ layer_0/tile_data = PackedInt32Array(0, 524291, 1, 65536, 3, 0, 131072, 196611, 
 
 [node name="Player" parent="." instance=ExtResource("2_qxhqy")]
 position = Vector2(256, 480)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 640.0
+offset_bottom = 32.0
+color = Color(0.290196, 0.290196, 0.290196, 0.662745)
+
+[node name="Level" type="Label" parent="CanvasLayer"]
+offset_left = 32.0
+offset_right = 96.0
+offset_bottom = 32.0
+text = "LEVEL"
+vertical_alignment = 1
+
+[node name="HP" type="Label" parent="CanvasLayer"]
+offset_left = 192.0
+offset_right = 256.0
+offset_bottom = 32.0
+text = "HP"
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="CanvasLayer"]
+offset_left = 416.0
+offset_right = 480.0
+offset_bottom = 32.0
+text = "SCORE"
+vertical_alignment = 1
