@@ -1,0 +1,19 @@
+[remap]
+
+importer="vnen.tiled_tileset_importer"
+type="TileSet"
+path="res://.import/tileset_colored.tsx-4c40b8a17f02ea864bed45c9a6f46073.res"
+
+[deps]
+
+source_file="res://res/1bitpack_kenney_1.2/Tilemap/tileset_colored.tsx"
+dest_files=[ "res://.import/tileset_colored.tsx-4c40b8a17f02ea864bed45c9a6f46073.res" ]
+
+[params]
+
+custom_properties=true
+tile_metadata=false
+image_flags=7
+embed_internal_images=false
+save_tiled_properties=false
+post_import_script=""

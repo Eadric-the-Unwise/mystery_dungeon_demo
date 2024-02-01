@@ -1,0 +1,22 @@
+[remap]
+
+importer="vnen.tiled_importer"
+type="PackedScene"
+path="res://.import/sample_fantasy.tmx-224693a3d992ec6649c71cac77ca45bb.scn"
+
+[deps]
+
+source_file="res://res/1bitpack_kenney_1.2/Tilemap/sample_fantasy.tmx"
+dest_files=[ "res://.import/sample_fantasy.tmx-224693a3d992ec6649c71cac77ca45bb.scn" ]
+
+[params]
+
+custom_properties=true
+tile_metadata=false
+uv_clip=true
+image_flags=7
+collision_layer=1
+embed_internal_images=false
+save_tiled_properties=false
+add_background=true
+post_import_script=""
