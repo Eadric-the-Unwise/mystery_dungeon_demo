@@ -2,3 +2,6 @@ res://game.tscn
 res://player.tscn
 res://enemy.tscn
 res://buttons.tscn
+res://B1.tscn
+res://game.gd
+res://B1.gd
