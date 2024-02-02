@@ -7,7 +7,14 @@ var unit_size := 64
 
 var health := 10
 
+var starting_health
+var starting_position
+
 func _ready() -> void:
+	# set starting variables for game_reset
+	starting_health = health
+	starting_position = position
+	
 	Autoload.player = self
 	move_timer.start(0.0)
 

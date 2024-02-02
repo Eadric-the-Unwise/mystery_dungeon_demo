@@ -6,3 +6,4 @@ res://enemy.tscn
 res://game.gd
 res://player.gd
 res://autoload.gd
+res://buttons.tscn

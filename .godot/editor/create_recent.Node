@@ -1,8 +1,10 @@
+ColorRect
+CanvasLayer
+Button
+VBoxContainer
 Label
 CollisionShape2D
 StaticBody2D
 Area2D
-ColorRect
-CanvasLayer
 Camera2D
 TileMap

@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://jb4jfl5cjk1s"]
+[gd_scene load_steps=11 format=3 uid="uid://jb4jfl5cjk1s"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_0pwpl"]
 [ext_resource type="Texture2D" uid="uid://dv2q6i07mpki" path="res://assets/Hexany's Monster Menagerie/Tilesheets/monochrome_32x32.png" id="2_6wfbb"]
 [ext_resource type="Texture2D" uid="uid://6qqwnix44uf4" path="res://assets/Hexany's Monster Menagerie/Roguelike_Example.png" id="3_hian0"]
 [ext_resource type="PackedScene" uid="uid://2kl5aewswdlf" path="res://player.tscn" id="4_mdqrn"]
+[ext_resource type="PackedScene" uid="uid://4i7vdx55hnjt" path="res://buttons.tscn" id="5_tu75v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qiuxb"]
 texture = ExtResource("2_6wfbb")
@@ -135,10 +136,12 @@ layer_0/tile_data = PackedInt32Array(983051, 3, 65537, 983046, 3, 65537, 0, 5242
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/StaticBody2D"]
 position = Vector2(24, 144)
 shape = SubResource("RectangleShape2D_rv33s")
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="TileMap/StaticBody2D"]
 position = Vector2(296, 144)
 shape = SubResource("RectangleShape2D_rv33s")
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="TileMap/StaticBody2D"]
 position = Vector2(160, 24)
@@ -148,6 +151,7 @@ metadata/_edit_lock_ = true
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="TileMap/StaticBody2D"]
 position = Vector2(160, 264)
 shape = SubResource("RectangleShape2D_18lj0")
+metadata/_edit_lock_ = true
 
 [node name="Player" parent="." instance=ExtResource("4_mdqrn")]
 position = Vector2(320, 448)
@@ -188,6 +192,14 @@ text = "DEBUG: "
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
+[node name="Message" type="Label" parent="CanvasLayer/Debug UI"]
+layout_mode = 0
+offset_left = 208.0
+offset_right = 272.0
+offset_bottom = 32.0
+text = "DEBUG MESSAGE HERE"
+vertical_alignment = 1
+
 [node name="UI" type="ColorRect" parent="CanvasLayer"]
 unique_name_in_owner = true
 offset_top = 544.0
@@ -218,3 +230,9 @@ offset_right = 64.0
 offset_bottom = 32.0
 text = "00"
 vertical_alignment = 1
+
+[node name="Buttons" parent="." instance=ExtResource("5_tu75v")]
+offset_left = 560.0
+offset_top = 240.0
+offset_right = 637.0
+offset_bottom = 341.0

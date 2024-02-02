@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://4i7vdx55hnjt"]
+
+[node name="Buttons" type="VBoxContainer"]
+offset_right = 176.0
+offset_bottom = 32.0
+
+[node name="Damage" type="Button" parent="."]
+layout_mode = 2
+text = "DAMAGE"
+
+[node name="Heal" type="Button" parent="."]
+layout_mode = 2
+text = "HEAL"
+
+[node name="Spawn" type="Button" parent="."]
+layout_mode = 2
+text = "SPAWN"
+
+[node name="Reset" type="Button" parent="."]
+layout_mode = 2
+text = "RESET"
