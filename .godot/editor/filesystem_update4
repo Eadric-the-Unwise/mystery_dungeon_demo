@@ -1,3 +1,6 @@
-res://main.tscn
 res://Game.tscn
 res://player.tscn
+res://Game.gd
+res://game.tscn
+res://enemy.tscn
+res://game.gd
