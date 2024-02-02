@@ -1,8 +1,11 @@
 extends CharacterBody2D
 
 @onready var move_timer := $MoveTimer
+
 var cell_size := 32
 var unit_size := 64
+
+var health := 10
 
 func _ready() -> void:
 	Autoload.player = self
