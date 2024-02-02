@@ -11,7 +11,7 @@ func _ready() -> void:
 	Autoload.player = self
 	move_timer.start(0.0)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if move_timer.time_left == 0.0:
 		_move_player()
 	
@@ -22,9 +22,9 @@ func _move_player():
 	direction.y = Input.get_axis("move_up","move_down")
 	
 	if direction != Vector2.ZERO:
+		#position += direction * unit_size
 		move_and_collide(direction * unit_size)
 		# Corrects float amounts returned in move_and_collide
 		position = position.round()
-		#position += direction * unit_size
 		move_timer.start()
-		print(position)
+		Autoload.emit_signal("PlayerMovedSignal")

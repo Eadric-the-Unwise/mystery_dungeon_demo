@@ -162,8 +162,8 @@ metadata/_edit_lock_ = true
 
 [node name="Coords" type="Label" parent="CanvasLayer/Debug UI"]
 layout_mode = 0
-offset_left = 112.0
-offset_right = 176.0
+offset_left = 128.0
+offset_right = 192.0
 offset_bottom = 32.0
 text = "0.0, 0.0"
 vertical_alignment = 1
@@ -172,15 +172,17 @@ metadata/_edit_lock_ = true
 
 [node name="Position =" type="Label" parent="CanvasLayer/Debug UI"]
 layout_mode = 0
-offset_left = 64.0
-offset_right = 113.0
+offset_left = 80.0
+offset_right = 129.0
 offset_bottom = 32.0
 text = "POS = "
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
 [node name="Debug" type="Label" parent="CanvasLayer/Debug UI"]
-offset_right = 64.0
+layout_mode = 0
+offset_left = 16.0
+offset_right = 80.0
 offset_bottom = 32.0
 text = "DEBUG: "
 vertical_alignment = 1
@@ -194,6 +196,7 @@ offset_bottom = 576.0
 color = Color(0, 0, 0, 1)
 
 [node name="Level" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
 offset_left = 560.0
 offset_right = 624.0
 offset_bottom = 32.0
@@ -201,8 +204,17 @@ text = "LEVEL"
 vertical_alignment = 1
 
 [node name="HP" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
 offset_left = 16.0
 offset_right = 80.0
 offset_bottom = 32.0
 text = "HP"
+vertical_alignment = 1
+
+[node name="Health" type="Label" parent="CanvasLayer/UI/HP"]
+layout_mode = 0
+offset_left = 32.0
+offset_right = 64.0
+offset_bottom = 32.0
+text = "00"
 vertical_alignment = 1
