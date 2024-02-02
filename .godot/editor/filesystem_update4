@@ -1,9 +1,4 @@
-res://Game.tscn
-res://player.tscn
-res://Game.gd
 res://game.tscn
+res://player.tscn
 res://enemy.tscn
-res://game.gd
-res://player.gd
-res://autoload.gd
 res://buttons.tscn
