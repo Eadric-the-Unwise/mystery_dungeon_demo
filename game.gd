@@ -27,8 +27,7 @@ func _physics_process(_delta: float) -> void:
 	pass
 
 func _reset_game():
-	Autoload.player.health = Autoload.player.starting_health
-	Autoload.player.position = Autoload.player.starting_position
+	get_tree().reload_current_scene()
 	message.text = "Game Reset"
 	_update_ui()
 	
