@@ -1,5 +1,6 @@
-Node2D
 CollisionShape2D
+Node2D
+TileMap
 Area2D
 StaticBody2D
 Sprite2D
@@ -9,4 +10,3 @@ Button
 VBoxContainer
 Label
 Camera2D
-TileMap

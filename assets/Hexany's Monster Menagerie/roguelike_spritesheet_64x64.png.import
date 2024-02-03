@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fdam250woj3a"
-path="res://.godot/imported/roguelike_spritesheet.png-4776c0e46947f6d209ccd477fcf8181f.ctex"
+uid="uid://vm5c7bubkivx"
+path="res://.godot/imported/roguelike_spritesheet_64x64.png-b0574510a2f65cff4e9e5f4904f1cde3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Hexany's Monster Menagerie/roguelike_spritesheet.png"
-dest_files=["res://.godot/imported/roguelike_spritesheet.png-4776c0e46947f6d209ccd477fcf8181f.ctex"]
+source_file="res://assets/Hexany's Monster Menagerie/roguelike_spritesheet_64x64.png"
+dest_files=["res://.godot/imported/roguelike_spritesheet_64x64.png-b0574510a2f65cff4e9e5f4904f1cde3.ctex"]
 
 [params]
 
