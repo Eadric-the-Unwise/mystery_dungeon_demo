@@ -1,23 +1,24 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1706922969
-autoload.gd::GDScript::-1::1706838537::0::1::::<>Node<>::
+::res://::1706988432
+autoload.gd::GDScript::-1::1706985968::0::1::::<>Node<>::
 B1.gd::GDScript::-1::1706894627::0::1::::<>Node2D<>::
-B1.tscn::PackedScene::477135638510823994::1706922934::0::1::::<><>::res://B1.gd<>uid://dv2q6i07mpki::::res://assets/Hexany's Monster Menagerie/Tilesheets/monochrome_32x32.png<>uid://fdam250woj3a::::res://assets/Hexany's Monster Menagerie/roguelike_spritesheet.png<>uid://6qqwnix44uf4::::res://assets/Hexany's Monster Menagerie/Roguelike_Example.png<>uid://2kl5aewswdlf::::res://player.tscn<>uid://4i7vdx55hnjt::::res://buttons.tscn
-buttons.tscn::PackedScene::2053972127479942289::1706922934::0::1::::<><>::
-enemy.tscn::PackedScene::4235531294205102822::1706922934::0::1::::<><>::
-game.gd::GDScript::-1::1706900368::0::1::::<>Node2D<>::
-game.tscn::PackedScene::635541116407423638::1706922969::0::1::::<><>::res://game.gd<>uid://dv2q6i07mpki::::res://assets/Hexany's Monster Menagerie/Tilesheets/monochrome_32x32.png<>uid://fdam250woj3a::::res://assets/Hexany's Monster Menagerie/roguelike_spritesheet.png<>uid://2kl5aewswdlf::::res://player.tscn<>uid://4i7vdx55hnjt::::res://buttons.tscn
+B1.tscn::PackedScene::477135638510823994::1706987659::0::1::::<><>::res://B1.gd<>uid://dv2q6i07mpki::::res://assets/Hexany's Monster Menagerie/Tilesheets/monochrome_32x32.png<>uid://fdam250woj3a::::res://assets/Hexany's Monster Menagerie/roguelike_spritesheet.png<>uid://6qqwnix44uf4::::res://assets/Hexany's Monster Menagerie/Roguelike_Example.png<>uid://2kl5aewswdlf::::res://player.tscn<>uid://4i7vdx55hnjt::::res://buttons.tscn
+buttons.tscn::PackedScene::2053972127479942289::1706987659::0::1::::<><>::
+enemy.tscn::PackedScene::4235531294205102822::1706987659::0::1::::<><>::
+game.gd::GDScript::-1::1706988275::0::1::::<>Node2D<>::
+game.tscn::PackedScene::635541116407423638::1706988275::0::1::::<><>::res://game.gd<>uid://dv2q6i07mpki::::res://assets/Hexany's Monster Menagerie/Tilesheets/monochrome_32x32.png<>uid://fdam250woj3a::::res://assets/Hexany's Monster Menagerie/roguelike_spritesheet.png<>uid://d161w2wr8c35y::::res://assets/tiles.png<>uid://2kl5aewswdlf::::res://player.tscn<>uid://4i7vdx55hnjt::::res://buttons.tscn
 icon.svg::CompressedTexture2D::4740461764079186604::1706624273::1706747126::1::::<><>::
 lever.gd::GDScript::-1::1706900178::0::1::::<>Area2D<>::
 lever.tscn::PackedScene::7514158306453154848::1706922841::0::1::::<><>::uid://fdam250woj3a::::res://assets/Hexany's Monster Menagerie/roguelike_spritesheet.png<>res://lever.gd
-player.gd::GDScript::-1::1706900380::0::1::::<>CharacterBody2D<>::
-player.tscn::PackedScene::1916464023708769687::1706922934::0::1::::<><>::res://player.gd<>uid://b8skyh3s5qx21::::res://icon.svg
+player.gd::GDScript::-1::1706985938::0::1::::<>Node2D<>::
+player.tscn::PackedScene::1916464023708769687::1706987659::0::1::::<><>::res://player.gd<>uid://b8skyh3s5qx21::::res://icon.svg
 README.md::TextFile::-1::1706705334::0::1::::<><>::
 tilemap.gd::GDScript::-1::1706899284::0::1::::<>TileMap<>::
-::res://assets/::1706836432
+::res://assets/::1706988040
 1bit 16px patterns and tiles - outlines.png::CompressedTexture2D::8730747132079055397::1706747953::1706836432::1::::<><>::
 1bit 16px patterns and tiles.png::CompressedTexture2D::703288713690853138::1706747953::1706836432::1::::<><>::
 background_grid_checkered.png::CompressedTexture2D::3641133320688554585::1706625531::1706836432::1::::<><>::
+tiles.png::CompressedTexture2D::9049787078254598340::1706988029::1706988040::1::::<><>::
 urizen_onebit_tileset__v1d0.png::CompressedTexture2D::806250996004670529::1706747953::1706836432::1::::<><>::
 ::res://assets/1bitpack_kenney_1.2/::1706836432
 License.txt::TextFile::-1::1706747953::0::1::::<><>::
@@ -38,7 +39,7 @@ monochrome-transparent.png::CompressedTexture2D::5884867419025684634::1706747953
 monochrome-transparent_packed.png::CompressedTexture2D::9133416144383772893::1706747953::1706836432::1::::<><>::
 monochrome.png::CompressedTexture2D::1274895525439926182::1706747953::1706836432::1::::<><>::
 monochrome_packed.png::CompressedTexture2D::5386201209775845532::1706747953::1706836432::1::::<><>::
-::res://assets/Hexany's Monster Menagerie/::1706899438
+::res://assets/Hexany's Monster Menagerie/::1706923162
 Battle_Example.png::CompressedTexture2D::2108534944494881106::1705887616::1706836432::1::::<><>::
 CHANGELOG.txt::TextFile::-1::1706619837::0::1::::<><>::
 COPYING.txt::TextFile::-1::1702682060::0::1::::<><>::
