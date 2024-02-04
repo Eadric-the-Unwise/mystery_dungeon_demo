@@ -3,3 +3,6 @@ res://B1.tscn
 res://player.tscn
 res://buttons.tscn
 res://enemy.tscn
+res://player.gd
+res://autoload.gd
+res://game.gd
