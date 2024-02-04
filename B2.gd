@@ -18,3 +18,9 @@ func _ready() -> void:
 	player.move_timer.timeout.connect(_reset_timer)
 
 
+func _select_check() -> void:
+	var tile_data = tilemap.get_cell_tile_data(0, _current_grid_point)
+	if tile_data.get_custom_data("is_stairs"):
+		get_tree().change_scene_to_file("res://game.tscn")
+		#player.position = _grid_data.get_point_position(Vector2i(8,1))
+	

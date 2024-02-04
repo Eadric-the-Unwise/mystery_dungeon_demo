@@ -1,8 +1,7 @@
 res://game.tscn
-res://B1.tscn
+res://B2.tscn
 res://player.tscn
 res://buttons.tscn
 res://enemy.tscn
 res://game.gd
-res://B2.tscn
 res://B2.gd

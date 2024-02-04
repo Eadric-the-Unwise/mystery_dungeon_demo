@@ -1,21 +1,19 @@
 extends Node2D
 
-@onready var player_coords := $"CanvasLayer/Debug UI/Coords"
-@onready var player_hp := $CanvasLayer/UI/HP/Health
+@onready var player_coords: Label = $"CanvasLayer/Debug UI/Debug/Position =/Coords"
+@onready var player_hp: Label = $"CanvasLayer/Game UI/HP/Health"
 @onready var message := $"CanvasLayer/Debug UI/Message"
-
+#----------------------------------------------------------
 @onready var button_damage := $Buttons/Damage
 @onready var button_heal := $Buttons/Heal
 ###
 @onready var button_reset := $Buttons/Reset
-var cell_size := 32
 #----------------------------------------------------------
 @onready var tilemap := $TileMap
 @onready var player := $Player
 var _grid_data: AStarGrid2D
 var _current_grid_point: Vector2i
 var _is_moving: bool
-
 
 func _ready() -> void:
 	# initialize astargrid2d data
@@ -35,7 +33,6 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if _is_moving:
 		return
-
 	if Input.is_action_pressed("move_up"):
 		_move_to_coord(Vector2i.UP)
 	if Input.is_action_pressed("move_down"):
@@ -73,8 +70,10 @@ func _init_astargrid2d():
 	player.position = _grid_data.get_point_position(_current_grid_point)
 	print(_current_grid_point)
 
+	
+
 func _update_ui():
-	player_coords.text = str(player.position / 64)
+	player_coords.text = str(player.position / _grid_data.cell_size)
 	player_hp.text = str(player.health)
 
 func _move_to_coord(move_direction: Vector2i) -> void:
@@ -85,6 +84,7 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	var target_position = _grid_data.get_point_position(target_grid_point)
 	player.position = target_position
 	_current_grid_point = target_grid_point
+	print(_current_grid_point)
 	_is_moving = true
 	player.move_timer.start()
 	_update_ui()
