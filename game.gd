@@ -44,22 +44,16 @@ func _process(_delta: float) -> void:
 		_move_to_coord(Vector2i.LEFT)
 	if Input.is_action_pressed("move_right"):
 		_move_to_coord(Vector2i.RIGHT)
+		
+	if Input.is_action_pressed("ui_accept"):
+		_select_check()
 
-func _reset_timer():
-	_is_moving = false
+func _select_check() -> void:
+	var tile_data = tilemap.get_cell_tile_data(0, _current_grid_point)
+	if tile_data.get_custom_data("is_stairs"):
+		get_tree().change_scene_to_file("res://B2.tscn")
 
-func _move_to_coord(move_direction: Vector2i) -> void:
-	var target_grid_point = _current_grid_point + move_direction
-	if _grid_data.is_point_solid(target_grid_point):
-		return
-	
-	var target_position = _grid_data.get_point_position(target_grid_point)
-	player.position = target_position
-	_current_grid_point = target_grid_point
-	_is_moving = true
-	player.move_timer.start()
-	_update_ui()
-	
+
 func _init_astargrid2d():
 	_grid_data = AStarGrid2D.new()
 	_grid_data.region = tilemap.get_used_rect()
@@ -74,10 +68,30 @@ func _init_astargrid2d():
 			_grid_data.set_point_solid(tile_coord, true)
 	
 	# currently 16x16, may update to 32x32 in future
-	_current_grid_point.x = int(player.position.x / 64)
-	_current_grid_point.y = int(player.position.y / 64)
+	_current_grid_point.x = int(player.position.x / _grid_data.cell_size.x)
+	_current_grid_point.y = int(player.position.y / _grid_data.cell_size.y)
 	player.position = _grid_data.get_point_position(_current_grid_point)
 	print(_current_grid_point)
+
+func _update_ui():
+	player_coords.text = str(player.position / 64)
+	player_hp.text = str(player.health)
+
+func _move_to_coord(move_direction: Vector2i) -> void:
+	var target_grid_point = _current_grid_point + move_direction
+	if _grid_data.is_point_solid(target_grid_point):
+		return
+	
+	var target_position = _grid_data.get_point_position(target_grid_point)
+	player.position = target_position
+	_current_grid_point = target_grid_point
+	_is_moving = true
+	player.move_timer.start()
+	_update_ui()
+	
+
+func _reset_timer():
+	_is_moving = false
 	
 func _reset_game():
 	get_tree().reload_current_scene()
@@ -94,6 +108,3 @@ func _deal_damage(damage: int):
 	message.text = "Player took " + str(damage) + " damage!"
 	_update_ui()
 
-func _update_ui():
-	player_coords.text = str(player.position / 64)
-	player_hp.text = str(player.health)

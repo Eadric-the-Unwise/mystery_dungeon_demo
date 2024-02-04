@@ -1,15 +1,16 @@
 [gd_scene load_steps=3 format=3 uid="uid://2kl5aewswdlf"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_7s8n2"]
-[ext_resource type="Texture2D" uid="uid://b8skyh3s5qx21" path="res://icon.svg" id="1_na0rr"]
+[ext_resource type="Texture2D" uid="uid://cnvfo5t02wq1m" path="res://assets/roguelike_spritesheet_64x64.png" id="2_y2264"]
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_7s8n2")
 
 [node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(32, 32)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_na0rr")
+texture = ExtResource("2_y2264")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 64, 64, 64)
 
 [node name="MoveTimer" type="Timer" parent="."]
 wait_time = 0.25
