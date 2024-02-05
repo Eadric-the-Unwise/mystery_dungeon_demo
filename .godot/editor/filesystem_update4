@@ -5,3 +5,5 @@ res://buttons.tscn
 res://enemy.tscn
 res://game.gd
 res://B2.gd
+res://autoload.gd
+res://player.gd

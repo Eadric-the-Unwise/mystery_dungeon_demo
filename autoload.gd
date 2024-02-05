@@ -5,3 +5,4 @@ signal PlayerMovedSignal
 # Defined in player.gd (Godot loads autoload before loading other nodes)
 # Keep 'player' inferred but not defined until after Player is loaded
 #@onready var player : Node2D
+var current_position:= Vector2i(16, 16)
