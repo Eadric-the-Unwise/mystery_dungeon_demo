@@ -1,5 +1,6 @@
 extends "res://game.gd"
 
+var ascending_spawn_coordinates:= Vector2(8,1)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -21,7 +22,7 @@ func _ready() -> void:
 func _select_check() -> void:
 	var tile_data = tilemap.get_cell_tile_data(0, _current_grid_point)
 	if tile_data.get_custom_data("is_stairs"):
-		Autoload.current_position = Vector2i(128, 16)
+		Autoload.player_updated_spawn_coordinates = ascending_spawn_coordinates
 		get_tree().change_scene_to_file("res://game.tscn")
 		
 	

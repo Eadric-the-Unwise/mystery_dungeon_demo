@@ -14,6 +14,8 @@ extends Node2D
 var _grid_data: AStarGrid2D
 var _current_grid_point: Vector2i
 var _is_moving: bool
+# coordinates when descending down a floor
+var descending_spawn_coordinates:= Vector2(8,1)
 
 func _ready() -> void:
 	# initialize astargrid2d data
@@ -46,13 +48,6 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		_select_check()
 
-func _select_check() -> void:
-	var tile_data = tilemap.get_cell_tile_data(0, _current_grid_point)
-	if tile_data.get_custom_data("is_stairs"):
-		Autoload.current_position = Vector2i(128, 32)
-		get_tree().change_scene_to_file("res://B2.tscn")
-
-
 func _init_astargrid2d():
 	_grid_data = AStarGrid2D.new()
 	_grid_data.region = tilemap.get_used_rect()
@@ -66,11 +61,18 @@ func _init_astargrid2d():
 			# sets this grid cell to be "solid", now allowing player or enemies to move into it
 			_grid_data.set_point_solid(tile_coord, true)
 	
-	# 16x16
-	player.position = Autoload.current_position
-	_current_grid_point.x = int(player.position.x / _grid_data.cell_size.x)
-	_current_grid_point.y = int(player.position.y / _grid_data.cell_size.y)
-	#player.position = _grid_data.get_point_position(_current_grid_point)
+	player.position = Autoload.player_updated_spawn_coordinates * _grid_data.cell_size
+	# set local variable to equal global variable, for readability
+	_current_grid_point.x = int(Autoload.player_updated_spawn_coordinates.x)
+	_current_grid_point.y = int(Autoload.player_updated_spawn_coordinates.y)
+	# load Global Variable player_updated_spawn_coordinates coordinates as spawn position
+	
+
+func _select_check() -> void:
+	var tile_data = tilemap.get_cell_tile_data(0, _current_grid_point)
+	if tile_data.get_custom_data("is_stairs"):
+		Autoload.player_updated_spawn_coordinates = descending_spawn_coordinates
+		get_tree().change_scene_to_file("res://B2.tscn")
 
 func _update_ui():
 	player_coords.text = str(player.position / _grid_data.cell_size)
