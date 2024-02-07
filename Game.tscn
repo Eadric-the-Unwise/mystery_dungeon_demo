@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://jb4jfl5cjk1s"]
+[gd_scene load_steps=10 format=3 uid="uid://jb4jfl5cjk1s"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_0pwpl"]
 [ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="2_2n53b"]
 [ext_resource type="PackedScene" uid="uid://2kl5aewswdlf" path="res://player.tscn" id="4_mdqrn"]
+[ext_resource type="Script" path="res://room.gd" id="5_110g4"]
 [ext_resource type="PackedScene" uid="uid://4i7vdx55hnjt" path="res://buttons.tscn" id="5_tu75v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hxfby"]
@@ -54,6 +55,12 @@ custom_data_layer_0/type = 1
 custom_data_layer_1/name = "is_stairs"
 custom_data_layer_1/type = 1
 sources/5 = SubResource("TileSetAtlasSource_hxfby")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p3k06"]
+size = Vector2(160, 144)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mvuwl"]
+size = Vector2(16, 16)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_0pwpl")
@@ -162,3 +169,37 @@ offset_left = 133.0
 offset_top = 32.0
 offset_right = 159.0
 offset_bottom = 104.0
+
+[node name="B1" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("5_110g4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="B1"]
+position = Vector2(80, 72)
+shape = SubResource("RectangleShape2D_p3k06")
+
+[node name="StairsToB2" type="Area2D" parent="B1"]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="B1/StairsToB2"]
+position = Vector2(136, 24)
+shape = SubResource("RectangleShape2D_mvuwl")
+debug_color = Color(0.960784, 0, 0.513726, 0.419608)
+
+[node name="B2" type="Area2D" parent="."]
+script = ExtResource("5_110g4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="B2"]
+position = Vector2(80, 216)
+shape = SubResource("RectangleShape2D_p3k06")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-176, 0)
+anchor_mode = 0
+
+[connection signal="area_entered" from="B1" to="B1" method="_on_area_entered"]
+[connection signal="area_exited" from="B1" to="B1" method="_on_area_exited"]
+[connection signal="area_entered" from="B2" to="B2" method="_on_area_entered"]
+[connection signal="area_exited" from="B2" to="B2" method="_on_area_exited"]

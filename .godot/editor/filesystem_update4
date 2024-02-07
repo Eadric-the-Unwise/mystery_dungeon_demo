@@ -1,5 +1,3 @@
 res://game.tscn
-res://autoload.gd
-res://game.gd
-res://B2.tscn
-res://B2.gd
+res://room.gd
+res://player.tscn

@@ -1,12 +1,12 @@
-Label
-Node2D
 CollisionShape2D
 Area2D
+Camera2D
+Label
+Node2D
 StaticBody2D
 Sprite2D
 ColorRect
 CanvasLayer
 Button
 VBoxContainer
-Camera2D
 TileMap
