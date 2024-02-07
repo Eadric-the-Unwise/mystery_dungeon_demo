@@ -6,4 +6,4 @@ signal PlayerMovedSignal
 # Keep 'player' inferred but not defined until after Player is loaded
 #@onready var player : Node2D
 # update this variable before loading into a new Scene to choose new player grid coords
-var player_updated_spawn_coordinates:= Vector2(1,4)
+#var player_updated_spawn_coordinates:= Vector2(1,4)
