@@ -15,14 +15,13 @@ func _ready() -> void:
 	button_heal.pressed.connect(_heal_player.bind(4))
 	###
 	button_reset.pressed.connect(_reset_game)
-	message.text = "Welcome to B1!"
+	message.text = "Welcome to B2!"
 	player.move_timer.timeout.connect(_reset_timer)
 
 
 func _select_check() -> void:
 	var tile_data = tilemap.get_cell_tile_data(0, _current_grid_point)
 	if tile_data.get_custom_data("is_stairs"):
-		Autoload.player_updated_spawn_coordinates = ascending_spawn_coordinates
 		get_tree().change_scene_to_file("res://game.tscn")
 		
 	
