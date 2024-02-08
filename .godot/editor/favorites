@@ -1,6 +1,5 @@
 res://autoload.gd
 res://void/floor.tscn
-res://game.tscn
 res://icon.svg
 res://void/main.tscn
 res://player.gd
