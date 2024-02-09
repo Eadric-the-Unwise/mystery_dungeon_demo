@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://jb4jfl5cjk1s"]
+[gd_scene load_steps=12 format=3 uid="uid://jb4jfl5cjk1s"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_g22w3"]
 [ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="2_b3020"]
 [ext_resource type="PackedScene" uid="uid://2kl5aewswdlf" path="res://player.tscn" id="3_860tr"]
 [ext_resource type="PackedScene" uid="uid://4i7vdx55hnjt" path="res://buttons.tscn" id="4_y5y7e"]
 [ext_resource type="Script" path="res://room.gd" id="5_rf5wp"]
+[ext_resource type="Script" path="res://teleporter.gd" id="5_usb3d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hxfby"]
 texture = ExtResource("2_b3020")
@@ -30,7 +31,6 @@ texture = ExtResource("2_b3020")
 0:3/animation_frame_1/duration = 1.0
 0:3/0 = 0
 2:3/0 = 0
-2:3/0/custom_data_1 = true
 0:4/0 = 0
 0:4/0/custom_data_0 = true
 1:4/0 = 0
@@ -52,14 +52,15 @@ texture = ExtResource("2_b3020")
 [sub_resource type="TileSet" id="TileSet_1gilp"]
 custom_data_layer_0/name = "is_blocked"
 custom_data_layer_0/type = 1
-custom_data_layer_1/name = "is_stairs"
-custom_data_layer_1/type = 1
 sources/5 = SubResource("TileSetAtlasSource_hxfby")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p3k06"]
 size = Vector2(160, 144)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mvuwl"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yqaj8"]
 size = Vector2(16, 16)
 
 [node name="Game" type="Node2D"]
@@ -86,21 +87,39 @@ script = ExtResource("5_rf5wp")
 position = Vector2(80, 72)
 shape = SubResource("RectangleShape2D_p3k06")
 
-[node name="StairsToB2" type="Area2D" parent="B1"]
+[node name="StairsToB2" type="Area2D" parent="B1" node_paths=PackedStringArray("target_teleporter")]
+position = Vector2(128, 16)
 collision_layer = 8
 collision_mask = 0
+script = ExtResource("5_usb3d")
+target_teleporter = NodePath("../../B2/StairsToB1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="B1/StairsToB2"]
-position = Vector2(136, 24)
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_mvuwl")
 debug_color = Color(0.960784, 0, 0.513726, 0.419608)
 
 [node name="B2" type="Area2D" parent="."]
+position = Vector2(0, 144)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("5_rf5wp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="B2"]
-position = Vector2(80, 216)
+position = Vector2(80, 72)
 shape = SubResource("RectangleShape2D_p3k06")
+
+[node name="StairsToB1" type="Area2D" parent="B2" node_paths=PackedStringArray("target_teleporter")]
+position = Vector2(144, 0)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("5_usb3d")
+target_teleporter = NodePath("../../B1/StairsToB2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="B2/StairsToB1"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_yqaj8")
+debug_color = Color(0.976471, 0, 0.403922, 0.419608)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-176, 0)

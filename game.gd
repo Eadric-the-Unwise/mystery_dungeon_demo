@@ -11,6 +11,8 @@ extends Node2D
 #----------------------------------------------------------
 @onready var tilemap := $TileMap
 @onready var player := $Player
+@onready var stairs_to_b_2 = $B1/StairsToB2
+
 var _grid_data: AStarGrid2D
 var _current_grid_point: Vector2i
 var _is_moving: bool
@@ -66,10 +68,14 @@ func _init_astargrid2d():
 	player.position = _grid_data.get_point_position(_current_grid_point)
 	print(_current_grid_point)
 
+
 func _select_check() -> void:
-	var tile_data = tilemap.get_cell_tile_data(0, _current_grid_point)
-	if tile_data.get_custom_data("is_stairs"):
-		get_tree().change_scene_to_file("res://B2.tscn")
+	for area in player.interactable_detection_area.get_overlapping_areas():
+		if area is Teleporter:
+			print("Teleporter detected!")
+			var target_coord = tilemap.local_to_map(area.target_teleporter.global_position)
+			player.position = _grid_data.get_point_position(target_coord)
+			_current_grid_point = target_coord
 
 func _update_ui():
 	player_coords.text = str(player.position / _grid_data.cell_size)
