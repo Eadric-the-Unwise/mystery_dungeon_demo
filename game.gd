@@ -34,6 +34,9 @@ func _ready() -> void:
 	#Autoload.player = $Player
 
 func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("ui_accept"):
+		_select_check()
+		
 	if _is_moving:
 		return
 	if Input.is_action_pressed("move_up"):
@@ -45,8 +48,7 @@ func _process(_delta: float) -> void:
 	if Input.is_action_pressed("move_right"):
 		_move_to_coord(Vector2i.RIGHT)
 		
-	if Input.is_action_just_pressed("ui_accept"):
-		_select_check()
+
 
 func _init_astargrid2d():
 	_grid_data = AStarGrid2D.new()
