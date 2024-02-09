@@ -72,7 +72,6 @@ func _init_astargrid2d():
 func _select_check() -> void:
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is Teleporter:
-			print("Teleporter detected!")
 			var target_coord = tilemap.local_to_map(area.target_teleporter.global_position)
 			player.position = _grid_data.get_point_position(target_coord)
 			_current_grid_point = target_coord
