@@ -99,6 +99,7 @@ func _select_check() -> void:
 		if area is Door:
 			print("opened door!")
 			var target_cell: Vector2i = tilemap.local_to_map(area.global_position)
+			print(area.global_position)
 			var tile_data = tilemap.get_cell_tile_data(0, target_cell)
 			if tile_data.get_custom_data("is_blocked"):
 				_grid_data.set_point_solid(target_cell, false)
