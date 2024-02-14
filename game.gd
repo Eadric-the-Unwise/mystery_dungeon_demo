@@ -94,6 +94,17 @@ func _select_check() -> void:
 			player.position = _grid_data.get_point_position(target_coord)
 			# Update _current_grid_point coordinates
 			_current_grid_point = target_coord
+	
+	for area in player.interactable_detection_area.get_overlapping_areas():
+		if area is Door:
+			print("opened door!")
+			var target_cell: Vector2i = tilemap.local_to_map(area.global_position)
+			var tile_data = tilemap.get_cell_tile_data(0, target_cell)
+			if tile_data.get_custom_data("is_blocked"):
+				_grid_data.set_point_solid(target_cell, false)
+				
+			tilemap.set_cell(0, target_cell)
+
 
 func _update_ui():
 	player_coords.text = str(player.position / _grid_data.cell_size)

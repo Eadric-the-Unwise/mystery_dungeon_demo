@@ -30,26 +30,26 @@ collision_mask = 8
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_3gwej")
 
-[node name="IgnoreInteractableDetectionArea" type="Area2D" parent="."]
+[node name="InteractableDetectionArea" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 8
 
-[node name="CollisionShapeRIGHT" type="CollisionShape2D" parent="IgnoreInteractableDetectionArea"]
+[node name="CollisionShapeRIGHT" type="CollisionShape2D" parent="InteractableDetectionArea"]
 position = Vector2(24, 8)
 shape = SubResource("RectangleShape2D_vubon")
 debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)
 
-[node name="CollisionShapeDOWN" type="CollisionShape2D" parent="IgnoreInteractableDetectionArea"]
+[node name="CollisionShapeDOWN" type="CollisionShape2D" parent="InteractableDetectionArea"]
 position = Vector2(8, 24)
 shape = SubResource("RectangleShape2D_vubon")
 debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)
 
-[node name="CollisionShapeLEFT" type="CollisionShape2D" parent="IgnoreInteractableDetectionArea"]
+[node name="CollisionShapeLEFT" type="CollisionShape2D" parent="InteractableDetectionArea"]
 position = Vector2(-8, 8)
 shape = SubResource("RectangleShape2D_vubon")
 debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)
 
-[node name="CollisionShapeUP" type="CollisionShape2D" parent="IgnoreInteractableDetectionArea"]
+[node name="CollisionShapeUP" type="CollisionShape2D" parent="InteractableDetectionArea"]
 position = Vector2(8, -8)
 shape = SubResource("RectangleShape2D_vubon")
 debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)
