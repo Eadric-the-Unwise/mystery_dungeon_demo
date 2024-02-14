@@ -1,4 +1,5 @@
-res://room.gd
-res://game.tscn
 res://player.tscn
+res://game.tscn
 res://game.gd
+res://player.gd
+res://door.gd

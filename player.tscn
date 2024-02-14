@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://2kl5aewswdlf"]
+[gd_scene load_steps=5 format=3 uid="uid://2kl5aewswdlf"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_7s8n2"]
 [ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="2_yjl7r"]
@@ -6,10 +6,13 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gwej"]
 size = Vector2(6, 6)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vubon"]
+size = Vector2(6, 6)
+
 [node name="Player" type="Node2D"]
 script = ExtResource("1_7s8n2")
 
-[node name="Icon" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_yjl7r")
 centered = false
 region_enabled = true
@@ -19,10 +22,34 @@ region_rect = Rect2(0, 16, 16, 16)
 wait_time = 0.25
 one_shot = true
 
-[node name="InteractableDetectionArea" type="Area2D" parent="."]
+[node name="TeleportDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableDetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TeleportDetectionArea"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_3gwej")
+
+[node name="IgnoreInteractableDetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShapeRIGHT" type="CollisionShape2D" parent="IgnoreInteractableDetectionArea"]
+position = Vector2(24, 8)
+shape = SubResource("RectangleShape2D_vubon")
+debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)
+
+[node name="CollisionShapeDOWN" type="CollisionShape2D" parent="IgnoreInteractableDetectionArea"]
+position = Vector2(8, 24)
+shape = SubResource("RectangleShape2D_vubon")
+debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)
+
+[node name="CollisionShapeLEFT" type="CollisionShape2D" parent="IgnoreInteractableDetectionArea"]
+position = Vector2(-8, 8)
+shape = SubResource("RectangleShape2D_vubon")
+debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)
+
+[node name="CollisionShapeUP" type="CollisionShape2D" parent="IgnoreInteractableDetectionArea"]
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_vubon")
+debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)
