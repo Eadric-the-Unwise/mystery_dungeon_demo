@@ -176,8 +176,14 @@ shape = SubResource("RectangleShape2D_8ip42")
 debug_color = Color(0.772549, 0.443137, 0.0431373, 0.419608)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-176, 0)
+visible = false
 anchor_mode = 0
+limit_left = 0
+limit_top = 0
+limit_right = 320
+limit_bottom = 432
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 
 [node name="Buttons" parent="." instance=ExtResource("4_y5y7e")]
 visible = false
