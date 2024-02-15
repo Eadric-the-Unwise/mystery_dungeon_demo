@@ -103,8 +103,10 @@ func _select_check() -> void:
 			var tile_data = tilemap.get_cell_tile_data(0, target_cell)
 			if tile_data.get_custom_data("is_blocked"):
 				_grid_data.set_point_solid(target_cell, false)
-				
-			tilemap.set_cell(0, target_cell)
+			# set the atlas tile in place of the door
+			# 5 is source id ???
+			# Vector21(1,0) is the Atlas coords	
+			tilemap.set_cell(0, target_cell, 5, Vector2i(1,0))
 
 
 func _update_ui():
