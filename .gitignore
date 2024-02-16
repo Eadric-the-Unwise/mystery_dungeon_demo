@@ -3,3 +3,5 @@
 _ignore/
 .aseprite
 .exe
+.tmp
+.cfg
