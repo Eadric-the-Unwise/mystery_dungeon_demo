@@ -1,4 +1,3 @@
-# ?Where is this Room class referenced?
 class_name Room
 extends Area2D
 
