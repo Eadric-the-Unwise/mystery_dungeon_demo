@@ -1,3 +1,5 @@
 res://player.tscn
+res://game.gd
 res://game.tscn
 res://enemy.tscn
+res://enemy.gd

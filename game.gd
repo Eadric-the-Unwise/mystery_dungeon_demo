@@ -12,13 +12,19 @@ extends Node2D
 @onready var tilemap := $TileMap
 @onready var player := $Player
 
+var enemy := preload("res://enemy.tscn")
+
 var _grid_data: AStarGrid2D
 var _current_grid_point: Vector2i
 var _is_moving: bool
 
+var CELL_SIZE := 16
+
 func _ready() -> void:
 	# initialize astargrid2d data
 	_init_astargrid2d()
+	# initialize enemies
+	_init_enemies()
 	# initialize ui
 	_update_ui()
 	# connect PlayerMovedSignal to _update_ui()
@@ -83,6 +89,11 @@ func _init_astargrid2d():
 	player.position = _grid_data.get_point_position(_current_grid_point)
 	print(_current_grid_point)
 
+func _init_enemies():
+	var next_enemy : Area2D = enemy.instantiate()
+	next_enemy.position.x = 112 
+	next_enemy.position.y = 64 
+	add_child(next_enemy)
 
 func _select_check() -> void:
 	# Check for all overlapping areas in Player's Area2D (interactable_detection_area)
