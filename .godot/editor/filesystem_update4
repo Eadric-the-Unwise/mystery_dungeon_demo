@@ -9,3 +9,4 @@ res://player.tscn
 res://state_machine/enemy_follow.gd
 res://enemy.gd
 res://game.gd
+res://player.gd

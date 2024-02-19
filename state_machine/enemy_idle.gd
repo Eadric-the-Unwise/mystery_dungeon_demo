@@ -1,13 +1,17 @@
 extends State
 class_name EnemyIdle
 
-var player: Node2D
-var enemy: Area2D
+var enemy: Node2D
 
 func enter():
-	player = get_tree().get_first_node_in_group("Player")
+	print("Enemy now idle")
+	print(get_parent().current_state)
+	enemy = get_node("../..")
+	enemy.AreaEntered.connect(_on_area_entered)
 
-func update(_delta: float):
+func update():
 	pass
 	#print("Enemy Idle State")
 
+func _on_area_entered():
+	Transitioned.emit(self, "EnemyFollow")

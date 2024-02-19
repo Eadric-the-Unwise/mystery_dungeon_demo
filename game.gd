@@ -138,8 +138,8 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	_is_moving = true
 	# Start move_timer (player cannot move again until timer = timeout())
 	player.move_timer.start()
-	# Update Temporary UI
-	_update_ui()
+	
+	Autoload.PlayerMovedSignal.emit()
 	
 
 func _reset_timer():
