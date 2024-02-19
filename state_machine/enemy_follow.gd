@@ -37,7 +37,7 @@ func update():
 	if player_coordinates.x != current_coordinate.x && player_coordinates.y != current_coordinate.y:
 			var random_value = randi() % 2
 			if random_value == 0:
-				# check here if point is solid
+				# check here if point is solid!
 				enemy.position.x = target_coordinate.x * CELL_SIZE.x
 			elif random_value == 1:
 				enemy.position.y = target_coordinate.y * CELL_SIZE.y
