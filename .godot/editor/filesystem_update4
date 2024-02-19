@@ -1,5 +1,11 @@
-res://player.tscn
-res://game.gd
 res://game.tscn
+res://state/state.gd
 res://enemy.tscn
+res://state_machine.gd
+res://state_machine/state_machine.gd
+res://state_machine/state.gd
+res://state_machine/enemy_idle.gd
+res://player.tscn
+res://state_machine/enemy_follow.gd
 res://enemy.gd
+res://game.gd

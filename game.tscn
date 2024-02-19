@@ -193,7 +193,6 @@ offset_right = 159.0
 offset_bottom = 104.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="Debug UI" type="ColorRect" parent="CanvasLayer"]
 offset_right = 160.0

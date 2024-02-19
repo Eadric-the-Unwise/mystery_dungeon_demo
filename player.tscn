@@ -9,7 +9,7 @@ size = Vector2(6, 6)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vubon"]
 size = Vector2(6, 6)
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node2D" groups=["Player"]]
 script = ExtResource("1_7s8n2")
 
 [node name="Sprite" type="Sprite2D" parent="."]

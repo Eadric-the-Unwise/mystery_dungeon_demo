@@ -90,7 +90,7 @@ func _init_astargrid2d():
 	print(_current_grid_point)
 
 func _init_enemies():
-	var next_enemy : Area2D = enemy.instantiate()
+	var next_enemy : Node2D = enemy.instantiate()
 	next_enemy.position.x = 112 
 	next_enemy.position.y = 64 
 	add_child(next_enemy)
