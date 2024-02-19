@@ -1,7 +1,5 @@
 res://game.tscn
 res://player.tscn
 res://enemy.tscn
-res://autoload.gd
 res://game.gd
 res://state_machine/enemy_follow.gd
-res://state_machine/state_machine.gd

@@ -4,7 +4,7 @@ class_name EnemyFollow
 var player: Node2D
 var enemy: Node2D
 
-var CELL_SIZE := 16
+var CELL_SIZE := Autoload.grid_data.cell_size
 
 func enter():
 	print("Enemy following player!")
@@ -16,28 +16,34 @@ func enter():
 	
 func update():
 	var distance : Vector2 = player.position - enemy.position
-	var target_position : Vector2 = enemy.position + (sign(distance) * CELL_SIZE)
-	var target_coordinate : Vector2i = target_position / CELL_SIZE
+	var current_coordinate : Vector2i = enemy.position / CELL_SIZE
+	var direction : Vector2i = sign(distance)
+	var target_coordinate : Vector2i = current_coordinate + direction
 	print("Target Coordinate = ", target_coordinate)
-	if target_position == player.position:
+	var player_coordinates : Vector2i
+	player_coordinates.x = int(player.position.x / CELL_SIZE.x)
+	player_coordinates.y = int(player.position.y / CELL_SIZE.y)
+	if target_coordinate == player_coordinates:
+		print("Cannot collide with player")
 		return
 		
 	if Autoload.grid_data.is_point_solid(target_coordinate):
 		print("Point is solid!")
 		return
 		
-	if player.position.x != enemy.position.x && player.position.y != enemy.position.y:
+	#enemy.position.x = (target_coordinate.x * CELL_SIZE.x)
+	#enemy.position.y = (target_coordinate.y * CELL_SIZE.y)
+	if player_coordinates.x != current_coordinate.x && player_coordinates.y != current_coordinate.y:
 			var random_value = randi() % 2
 			if random_value == 0:
-				enemy.position.x = target_position.x
+				enemy.position.x = target_coordinate.x * CELL_SIZE.x
 			elif random_value == 1:
-				enemy.position.y = target_position.y
-	elif player.position.x != enemy.position.x:
-		enemy.position.x = target_position.x
-	else:
-		enemy.position.y = target_position.y
+				enemy.position.y = target_coordinate.y * CELL_SIZE.y
+	#elif player.position.x != enemy.position.x:
+		#enemy.position.x = target_coordinate.x * CELL_SIZE.x
+	#else:
+		#enemy.position.y = target_coordinate.y * CELL_SIZE.y
 	
-	print("Enemy Position = " + str(enemy.position))
 	#else:
 		#enemy.position = target_position
 	

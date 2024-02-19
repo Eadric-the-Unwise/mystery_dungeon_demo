@@ -14,7 +14,7 @@ extends Node2D
 
 var enemy := preload("res://enemy.tscn")
 
-var _grid_data: AStarGrid2D
+#var _grid_data: AStarGrid2D
 var _current_grid_point: Vector2i
 var _is_moving: bool
 
@@ -63,14 +63,14 @@ func _process(_delta: float) -> void:
 
 func _init_astargrid2d():
 	# Initialize tilemap 2D array
-	_grid_data = AStarGrid2D.new()
+	Autoload.grid_data = AStarGrid2D.new()
 	# Define tilemap region
-	_grid_data.region = tilemap.get_used_rect()
+	Autoload.grid_data.region = tilemap.get_used_rect()
 	# Define tileset cell size
-	_grid_data.cell_size = tilemap.tile_set.tile_size
+	Autoload.grid_data.cell_size = tilemap.tile_set.tile_size
 	# Needs to be called if parameters like region, cell_size or offset are changed
 	# (is_dirty() will return true if this is the case and this needs to be called)
-	_grid_data.update()
+	Autoload.grid_data.update()
 	
 	
 	# get_used_cells(0) = TileMap Layer 0
@@ -80,16 +80,16 @@ func _init_astargrid2d():
 		# Check for tile for TileSet Custom Data
 		if tile_data.get_custom_data("is_blocked"):
 			# Sets this grid cell to be "solid", preventing player or enemies from moving into it
-			_grid_data.set_point_solid(tile_coord, true)
+			Autoload.grid_data.set_point_solid(tile_coord, true)
 	
 	# consider replacing local _grid_data completely with this Autoload		
-	Autoload.grid_data = _grid_data
+	#Autoload.grid_data = _grid_data
 
 	# Set _current_grid_point coordinates
-	_current_grid_point.x = int(player.position.x / _grid_data.cell_size.x)
-	_current_grid_point.y = int(player.position.y / _grid_data.cell_size.y)
+	_current_grid_point.x = int(player.position.x / Autoload.grid_data.cell_size.x)
+	_current_grid_point.y = int(player.position.y / Autoload.grid_data.cell_size.y)
 	# Update player position to the position of _current_grid_point coordinate
-	player.position = _grid_data.get_point_position(_current_grid_point)
+	player.position = Autoload.grid_data.get_point_position(_current_grid_point)
 	print(_current_grid_point)
 
 func _init_enemies():
@@ -105,7 +105,7 @@ func _select_check() -> void:
 			# Returns the map coordinates of the cell containing the given local_position. 
 			var target_coord = tilemap.local_to_map(area.target_teleporter.global_position)
 			# Update player position to the position of target_coord 
-			player.position = _grid_data.get_point_position(target_coord)
+			player.position = Autoload.grid_data.get_point_position(target_coord)
 			# Update _current_grid_point coordinates
 			_current_grid_point = target_coord
 	
@@ -116,7 +116,7 @@ func _select_check() -> void:
 			print(area.global_position)
 			var tile_data = tilemap.get_cell_tile_data(0, target_cell)
 			if tile_data.get_custom_data("is_blocked"):
-				_grid_data.set_point_solid(target_cell, false)
+				Autoload.grid_data.set_point_solid(target_cell, false)
 			# set the atlas tile in place of the door
 			# 5 is source id ???
 			# Vector21(1,0) is the Atlas coords	
@@ -124,19 +124,19 @@ func _select_check() -> void:
 
 
 func _update_ui():
-	player_coords.text = str(player.position / _grid_data.cell_size)
+	player_coords.text = str(player.position / Autoload.grid_data.cell_size)
 	player_hp.text = str(player.health)
 
 func _move_to_coord(move_direction: Vector2i) -> void:
 	var target_grid_point = _current_grid_point + move_direction
 	# If target_grid_point is an "is_blocked" tile, prevent movement
-	if _grid_data.is_point_solid(target_grid_point):
+	if Autoload.grid_data.is_point_solid(target_grid_point):
 		return
 	
-	var target_position = _grid_data.get_point_position(target_grid_point)
+	var target_position = Autoload.grid_data.get_point_position(target_grid_point)
 	player.position = target_position
 	_current_grid_point = target_grid_point
-	print("Current Grid Point: ", _current_grid_point)
+	print("PLAYER Grid Point: ", _current_grid_point)
 	# Prevents player from moving every in-game frame
 	_is_moving = true
 	# Start move_timer (player cannot move again until timer = timeout())
