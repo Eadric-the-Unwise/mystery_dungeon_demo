@@ -72,6 +72,7 @@ func _init_astargrid2d():
 	# (is_dirty() will return true if this is the case and this needs to be called)
 	_grid_data.update()
 	
+	
 	# get_used_cells(0) = TileMap Layer 0
 	for tile_coord in tilemap.get_used_cells(0):
 		# Get tile coordinate
@@ -81,6 +82,8 @@ func _init_astargrid2d():
 			# Sets this grid cell to be "solid", preventing player or enemies from moving into it
 			_grid_data.set_point_solid(tile_coord, true)
 	
+	# consider replacing local _grid_data completely with this Autoload		
+	Autoload.grid_data = _grid_data
 
 	# Set _current_grid_point coordinates
 	_current_grid_point.x = int(player.position.x / _grid_data.cell_size.x)
@@ -133,7 +136,7 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	var target_position = _grid_data.get_point_position(target_grid_point)
 	player.position = target_position
 	_current_grid_point = target_grid_point
-	print(_current_grid_point)
+	print("Current Grid Point: ", _current_grid_point)
 	# Prevents player from moving every in-game frame
 	_is_moving = true
 	# Start move_timer (player cannot move again until timer = timeout())

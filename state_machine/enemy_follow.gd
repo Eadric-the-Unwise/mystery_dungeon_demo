@@ -16,20 +16,22 @@ func enter():
 	
 func update():
 	var distance : Vector2 = player.position - enemy.position
-	print("Distance = ", distance)
 	var target_position : Vector2 = enemy.position + (sign(distance) * CELL_SIZE)
-	print("Target Position = ", target_position)
-	
+	var target_coordinate : Vector2i = target_position / CELL_SIZE
+	print("Target Coordinate = ", target_coordinate)
 	if target_position == player.position:
 		return
-	
+		
+	if Autoload.grid_data.is_point_solid(target_coordinate):
+		print("Point is solid!")
+		return
+		
 	if player.position.x != enemy.position.x && player.position.y != enemy.position.y:
-		var random_value = randi() % 2
-		print("Random Value: ", random_value)
-		if random_value == 0:
-			enemy.position.x = target_position.x
-		elif random_value == 1:
-			enemy.position.y = target_position.y
+			var random_value = randi() % 2
+			if random_value == 0:
+				enemy.position.x = target_position.x
+			elif random_value == 1:
+				enemy.position.y = target_position.y
 	elif player.position.x != enemy.position.x:
 		enemy.position.x = target_position.x
 	else:
