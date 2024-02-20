@@ -2,4 +2,7 @@ res://game.tscn
 res://player.tscn
 res://enemy.tscn
 res://game.gd
+res://autoload.gd
+res://enemy.gd
 res://state_machine/enemy_follow.gd
+res://state_machine/enemy_idle.gd

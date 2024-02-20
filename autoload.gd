@@ -3,6 +3,11 @@ extends Node
 signal PlayerMovedSignal
 
 var grid_data: AStarGrid2D
+
+var tilemap: TileMap
+
+var current_grid_point: Vector2i
+
 # Global reference to player
 # Defined in player.gd (Godot loads autoload before loading other nodes)
 # Keep 'player' inferred but not defined until after Player is loaded

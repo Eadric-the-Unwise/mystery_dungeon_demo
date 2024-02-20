@@ -4,6 +4,8 @@ class_name EnemyFollow
 var player: Node2D
 var enemy: Node2D
 
+var target_coordinate: Vector2i
+
 var CELL_SIZE := Autoload.grid_data.cell_size
 
 func enter():
@@ -15,51 +17,18 @@ func enter():
 	randomize()
 	
 func update():
-	var distance : Vector2 = player.position - enemy.position
-	var current_coordinate : Vector2i = enemy.position / CELL_SIZE
-	var direction : Vector2i = sign(distance)
-	var target_coordinate : Vector2i = current_coordinate + direction
-	print("Target Coordinate = ", target_coordinate)
-	var player_coordinates : Vector2i
-	player_coordinates.x = int(player.position.x / CELL_SIZE.x)
-	player_coordinates.y = int(player.position.y / CELL_SIZE.y)
-	if target_coordinate == player_coordinates:
+
+	if target_coordinate == Autoload.current_grid_point:
 		print("Cannot collide with player")
 		return
 		
 	if Autoload.grid_data.is_point_solid(target_coordinate):
 		print("Point is solid!")
 		return
-		
-	# CHECK IF PLAYER DIAGONAL TO ENEMY
-	if player_coordinates.x != current_coordinate.x && player_coordinates.y != current_coordinate.y:
-			var test_coord = current_coordinate
-			test_coord.y += direction.y
-			
-			if Autoload.grid_data.is_point_solid(test_coord):
-				test_coord = current_coordinate
-				test_coord.x += direction.x
-				if Autoload.grid_data.is_point_solid(test_coord):
-					return
-				else:
-					enemy.position.x = target_coordinate.x * CELL_SIZE.x
-			else:
-				enemy.position.y = target_coordinate.y * CELL_SIZE.y
-			#var random_value = randi() % 2
-			#if random_value == 0:
-				## check here if point is solid!
-				#enemy.position.x = target_coordinate.x * CELL_SIZE.x
-			#elif random_value == 1:
-				#enemy.position.y = target_coordinate.y * CELL_SIZE.y
-				
-				
-	elif player.position.x != enemy.position.x:
-		enemy.position.x = target_coordinate.x * CELL_SIZE.x
-	else:
-		enemy.position.y = target_coordinate.y * CELL_SIZE.y
 	
-	#else:
-		#enemy.position = target_position
+	#enemy.current_grid_point.x = int(enemy.position.x / Autoload.grid_data.cell_size.x)
+	#enemy.current_grid_point.y = int(enemy.position.y / Autoload.grid_data.cell_size.y)
+	print("Enemy Target Grid Point = ",target_coordinate)
 	
 func _on_area_exited():
 	Transitioned.emit(self, "EnemyIdle")
