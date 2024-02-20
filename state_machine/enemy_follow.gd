@@ -31,20 +31,32 @@ func update():
 		print("Point is solid!")
 		return
 		
-	#enemy.position.x = (target_coordinate.x * CELL_SIZE.x)
-	#enemy.position.y = (target_coordinate.y * CELL_SIZE.y)
-	# Check if player is diagonal
+	# CHECK IF PLAYER DIAGONAL TO ENEMY
 	if player_coordinates.x != current_coordinate.x && player_coordinates.y != current_coordinate.y:
-			var random_value = randi() % 2
-			if random_value == 0:
-				# check here if point is solid!
-				enemy.position.x = target_coordinate.x * CELL_SIZE.x
-			elif random_value == 1:
+			var test_coord = current_coordinate
+			test_coord.y += direction.y
+			
+			if Autoload.grid_data.is_point_solid(test_coord):
+				test_coord = current_coordinate
+				test_coord.x += direction.x
+				if Autoload.grid_data.is_point_solid(test_coord):
+					return
+				else:
+					enemy.position.x = target_coordinate.x * CELL_SIZE.x
+			else:
 				enemy.position.y = target_coordinate.y * CELL_SIZE.y
-	#elif player.position.x != enemy.position.x:
-		#enemy.position.x = target_coordinate.x * CELL_SIZE.x
-	#else:
-		#enemy.position.y = target_coordinate.y * CELL_SIZE.y
+			#var random_value = randi() % 2
+			#if random_value == 0:
+				## check here if point is solid!
+				#enemy.position.x = target_coordinate.x * CELL_SIZE.x
+			#elif random_value == 1:
+				#enemy.position.y = target_coordinate.y * CELL_SIZE.y
+				
+				
+	elif player.position.x != enemy.position.x:
+		enemy.position.x = target_coordinate.x * CELL_SIZE.x
+	else:
+		enemy.position.y = target_coordinate.y * CELL_SIZE.y
 	
 	#else:
 		#enemy.position = target_position
