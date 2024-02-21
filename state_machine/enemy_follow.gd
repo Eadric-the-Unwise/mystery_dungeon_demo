@@ -1,6 +1,9 @@
 extends State
 class_name EnemyFollow
 
+@onready var animation_player = $"../../AnimationPlayer"
+@onready var sprite = $"../../EnemySprite2D"
+
 var player: Node2D
 var enemy: Node2D
 
@@ -11,9 +14,11 @@ var current_enemy_coordinate: Vector2i
 
 func enter():
 	print("Enemy following player!")
+	animation_player.play("SURPRISE")
 	player = get_tree().get_first_node_in_group("Player")
 	enemy = get_node("../..")
 	enemy.AreaExited.connect(_on_area_exited)
+	current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)
 	#randomize()
 
 # Called on every PlayerMovedSignal emit (state_machine.gd)
@@ -29,6 +34,13 @@ func update():
 	
 	var target_position = Autoload.grid_data.get_point_position(_target_coordinate)
 	enemy.position = target_position
+	# Flip horizonal sprite
+	if Autoload.current_grid_point.x > current_enemy_coordinate.x:
+		print("Target.x = " + str(_target_coordinate.x) + ", current.x = " + str(current_enemy_coordinate.x))
+		sprite.flip_h = true
+	else:
+		sprite.flip_h = false
+	# Update current coordinate
 	current_enemy_coordinate = _target_coordinate
 	print("Enemy Coord = ", current_enemy_coordinate)
 	

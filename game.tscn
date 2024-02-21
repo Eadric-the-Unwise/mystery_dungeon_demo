@@ -28,6 +28,7 @@ texture = ExtResource("2_b3020")
 1:2/0 = 0
 1:2/0/custom_data_0 = true
 2:2/0 = 0
+2:2/0/custom_data_0 = true
 3:2/0 = 0
 4:2/0 = 0
 0:3/animation_frame_0/duration = 1.0
