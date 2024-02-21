@@ -4,35 +4,49 @@ class_name EnemyFollow
 var player: Node2D
 var enemy: Node2D
 
-var target_coordinate: Vector2i
-
-var CELL_SIZE := Autoload.grid_data.cell_size
+#var current_grid_point: Vector2i
+var current_id_path: Array[Vector2i]
+var _target_coordinate: Vector2i
+var current_enemy_coordinate: Vector2i
 
 func enter():
 	print("Enemy following player!")
-	
 	player = get_tree().get_first_node_in_group("Player")
 	enemy = get_node("../..")
 	enemy.AreaExited.connect(_on_area_exited)
-	randomize()
-	
-func update():
+	#randomize()
 
-	if target_coordinate == Autoload.current_grid_point:
+# Called on every PlayerMovedSignal emit (state_machine.gd)
+func update():
+	_update_target_coordinate()
+	if _target_coordinate == Autoload.current_grid_point:
 		print("Cannot collide with player")
 		return
 		
-	if Autoload.grid_data.is_point_solid(target_coordinate):
+	if Autoload.grid_data.is_point_solid(_target_coordinate):
 		print("Point is solid!")
 		return
 	
-	#enemy.current_grid_point.x = int(enemy.position.x / Autoload.grid_data.cell_size.x)
-	#enemy.current_grid_point.y = int(enemy.position.y / Autoload.grid_data.cell_size.y)
-	print("Enemy Target Grid Point = ",target_coordinate)
+	var target_position = Autoload.grid_data.get_point_position(_target_coordinate)
+	enemy.position = target_position
+	current_enemy_coordinate = _target_coordinate
+	print("Enemy Coord = ", current_enemy_coordinate)
 	
 func _on_area_exited():
 	Transitioned.emit(self, "EnemyIdle")
 	
-func _on_player_moved():
-	enemy.position.x = player.position.x - 16
-	#target_pos = player.position
+func _update_target_coordinate():
+	#if event.is_action_pressed("move") == false:
+		#return
+	
+	# slice(1) removes the first value in the id_path (enemy's current grid point)
+	var id_path = Autoload.grid_data.get_id_path(
+		Autoload.tilemap.local_to_map(enemy.global_position),
+		Autoload.tilemap.local_to_map(player.global_position)
+	).slice(1)
+	print(id_path)		
+	
+	if id_path.is_empty() == false:
+		current_id_path = id_path
+		# Set the EnemyFollow.target_coordinate to the first coordinate int he ID path
+		_target_coordinate = current_id_path.front()

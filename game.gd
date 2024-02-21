@@ -9,18 +9,10 @@ extends Node2D
 ###
 @onready var button_reset := $Buttons/Reset
 #----------------------------------------------------------
-# replaced with Autoload
-#@onready var tilemap := $TileMap
 @onready var player := $Player
 
 var enemy := preload("res://enemy.tscn")
-
-#var _grid_data: AStarGrid2D
-# (replaced by Autoload.current_grid_point)
-#var _current_grid_point: Vector2i
 var _is_moving: bool
-
-var CELL_SIZE := 16
 
 func _ready() -> void:
 	# Initialize the Autoload.tilemap TileMap
@@ -91,8 +83,6 @@ func _init_astargrid2d():
 	Autoload.current_grid_point.y = int(player.position.y / Autoload.grid_data.cell_size.y)
 	# Update player position to the position of _current_grid_point coordinate
 	player.position = Autoload.grid_data.get_point_position(Autoload.current_grid_point)
-	print(Autoload.current_grid_point)
-
 
 func _init_enemies():
 	var next_enemy : Node2D = enemy.instantiate()
@@ -113,9 +103,8 @@ func _select_check() -> void:
 	
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is Door:
-			print("opened door!")
+			print("The door opened!")
 			var target_cell: Vector2i = Autoload.tilemap.local_to_map(area.global_position)
-			print(area.global_position)
 			var tile_data = Autoload.tilemap.get_cell_tile_data(0, target_cell)
 			if tile_data.get_custom_data("is_blocked"):
 				Autoload.grid_data.set_point_solid(target_cell, false)
@@ -124,20 +113,15 @@ func _select_check() -> void:
 			# Vector21(1,0) is the Atlas coords	
 			Autoload.tilemap.set_cell(0, target_cell, 5, Vector2i(1,0))
 
-
-func _update_ui():
-	player_coords.text = str(player.position / Autoload.grid_data.cell_size)
-	player_hp.text = str(player.health)
-
 func _move_to_coord(move_direction: Vector2i) -> void:
 	var target_grid_point = Autoload.current_grid_point + move_direction
 	# If target_grid_point is an "is_blocked" tile, prevent movement
 	if Autoload.grid_data.is_point_solid(target_grid_point):
 		return
 	
+	Autoload.current_grid_point = target_grid_point
 	var target_position = Autoload.grid_data.get_point_position(target_grid_point)
 	player.position = target_position
-	Autoload.current_grid_point = target_grid_point
 	print("PLAYER Grid Point: ", Autoload.current_grid_point)
 	# Prevents player from moving every in-game frame
 	_is_moving = true
@@ -145,7 +129,10 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	player.move_timer.start()
 	
 	Autoload.PlayerMovedSignal.emit()
-	
+
+func _update_ui():
+	player_coords.text = str(player.position / Autoload.grid_data.cell_size)
+	player_hp.text = str(player.health)	
 
 func _reset_timer():
 	_is_moving = false
@@ -164,4 +151,3 @@ func _deal_damage(damage: int):
 	player.health -= damage
 	message.text = "Player took " + str(damage) + " damage!"
 	_update_ui()
-
