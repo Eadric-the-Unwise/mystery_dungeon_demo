@@ -1,12 +1,12 @@
+Sprite2D
+AnimationPlayer
 Node2D
 Node
 CollisionShape2D
 Area2D
-AnimationPlayer
 Camera2D
 Label
 StaticBody2D
-Sprite2D
 ColorRect
 CanvasLayer
 Button
