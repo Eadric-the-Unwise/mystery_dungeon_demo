@@ -2,3 +2,4 @@ res://enemy.tscn
 res://state_machine/enemy_follow.gd
 res://game.tscn
 res://player.tscn
+res://state_machine/state_machine.gd

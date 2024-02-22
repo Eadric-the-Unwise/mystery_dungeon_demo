@@ -27,7 +27,8 @@ func _on_player_moved():
 func _on_child_transition(state, new_state_name):
 	if state != current_state:
 		return
-		
+	
+	# change Node name to lowercase	
 	var new_state = states.get(new_state_name.to_lower())
 	if !new_state:
 		return

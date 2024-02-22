@@ -44,9 +44,6 @@ func update():
 	current_enemy_coordinate = _target_coordinate
 	print("Enemy Coord = ", current_enemy_coordinate)
 	
-func _on_area_exited():
-	Transitioned.emit(self, "EnemyIdle")
-	
 func _update_target_coordinate():
 	#if event.is_action_pressed("move") == false:
 		#return
@@ -62,3 +59,7 @@ func _update_target_coordinate():
 		current_id_path = id_path
 		# Set the EnemyFollow.target_coordinate to the first coordinate int he ID path
 		_target_coordinate = current_id_path.front()
+
+func _on_area_exited():
+	Transitioned.emit(self, "EnemyIdle")
+	animation_player.play("SURPRISE")
