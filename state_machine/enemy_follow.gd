@@ -4,7 +4,7 @@ class_name EnemyFollow
 @onready var animation_player = $"../../AnimationPlayer"
 @onready var sprite = $"../../EnemySprite2D"
 
-var player: Node2D
+@onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 var enemy: Node2D
 
 #var current_grid_point: Vector2i
@@ -15,7 +15,6 @@ var current_enemy_coordinate: Vector2i
 func enter():
 	print("Enemy following player!")
 	animation_player.play("Surprised")
-	player = get_tree().get_first_node_in_group("Player")
 	enemy = get_node("../..")
 	enemy.AreaExited.connect(_on_area_exited)
 	current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)

@@ -3,3 +3,4 @@ res://state_machine/enemy_follow.gd
 res://game.tscn
 res://player.tscn
 res://animations/Surprised.res
+res://enemy.gd

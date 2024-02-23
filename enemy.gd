@@ -1,10 +1,13 @@
 extends Node2D
 
 @onready var area2d = $Area2D
+@onready var raycast = $Area2D/CollisionShape2D/RayCast2D
 
 @onready var state_machine = $StateMachine
 @onready var idle = $StateMachine/EnemyIdle
 @onready var follow = $StateMachine/EnemyFollow
+
+@onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 
 signal AreaEntered
 signal AreaExited
@@ -16,7 +19,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	print(raycast.is_colliding())
 
 func _on_area_entered(area: Area2D):
 	print("Enemy area entered!")
