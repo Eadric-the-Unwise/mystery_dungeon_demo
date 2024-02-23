@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b1lyt1lcujjby"]
+[gd_scene load_steps=12 format=3 uid="uid://b1lyt1lcujjby"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_8dd8b"]
 [ext_resource type="Texture2D" uid="uid://duoo6pr43gjel" path="res://assets/enemy/enemy.png" id="1_hffh8"]
@@ -11,35 +11,47 @@
 size = Vector2(80, 80)
 
 [sub_resource type="Animation" id="Animation_oktdw"]
-length = 0.5
+length = 0.001
 step = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("!:self_modulate")
+tracks/0/path = NodePath("EnemySprite2D:flip_h")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
+"update": 1,
+"values": [false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("!:visible")
+tracks/1/path = NodePath("!:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("?:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_xbog2"]
-resource_name = "SURPRISE"
+resource_name = "Surprised"
 length = 0.5
 step = 0.01
 tracks/0/type = "value"
@@ -66,23 +78,53 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
+
+[sub_resource type="Animation" id="Animation_hd0ty"]
+resource_name = "Confused"
+length = 0.5
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemySprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02, 0.04),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -0.825), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EnemySprite2D:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("!:visible")
+tracks/2/path = NodePath("?:self_modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"times": PackedFloat32Array(0, 0.01, 0.49, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3spvj"]
 _data = {
+"Confused": SubResource("Animation_hd0ty"),
 "RESET": SubResource("Animation_oktdw"),
-"SURPRISE": SubResource("Animation_xbog2")
+"Surprised": SubResource("Animation_xbog2")
 }
 
 [node name="Enemy" type="Node2D"]
@@ -93,11 +135,18 @@ texture = ExtResource("1_hffh8")
 centered = false
 
 [node name="!" type="Sprite2D" parent="."]
-visible = false
+self_modulate = Color(1, 1, 1, 0)
 position = Vector2(8, -9)
 texture = ExtResource("3_6gxdd")
 region_enabled = true
 region_rect = Rect2(64, 32, 16, 16)
+
+[node name="?" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(8, -9)
+texture = ExtResource("3_6gxdd")
+region_enabled = true
+region_rect = Rect2(80, 32, 16, 16)
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0

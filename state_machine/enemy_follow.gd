@@ -14,7 +14,7 @@ var current_enemy_coordinate: Vector2i
 
 func enter():
 	print("Enemy following player!")
-	animation_player.play("SURPRISE")
+	animation_player.play("Surprised")
 	player = get_tree().get_first_node_in_group("Player")
 	enemy = get_node("../..")
 	enemy.AreaExited.connect(_on_area_exited)
@@ -61,5 +61,7 @@ func _update_target_coordinate():
 		_target_coordinate = current_id_path.front()
 
 func _on_area_exited():
+	if animation_player.is_playing():
+		animation_player.stop()
+	animation_player.play("Confused")
 	Transitioned.emit(self, "EnemyIdle")
-	animation_player.play("SURPRISE")
