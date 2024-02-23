@@ -86,7 +86,7 @@ func _init_astargrid2d():
 
 func _init_enemies():
 	var next_enemy : Node2D = enemy.instantiate()
-	next_enemy.position.x = 112 
+	next_enemy.position.x = 96 
 	next_enemy.position.y = 64 
 	add_child(next_enemy)
 

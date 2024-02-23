@@ -1,6 +1,5 @@
-res://enemy.tscn
-res://state_machine/enemy_follow.gd
 res://game.tscn
+res://game.gd
 res://player.tscn
-res://animations/Surprised.res
+res://enemy.tscn
 res://enemy.gd

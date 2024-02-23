@@ -19,7 +19,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	print(raycast.is_colliding())
+	pass
+	#print(raycast.is_colliding())
 
 func _on_area_entered(area: Area2D):
 	print("Enemy area entered!")
