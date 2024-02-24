@@ -1,5 +1,4 @@
 res://game.tscn
-res://game.gd
 res://player.tscn
 res://enemy.tscn
-res://enemy.gd
+res://state_machine/enemy_follow.gd

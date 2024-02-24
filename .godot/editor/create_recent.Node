@@ -1,3 +1,4 @@
+Line2D
 RayCast2D
 AnimationPlayer
 Sprite2D
@@ -12,4 +13,3 @@ ColorRect
 CanvasLayer
 Button
 VBoxContainer
-TileMap

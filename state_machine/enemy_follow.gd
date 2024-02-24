@@ -5,7 +5,9 @@ class_name EnemyFollow
 @onready var sprite = $"../../EnemySprite2D"
 
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
-var enemy: Node2D
+@onready var enemy: Node2D = get_node("../..")
+
+@onready var line_2d = $"../../Line2D"
 
 #var current_grid_point: Vector2i
 var current_id_path: Array[Vector2i]
@@ -15,10 +17,22 @@ var current_enemy_coordinate: Vector2i
 func enter():
 	print("Enemy following player!")
 	animation_player.play("Surprised")
-	enemy = get_node("../..")
 	enemy.AreaExited.connect(_on_area_exited)
 	current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)
 	#randomize()
+
+func _process(delta):
+	# Racyast
+	var space_state = enemy.get_world_2d().direct_space_state
+	var query = PhysicsRayQueryParameters2D.create(enemy.global_position, 
+	player.global_position)
+	query.exclude = [self]
+	var result = space_state.intersect_ray(query)
+	
+	line_2d.set_point_position(1, player.global_position)
+	
+	if result:
+		print("Hit at point: ", result.position)
 
 # Called on every PlayerMovedSignal emit (state_machine.gd)
 func update():
