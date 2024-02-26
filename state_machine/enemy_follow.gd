@@ -5,7 +5,7 @@ class_name EnemyFollow
 @onready var sprite = $"../../EnemySprite2D"
 
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
-@onready var enemy: Node2D = get_node("../..")
+@onready var enemy: Node2D = $"../.."
 
 @onready var raycast = $"../../RayCast2D"
 
@@ -23,7 +23,7 @@ func enter():
 
 func _process(delta):
 	# Racyast
-	var target_position = (enemy.global_position - player.global_position) * -1
+	var target_position = player.global_position - enemy.global_position
 	raycast.target_position = target_position
 
 # Called on every PlayerMovedSignal emit (state_machine.gd)
@@ -31,8 +31,8 @@ func update():
 	# Find next target location in AStarGrid2D
 	_update_target_coordinate()
 	# If Line of Sight is blocked
-	if raycast.is_colliding():
-		return
+	#if raycast.is_colliding():
+		#return
 		
 	if _target_coordinate == Autoload.current_grid_point:
 		print("Cannot collide with player")

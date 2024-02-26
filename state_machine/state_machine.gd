@@ -12,9 +12,13 @@ func _ready():
 			# lowercase child Node name
 			states[child.name.to_lower()] = child
 			child.Transitioned.connect(_on_child_transition)
+			# disable _process for States
+			child.set_process(false)
 			
 	if initial_state:
 		initial_state.enter()
+		# Enable _process for initial_state
+		initial_state.set_process(true)
 		current_state = initial_state
 	# emits every time the player moves
 	Autoload.PlayerMovedSignal.connect(_on_player_moved)
@@ -35,6 +39,9 @@ func _on_child_transition(state, new_state_name):
 	
 	if current_state:
 		current_state.exit()
+		# disable _process for State
+		current_state.set_process(false)
 		
 	new_state.enter()
+	new_state.set_process(true)
 	current_state = new_state
