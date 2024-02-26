@@ -7,7 +7,7 @@ class_name EnemyFollow
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 @onready var enemy: Node2D = get_node("../..")
 
-@onready var line_2d = $"../../Line2D"
+@onready var raycast = $"../../RayCast2D"
 
 #var current_grid_point: Vector2i
 var current_id_path: Array[Vector2i]
@@ -23,20 +23,17 @@ func enter():
 
 func _process(delta):
 	# Racyast
-	var space_state = enemy.get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(enemy.global_position, 
-	player.global_position)
-	query.exclude = [self]
-	var result = space_state.intersect_ray(query)
-	
-	line_2d.set_point_position(1, player.global_position)
-	
-	if result:
-		print("Hit at point: ", result.position)
+	var target_position = (enemy.global_position - player.global_position) * -1
+	raycast.target_position = target_position
 
 # Called on every PlayerMovedSignal emit (state_machine.gd)
 func update():
+	# Find next target location in AStarGrid2D
 	_update_target_coordinate()
+	# If Line of Sight is blocked
+	if raycast.is_colliding():
+		return
+		
 	if _target_coordinate == Autoload.current_grid_point:
 		print("Cannot collide with player")
 		return

@@ -3,6 +3,8 @@ class_name EnemyIdle
 
 var enemy: Node2D
 
+@onready var raycast = $"../../RayCast2D"
+
 func enter():
 	print("Enemy now idle")
 	print(get_parent().current_state)
@@ -14,4 +16,6 @@ func update():
 	#print("Enemy Idle State")
 
 func _on_area_entered():
+	if raycast.is_colliding():
+		return
 	Transitioned.emit(self, "EnemyFollow")

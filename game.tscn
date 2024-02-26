@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://jb4jfl5cjk1s"]
+[gd_scene load_steps=17 format=3 uid="uid://jb4jfl5cjk1s"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_g22w3"]
 [ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="2_b3020"]
@@ -76,6 +76,9 @@ size = Vector2(160, 144)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8ip42"]
 size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_46wwx"]
+size = Vector2(16, 48)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_g22w3")
@@ -286,6 +289,13 @@ theme_override_font_sizes/font_size = 8
 text = "00"
 vertical_alignment = 1
 metadata/_edit_lock_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(88, 72)
+shape = SubResource("RectangleShape2D_46wwx")
+debug_color = Color(0.882353, 0, 0.243137, 0.419608)
 
 [connection signal="area_entered" from="B1" to="B1" method="_on_area_entered"]
 [connection signal="area_exited" from="B1" to="B1" method="_on_area_exited"]
