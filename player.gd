@@ -5,9 +5,6 @@ extends Node2D
 @onready var sprite := $Sprite
 @onready var interactable_detection_area: Area2D = $InteractableDetectionArea
 
-var is_in_line_of_sight: bool = false
-var is_in_range: bool = false
-
 var health := 10
 
 func _ready() -> void:

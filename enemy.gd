@@ -14,6 +14,9 @@ signal AreaEntered
 # emited when Area is exited
 signal AreaExited
 
+var _is_in_line_of_sight: bool = false
+var _is_in_range: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	area2d.area_entered.connect(_on_area_entered)
