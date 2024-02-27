@@ -9,7 +9,9 @@ extends Node2D
 
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 
+# emited when Area is entered
 signal AreaEntered
+# emited when Area is exited
 signal AreaExited
 
 # Called when the node enters the scene tree for the first time.

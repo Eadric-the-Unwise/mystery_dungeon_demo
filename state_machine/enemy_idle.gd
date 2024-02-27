@@ -21,6 +21,8 @@ func update():
 	#print("Enemy Idle State")
 
 func _on_area_entered():
+	if !player.is_in_range:
+		player.is_in_range = true
 	#if raycast.is_colliding():
 		#return
 	Transitioned.emit(self, "EnemyFollow")
