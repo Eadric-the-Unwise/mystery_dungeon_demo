@@ -27,8 +27,8 @@ func _on_player_moved():
 	if current_state:
 		current_state.update()
 
-# these two arguments are passed during .emit
-func _on_child_transition(state, new_state_name):
+
+func _on_child_transition(state, new_state_name): # these two arguments are passed during .emit
 	if state != current_state:
 		return
 	

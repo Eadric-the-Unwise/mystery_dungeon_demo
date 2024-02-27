@@ -18,14 +18,14 @@ func _process(delta):
 	# Determine Line of Sight
 	if raycast.is_colliding():
 		# Line of Sight is Blocked
-		enemy._is_in_line_of_sight = false
+		enemy.is_in_line_of_sight = false
 	else:
 		# Player is in Enemy's Line of Sight
-		enemy._is_in_line_of_sight = true
+		enemy.is_in_line_of_sight = true
 		
 	# Check if enemy is both in range of the Player and if the Player's Line of Sight isn't blocked
 	# by any wall or object
-	if enemy._is_in_range && enemy._is_in_line_of_sight:
+	if enemy.is_in_range && enemy.is_in_line_of_sight:
 		# Transition to Follow State
 		Transitioned.emit(self, "EnemyFollow")
 func update():
@@ -33,13 +33,13 @@ func update():
 
 func _on_area_entered():
 	# Enemy is in range of Player
-	if !enemy._is_in_range:
-		enemy._is_in_range = true
+	if !enemy.is_in_range:
+		enemy.is_in_range = true
 	print("Player in range!")
 
 func _on_area_exited():
 	# Enemy is out of range of Player
-	if enemy._is_in_range:
-		enemy._is_in_range = false
+	if enemy.is_in_range:
+		enemy.is_in_range = false
 	print("Player OUT OF RANGE")
 

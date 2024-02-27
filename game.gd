@@ -122,7 +122,7 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	Autoload.current_grid_point = target_grid_point
 	var target_position = Autoload.grid_data.get_point_position(target_grid_point)
 	player.position = target_position
-	print("PLAYER Grid Point: ", Autoload.current_grid_point)
+	#print("PLAYER Grid Point: ", Autoload.current_grid_point)
 	# Prevents player from moving every in-game frame
 	_is_moving = true
 	# Start move_timer (player cannot move again until timer = timeout())
