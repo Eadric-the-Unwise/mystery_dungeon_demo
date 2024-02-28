@@ -89,6 +89,11 @@ func _init_enemies():
 	next_enemy.position.x = 112 
 	next_enemy.position.y = 64 
 	add_child(next_enemy)
+	# Flip enemy sprite
+	if next_enemy.position.x >= player.position.x:
+		next_enemy.sprite.flip_h = true
+	else:
+		next_enemy.sprite.flip_h = false
 
 func _select_check() -> void:
 	# Check for all overlapping areas in Player's Area2D (interactable_detection_area)

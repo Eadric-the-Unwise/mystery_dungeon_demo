@@ -5,7 +5,6 @@ class_name EnemyIdle
 @onready var enemy: Node2D = $"../.."
 @onready var raycasts = $"../../Raycasts"
 
-
 func enter():
 	print("Enemy now idle")
 	enemy.AreaEntered.connect(_on_area_entered)
@@ -40,11 +39,9 @@ func _on_area_entered():
 	# Enemy is in range of Player
 	if !enemy.is_in_range:
 		enemy.is_in_range = true
-	print("Player in range!")
 
 func _on_area_exited():
 	# Enemy is out of range of Player
 	if enemy.is_in_range:
 		enemy.is_in_range = false
-	print("Player OUT OF RANGE")
 

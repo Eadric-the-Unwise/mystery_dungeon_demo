@@ -2,7 +2,6 @@ extends State
 class_name EnemyFollow
 
 @onready var animation_player = $"../../AnimationPlayer"
-@onready var sprite = $"../../EnemySprite2D"
 
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 @onready var enemy: Node2D = $"../.."
@@ -18,25 +17,31 @@ func enter():
 	animation_player.play("Surprised")
 	enemy.AreaExited.connect(_on_area_exited)
 	current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)
+	_flip_sprite()
 	#randomize()
 
 func _process(delta):
 	# Loop all RayCast2D's to see if the player is visible
-	check_line_of_sight()
+	if check_line_of_sight():
+		enemy.is_in_line_of_sight = true
+	else:
+		enemy.is_in_line_of_sight = false
 
 func check_line_of_sight():
-		# RayCast
+	# RayCast
+	# Return true if in line of sight
 	var raycast_target_position = player.global_position - enemy.global_position
 	for raycast in raycasts.get_children():
 		raycast.target_position = raycast_target_position
 		# Determine Line of Sight
 		if raycast.is_colliding():
-			# Line of Sight is Blocked
-			enemy.is_in_line_of_sight = false
+			pass
+			## Line of Sight is Blocked
+			#enemy.is_in_line_of_sight = false
 		else:
-			# Player is in Enemy's Line of Sight
-			enemy.is_in_line_of_sight = true
-			return
+			## Player is in Enemy's Line of Sight
+			#enemy.is_in_line_of_sight = true
+			return true
 		
 func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 	# Find next target location in AStarGrid2D
@@ -81,9 +86,9 @@ func _update_target_coordinate():
 func _flip_sprite():# Flip horizonal sprite
 	if Autoload.current_grid_point.x > current_enemy_coordinate.x:
 		print("Target.x = " + str(_target_coordinate.x) + ", current.x = " + str(current_enemy_coordinate.x))
-		sprite.flip_h = true
+		enemy.sprite.flip_h = true
 	else:
-		sprite.flip_h = false
+		enemy.sprite.flip_h = false
 
 func _on_area_exited():
 	pass

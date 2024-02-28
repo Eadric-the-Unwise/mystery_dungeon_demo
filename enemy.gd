@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var area2d = $Area2D
 @onready var raycast = $Area2D/CollisionShape2D/RayCast2D
-
+@onready var sprite = $EnemySprite2D
 @onready var state_machine = $StateMachine
 @onready var idle = $StateMachine/EnemyIdle
 @onready var follow = $StateMachine/EnemyFollow
@@ -28,11 +28,9 @@ func _process(delta):
 	#print(raycast.is_colliding())
 
 func _on_area_entered(area: Area2D):
-	print("Enemy area entered!")
 	AreaEntered.emit()
 	
 func _on_area_exited(area: Area2D):
-	print("Enemy area exited!")
 	AreaExited.emit()
 
 		

@@ -1,6 +1,8 @@
 class_name Room
 extends Area2D
 
+@onready var enemy_sprite_2d = $EnemySprite2D
+
 @onready var camera_2d: Camera2D = $"../Camera2D"
 
 
