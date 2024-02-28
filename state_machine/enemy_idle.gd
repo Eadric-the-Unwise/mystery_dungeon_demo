@@ -3,7 +3,7 @@ class_name EnemyIdle
 
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 @onready var enemy: Node2D = $"../.."
-@onready var raycast = $"../../RayCast2D"
+@onready var raycasts = $"../../Raycasts"
 
 
 func enter():
@@ -12,17 +12,8 @@ func enter():
 	enemy.AreaExited.connect(_on_area_exited)
 
 func _process(delta):
-	# RayCast
-	var raycast_target_position = player.global_position - enemy.global_position
-	raycast.target_position = raycast_target_position
-	# Determine Line of Sight
-	if raycast.is_colliding():
-		# Line of Sight is Blocked
-		enemy.is_in_line_of_sight = false
-	else:
-		# Player is in Enemy's Line of Sight
-		enemy.is_in_line_of_sight = true
-		
+	# Loop all RayCast2D's to see if the player is visible
+	check_line_of_sight()
 	# Check if enemy is both in range of the Player and if the Player's Line of Sight isn't blocked
 	# by any wall or object
 	if enemy.is_in_range && enemy.is_in_line_of_sight:
@@ -30,6 +21,20 @@ func _process(delta):
 		Transitioned.emit(self, "EnemyFollow")
 func update():
 	pass
+
+func check_line_of_sight():
+	# RayCast
+	var raycast_target_position = player.global_position - enemy.global_position
+	for raycast in raycasts.get_children():
+		raycast.target_position = raycast_target_position
+		# Determine Line of Sight
+		if raycast.is_colliding():
+			# Line of Sight is Blocked
+			enemy.is_in_line_of_sight = false
+		else:
+			# Player is in Enemy's Line of Sight
+			enemy.is_in_line_of_sight = true
+			return
 
 func _on_area_entered():
 	# Enemy is in range of Player

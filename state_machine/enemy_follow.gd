@@ -6,8 +6,7 @@ class_name EnemyFollow
 
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 @onready var enemy: Node2D = $"../.."
-
-@onready var raycast = $"../../RayCast2D"
+@onready var raycasts = $"../../Raycasts"
 
 #var current_grid_point: Vector2i
 var _current_id_path: Array[Vector2i]
@@ -22,16 +21,22 @@ func enter():
 	#randomize()
 
 func _process(delta):
-	# Calculate Racyast
-	var target_position = player.global_position - enemy.global_position
-	raycast.target_position = target_position
-	# Determine Line of Sight
-	if raycast.is_colliding():
-		# Line of Sight is Blocked
-		enemy.is_in_line_of_sight = false
-	else:
-		# Player is in Enemy's Line of Sight
-		enemy.is_in_line_of_sight = true
+	# Loop all RayCast2D's to see if the player is visible
+	check_line_of_sight()
+
+func check_line_of_sight():
+		# RayCast
+	var raycast_target_position = player.global_position - enemy.global_position
+	for raycast in raycasts.get_children():
+		raycast.target_position = raycast_target_position
+		# Determine Line of Sight
+		if raycast.is_colliding():
+			# Line of Sight is Blocked
+			enemy.is_in_line_of_sight = false
+		else:
+			# Player is in Enemy's Line of Sight
+			enemy.is_in_line_of_sight = true
+			return
 		
 func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 	# Find next target location in AStarGrid2D

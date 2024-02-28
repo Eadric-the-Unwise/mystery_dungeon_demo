@@ -1,11 +1,11 @@
+Node2D
+Node
 CollisionShape2D
 StaticBody2D
 RayCast2D
 Line2D
 AnimationPlayer
 Sprite2D
-Node2D
-Node
 Area2D
 Camera2D
 Label
