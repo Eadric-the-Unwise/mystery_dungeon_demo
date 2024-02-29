@@ -1,7 +1,4 @@
 res://game.tscn
 res://enemy.tscn
-res://state_machine/enemy_follow.gd
-res://state_machine/enemy_idle.gd
-res://enemy.gd
-res://game.gd
 res://room.gd
+res://game.gd

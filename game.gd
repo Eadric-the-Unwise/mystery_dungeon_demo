@@ -1,5 +1,6 @@
 extends Node2D
 
+
 @onready var player_coords: Label = $"CanvasLayer/Debug UI/Debug/Position =/Coords"
 @onready var player_hp: Label = $"CanvasLayer/Game UI/HP/Health"
 @onready var message := $"CanvasLayer/Debug UI/Message"
@@ -12,6 +13,11 @@ extends Node2D
 @onready var player := $Player
 
 var enemy := preload("res://enemy.tscn")
+
+var enemies: Array = [
+		enemy
+]
+
 var _is_moving: bool
 
 func _ready() -> void:
@@ -85,7 +91,8 @@ func _init_astargrid2d():
 	player.position = Autoload.grid_data.get_point_position(Autoload.current_grid_point)
 
 func _init_enemies():
-	var next_enemy : Node2D = enemy.instantiate()
+	
+	var next_enemy : Node2D = enemies[0].instantiate()
 	next_enemy.position.x = 112 
 	next_enemy.position.y = 64 
 	add_child(next_enemy)
