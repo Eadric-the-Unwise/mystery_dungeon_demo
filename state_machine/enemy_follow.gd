@@ -26,6 +26,9 @@ func _process(delta):
 		enemy.is_in_line_of_sight = true
 	else:
 		enemy.is_in_line_of_sight = false
+		
+	if Input.is_action_just_pressed("ui_select"):
+		Transitioned.emit(self, "EnemyCombat")
 
 func check_line_of_sight():
 	# RayCast

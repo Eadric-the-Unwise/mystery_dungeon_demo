@@ -14,7 +14,7 @@ extends Node2D
 
 var enemy := preload("res://enemy.tscn")
 
-var enemies: Array = [
+var enemy_list: Array = [
 		enemy
 ]
 
@@ -92,7 +92,7 @@ func _init_astargrid2d():
 
 func _init_enemies():
 	
-	var next_enemy : Node2D = enemies[0].instantiate()
+	var next_enemy : Node2D = enemy_list[0].instantiate()
 	next_enemy.position.x = 112 
 	next_enemy.position.y = 64 
 	add_child(next_enemy)

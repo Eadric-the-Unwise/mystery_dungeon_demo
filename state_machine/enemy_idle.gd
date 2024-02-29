@@ -18,6 +18,7 @@ func _process(delta):
 	if enemy.is_in_range && enemy.is_in_line_of_sight:
 		# Transition to Follow State
 		Transitioned.emit(self, "EnemyFollow")
+		
 func update():
 	pass
 

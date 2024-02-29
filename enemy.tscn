@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b1lyt1lcujjby"]
+[gd_scene load_steps=13 format=3 uid="uid://b1lyt1lcujjby"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_8dd8b"]
 [ext_resource type="Texture2D" uid="uid://duoo6pr43gjel" path="res://assets/enemy/enemy.png" id="1_hffh8"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="3_jlln6"]
 [ext_resource type="Script" path="res://state_machine/enemy_idle.gd" id="4_6jy8x"]
 [ext_resource type="Script" path="res://state_machine/enemy_follow.gd" id="5_8kjix"]
+[ext_resource type="Script" path="res://state_machine/enemy_combat.gd" id="7_obcra"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xb3d2"]
 size = Vector2(112, 112)
@@ -166,6 +167,9 @@ script = ExtResource("4_6jy8x")
 
 [node name="EnemyFollow" type="Node" parent="StateMachine"]
 script = ExtResource("5_8kjix")
+
+[node name="EnemyCombat" type="Node" parent="StateMachine"]
+script = ExtResource("7_obcra")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
