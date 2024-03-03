@@ -1,12 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://b1lyt1lcujjby"]
+[gd_scene load_steps=15 format=3 uid="uid://b1lyt1lcujjby"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_8dd8b"]
 [ext_resource type="Texture2D" uid="uid://duoo6pr43gjel" path="res://assets/enemy/enemy.png" id="1_hffh8"]
 [ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="3_6gxdd"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="3_jlln6"]
+[ext_resource type="Script" path="res://CombatArea.gd" id="4_0p4v6"]
 [ext_resource type="Script" path="res://state_machine/enemy_idle.gd" id="4_6jy8x"]
 [ext_resource type="Script" path="res://state_machine/enemy_follow.gd" id="5_8kjix"]
 [ext_resource type="Script" path="res://state_machine/enemy_combat.gd" id="7_obcra"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nxfma"]
+size = Vector2(6, 6)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xb3d2"]
 size = Vector2(112, 112)
@@ -149,11 +153,20 @@ texture = ExtResource("3_6gxdd")
 region_enabled = true
 region_rect = Rect2(80, 32, 16, 16)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="CombatArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("4_0p4v6")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="CombatArea"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_nxfma")
+
+[node name="RangeArea" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_xb3d2")
 metadata/_edit_lock_ = true

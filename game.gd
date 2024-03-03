@@ -131,6 +131,8 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	if Autoload.grid_data.is_point_solid(target_grid_point):
 		return
 		
+	# IF ENEMY IS ON TARGET TILE, PREVENT MOVEMENT
+
 	Autoload.current_grid_point = target_grid_point
 	var target_position = Autoload.grid_data.get_point_position(target_grid_point)
 	var tween = player.create_tween()
@@ -140,8 +142,20 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	_is_moving = true
 	# Start move_timer (player cannot move again until timer = timeout())
 	player.move_timer.start()
-	
+	# Confirms when the player has finished animating to his position
+	# If player lands in combat distance, the enemy will enter combat instead
+	# of moving.
+	tween.finished.connect(_on_tween_finished)
 	Autoload.PlayerMovedSignal.emit()
+	
+	
+func _on_tween_finished():
+	# After moving, check surrounding to see if Enemy is in combat range
+	for area in player.interactable_detection_area.get_overlapping_areas():
+		if area is CombatArea:
+			print("There's an enemy in front of me!")
+			var target_enemy = area.get_parent()
+			return
 
 func _update_ui():
 	player_coords.text = str(player.position / Autoload.grid_data.cell_size)

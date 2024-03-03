@@ -3,11 +3,15 @@ class_name EnemyCombat
 
 @onready var enemy = $"."
 @onready var animation_player = $"../../AnimationPlayer"
+@onready var sprite = $"../../EnemySprite2D"
+
 
 
 func enter():
 	print("Enemy in combat!")
-	animation_player.play("Surprised")
+	# Turn enemy red
+	sprite.modulate = Color(0.871, 0, 0.024)
+	#animation_player.play("Surprised")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,4 +22,4 @@ func _process(delta):
 	pass
 
 func update():
-	print("COMBAT")
+	print("ATTACK OF OPPORTUNITY")

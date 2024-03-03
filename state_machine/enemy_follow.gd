@@ -6,19 +6,20 @@ class_name EnemyFollow
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 @onready var enemy: Node2D = $"../.."
 @onready var raycasts = $"../../Raycasts"
+# Detects if player is trying to move while in "danger zone" of enemy attacks
+# If in "danger zone", player will be attacked by Enemy via Attack of Opportunity
+@onready var combat_area = $"../../CombatArea"
 
 #var current_grid_point: Vector2i
-var _current_id_path: Array[Vector2i]
-var _target_coordinate: Vector2i
+#var _current_id_path: Array[Vector2i]
+
 var current_enemy_coordinate: Vector2i
 
 func enter():
 	print("Enemy following player!")
 	animation_player.play("Surprised")
-	enemy.AreaExited.connect(_on_area_exited)
 	current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)
 	_flip_sprite()
-	#randomize()
 
 func _process(delta):
 	# Loop all RayCast2D's to see if the player is visible
@@ -26,9 +27,8 @@ func _process(delta):
 		enemy.is_in_line_of_sight = true
 	else:
 		enemy.is_in_line_of_sight = false
-		
-	if Input.is_action_just_pressed("ui_select"):
-		Transitioned.emit(self, "EnemyCombat")
+	#if Input.is_action_just_pressed("ui_select"):
+		#Transitioned.emit(self, "EnemyCombat")
 
 func check_line_of_sight():
 	# RayCast
@@ -47,11 +47,14 @@ func check_line_of_sight():
 			return true
 		
 func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
+	
 	# Find next target location in AStarGrid2D
-	_update_target_coordinate()
+	# Returns Target Coordinate
+	var _target_coordinate: Vector2i = _update_target_coordinate()
 	# Check if _target_coordinate is the Player's coordinate
 	if _target_coordinate == Autoload.current_grid_point:
-		print("Cannot collide with player")
+		print("Enemy can't collide with player. Enter combat!")
+		Transitioned.emit(self, "EnemyCombat")
 		return
 	# Check if _target_coordinate is the blocked
 	if Autoload.grid_data.is_point_solid(_target_coordinate):
@@ -73,8 +76,8 @@ func _update_target_coordinate():
 	Autoload.tilemap.local_to_map(enemy.global_position),
 		# slice(1) removes the first value in the id_path (enemy's current grid point)
 	Autoload.tilemap.local_to_map(player.global_position)).slice(1)
-	_current_id_path = id_path
-	_target_coordinate = _current_id_path.front()
+	#_current_id_path = id_path
+	return id_path.front()
 	
 	# LINE OF SIGHT ARRAY SHRINK LOGIC
 	# --------------------------------------------------------------------------
@@ -100,14 +103,8 @@ func _update_target_coordinate():
 
 func _flip_sprite():# Flip horizonal sprite
 	if Autoload.current_grid_point.x > current_enemy_coordinate.x:
-		print("Target.x = " + str(_target_coordinate.x) + ", current.x = " + str(current_enemy_coordinate.x))
+		#print("Target.x = " + str(_target_coordinate.x) + ", current.x = " + str(current_enemy_coordinate.x))
 		enemy.sprite.flip_h = true
 	else:
 		enemy.sprite.flip_h = false
 
-func _on_area_exited():
-	pass
-	#if animation_player.is_playing():
-		#animation_player.stop()
-	#animation_player.play("Confused")
-	#Transitioned.emit(self, "EnemyIdle")

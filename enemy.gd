@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var area2d = $Area2D
+@onready var range_area = $RangeArea
 @onready var raycast = $Area2D/CollisionShape2D/RayCast2D
 @onready var sprite = $EnemySprite2D
 @onready var state_machine = $StateMachine
@@ -15,12 +15,12 @@ signal AreaEntered
 signal AreaExited
 
 var is_in_line_of_sight: bool = false
-var is_in_range: bool = false
+#var is_in_range: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	area2d.area_entered.connect(_on_area_entered)
-	area2d.area_exited.connect(_on_area_exited)
+	range_area.area_entered.connect(_on_area_entered)
+	range_area.area_exited.connect(_on_area_exited)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
