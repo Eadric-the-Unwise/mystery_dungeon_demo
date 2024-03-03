@@ -69,25 +69,34 @@ func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 	
 func _update_target_coordinate():
 	var id_path: Array[Vector2i] 
-	if enemy.is_in_line_of_sight:
-		id_path = Autoload.grid_data.get_id_path(
-		Autoload.tilemap.local_to_map(enemy.global_position),
+	id_path = Autoload.grid_data.get_id_path(
+	Autoload.tilemap.local_to_map(enemy.global_position),
 		# slice(1) removes the first value in the id_path (enemy's current grid point)
-		Autoload.tilemap.local_to_map(player.global_position)).slice(1)
-	else:
-		# Remove the first value in array if player is out of line of sight
-		id_path = _current_id_path.slice(1)
+	Autoload.tilemap.local_to_map(player.global_position)).slice(1)
+	_current_id_path = id_path
+	_target_coordinate = _current_id_path.front()
 	
-	if id_path.is_empty() == false:
-		# Set the current coordinate path
-		_current_id_path = id_path
-		# Set the EnemyFollow.target_coordinate to the first coordinate in the ID path
-		_target_coordinate = _current_id_path.front()
-		print("Current ID Path Size: ",_current_id_path.size())
-		print(_current_id_path)		
-	else:
-		animation_player.play("Confused")
-		Transitioned.emit(self, "EnemyIdle")
+	# LINE OF SIGHT ARRAY SHRINK LOGIC
+	# --------------------------------------------------------------------------
+	#if enemy.is_in_line_of_sight:
+		#id_path = Autoload.grid_data.get_id_path(
+		#Autoload.tilemap.local_to_map(enemy.global_position),
+		## slice(1) removes the first value in the id_path (enemy's current grid point)
+		#Autoload.tilemap.local_to_map(player.global_position)).slice(1)
+	#else:
+		## Remove the first value in array if player is out of line of sight
+		#id_path = _current_id_path.slice(1)
+	
+	#if id_path.is_empty() == false:
+		## Set the current coordinate path
+		#_current_id_path = id_path
+		## Set the EnemyFollow.target_coordinate to the first coordinate in the ID path
+		#_target_coordinate = _current_id_path.front()
+		#print("Current ID Path Size: ",_current_id_path.size())
+		#print(_current_id_path)		
+	#else:
+		#animation_player.play("Confused")
+		#Transitioned.emit(self, "EnemyIdle")
 
 func _flip_sprite():# Flip horizonal sprite
 	if Autoload.current_grid_point.x > current_enemy_coordinate.x:
