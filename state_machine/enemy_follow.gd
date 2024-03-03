@@ -57,8 +57,11 @@ func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 	if Autoload.grid_data.is_point_solid(_target_coordinate):
 		print("Point is solid!")
 		return
+	
+	var tween = enemy.create_tween()
 	# set Enemy position to target coordinate
-	enemy.position = Autoload.grid_data.get_point_position(_target_coordinate)
+	tween.tween_property(enemy, "position", Autoload.grid_data.get_point_position(_target_coordinate), .10)
+	#enemy.position = Autoload.grid_data.get_point_position(_target_coordinate)
 	# Flip Enemy sprite
 	_flip_sprite()
 	# Update current coordinate

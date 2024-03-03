@@ -130,11 +130,12 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	# If target_grid_point is an "is_blocked" tile, prevent movement
 	if Autoload.grid_data.is_point_solid(target_grid_point):
 		return
-	
+		
 	Autoload.current_grid_point = target_grid_point
 	var target_position = Autoload.grid_data.get_point_position(target_grid_point)
-	player.position = target_position
-	#print("PLAYER Grid Point: ", Autoload.current_grid_point)
+	var tween = player.create_tween()
+	tween.tween_property(player, "position", target_position, .10)
+	#player.position = target_position
 	# Prevents player from moving every in-game frame
 	_is_moving = true
 	# Start move_timer (player cannot move again until timer = timeout())
