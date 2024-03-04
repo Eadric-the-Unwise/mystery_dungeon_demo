@@ -6,7 +6,6 @@ var current_state : State
 var states : Dictionary = {}
 
 func _ready():
-	
 	for child in get_children():
 		if child is State:
 			# lowercase child Node name
@@ -27,21 +26,19 @@ func _on_player_moved():
 	if current_state:
 		current_state.update()
 
-
 func _on_child_transition(state, new_state_name): # these two arguments are passed during .emit
 	if state != current_state:
 		return
-	
 	# change Node name to lowercase	
 	var new_state = states.get(new_state_name.to_lower())
 	if !new_state:
 		return
-	
+	# Set current State process to false
 	if current_state:
 		current_state.exit()
 		# disable _process for State
 		current_state.set_process(false)
-		
+	# Set new State process to true	
 	new_state.enter()
 	new_state.set_process(true)
 	current_state = new_state

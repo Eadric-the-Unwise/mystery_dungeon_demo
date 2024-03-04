@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b1lyt1lcujjby"]
+[gd_scene load_steps=14 format=3 uid="uid://b1lyt1lcujjby"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_8dd8b"]
 [ext_resource type="Texture2D" uid="uid://duoo6pr43gjel" path="res://assets/enemy/enemy.png" id="1_hffh8"]
@@ -11,9 +11,6 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nxfma"]
 size = Vector2(6, 6)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xb3d2"]
-size = Vector2(112, 112)
 
 [sub_resource type="Animation" id="Animation_hd0ty"]
 resource_name = "Confused"
@@ -161,15 +158,6 @@ script = ExtResource("4_0p4v6")
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="CombatArea"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_nxfma")
-
-[node name="RangeArea" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
-position = Vector2(8, 8)
-shape = SubResource("RectangleShape2D_xb3d2")
-metadata/_edit_lock_ = true
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_jlln6")
