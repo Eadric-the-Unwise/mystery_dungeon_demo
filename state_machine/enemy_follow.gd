@@ -49,7 +49,17 @@ func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 	if Autoload.grid_data.is_point_solid(_target_coordinate):
 		print("Point is solid!")
 		return
-	
+	# 
+	for shape in combat_area.get_children():
+		var combat_area_grid_coord: Vector2i
+		combat_area_grid_coord.x = int(shape.global_position.x / Autoload.grid_data.cell_size.x)
+		combat_area_grid_coord.y = int(shape.global_position.y / Autoload.grid_data.cell_size.y)
+		#
+		if combat_area_grid_coord == Autoload.current_grid_point:
+			print("I SEE YOU MOTHERFUCKER")
+			Transitioned.emit(self, "EnemyCombat")
+			return
+		
 	var tween = enemy.create_tween()
 	# Tween Move Enemy position to target coordinate
 	tween.tween_property(enemy, "position", Autoload.grid_data.get_point_position(_target_coordinate), .10)
@@ -57,6 +67,18 @@ func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 	_flip_sprite()
 	# Update current coordinate
 	current_enemy_coordinate = _target_coordinate
+	#######################################################
+	# COMBAT AREA CHECKS, UPDATE THIS COMMENT AND POSSIBLY TURN THIS INTO A FUNC LATER #
+	# AWAIT: The for loop doesn't print correctly if called before tween is finished, will call
+	# previous position, instead.
+	await tween.finished 
+	for shape in combat_area.get_children():
+		var combat_area_grid_coord: Vector2i
+		combat_area_grid_coord.x = int(shape.global_position.x / Autoload.grid_data.cell_size.x)
+		combat_area_grid_coord.y = int(shape.global_position.y / Autoload.grid_data.cell_size.y)
+		
+		print(combat_area_grid_coord)
+	
 	
 func _update_target_coordinate():
 	var id_path: Array[Vector2i] 

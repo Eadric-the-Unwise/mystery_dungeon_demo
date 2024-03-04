@@ -146,6 +146,7 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	# If player lands in combat distance, the enemy will enter combat instead
 	# of moving.
 	tween.finished.connect(_on_tween_finished)
+	# emit signal
 	Autoload.PlayerMovedSignal.emit()
 	
 	

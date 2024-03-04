@@ -159,6 +159,22 @@ script = ExtResource("4_0p4v6")
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_nxfma")
 
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="CombatArea"]
+position = Vector2(-8, 8)
+shape = SubResource("RectangleShape2D_nxfma")
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="CombatArea"]
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_nxfma")
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="CombatArea"]
+position = Vector2(24, 8)
+shape = SubResource("RectangleShape2D_nxfma")
+
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="CombatArea"]
+position = Vector2(8, 24)
+shape = SubResource("RectangleShape2D_nxfma")
+
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_jlln6")
 initial_state = NodePath("EnemyIdle")
