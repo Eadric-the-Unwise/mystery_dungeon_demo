@@ -64,12 +64,7 @@ func _process(_delta: float) -> void:
 	elif Input.is_action_pressed("move_right"):
 		_move_to_coord(Vector2i.RIGHT)
 		player.sprite.flip_h = false
-#######		
-	for enemy in active_enemies:
-		if active_enemies:
-			if enemy.health <= 0:
-				active_enemies.remove_at(active_enemies[enemy])
-				enemy.queue_free()
+
 
 func _init_astargrid2d():
 	# Initialize tilemap 2D array

@@ -1,8 +1,5 @@
-res://player.tscn
-res://combat_scripts/hitbox.gd
-res://combat_scripts/hurtbox.gd
-res://enemy.tscn
-res://enemy.gd
 res://game.tscn
 res://game.gd
-res://player.gd
+res://enemy.tscn
+res://enemy.gd
+res://player.tscn

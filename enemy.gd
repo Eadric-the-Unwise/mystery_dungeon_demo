@@ -28,13 +28,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-	#print(raycast.is_colliding())
+		
 
 func take_damage(attack_damage: int):
 	health -= attack_damage
 	print(str(name) + "took " + str(attack_damage) + " damage!")
 	if health <= 0:
 		print("Enemy slain!")
+		self.queue_free()
 		
 #func _on_area_entered(area: Area2D):
 	#AreaEntered.emit()
