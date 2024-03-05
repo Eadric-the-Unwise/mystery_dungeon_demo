@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b1lyt1lcujjby"]
+[gd_scene load_steps=16 format=3 uid="uid://b1lyt1lcujjby"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_8dd8b"]
 [ext_resource type="Texture2D" uid="uid://duoo6pr43gjel" path="res://assets/enemy/enemy.png" id="1_hffh8"]
@@ -6,8 +6,12 @@
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="3_jlln6"]
 [ext_resource type="Script" path="res://CombatArea.gd" id="4_0p4v6"]
 [ext_resource type="Script" path="res://state_machine/enemy_idle.gd" id="4_6jy8x"]
+[ext_resource type="Script" path="res://combat_scripts/hurtbox.gd" id="4_aqyfq"]
 [ext_resource type="Script" path="res://state_machine/enemy_follow.gd" id="5_8kjix"]
 [ext_resource type="Script" path="res://state_machine/enemy_combat.gd" id="7_obcra"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7rslp"]
+size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nxfma"]
 size = Vector2(6, 6)
@@ -150,7 +154,18 @@ texture = ExtResource("3_6gxdd")
 region_enabled = true
 region_rect = Rect2(80, 32, 16, 16)
 
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("4_aqyfq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_7rslp")
+debug_color = Color(0.709804, 0.545098, 0.172549, 0.419608)
+
 [node name="CombatArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("4_0p4v6")
@@ -194,6 +209,7 @@ libraries = {
 }
 
 [node name="Raycasts" type="Node2D" parent="."]
+visible = false
 
 [node name="RayCast2D" type="RayCast2D" parent="Raycasts"]
 position = Vector2(5, 3)

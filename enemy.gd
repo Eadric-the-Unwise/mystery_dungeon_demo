@@ -9,6 +9,8 @@ extends Node2D
 
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 
+var health := 10
+
 # emited when Area is entered
 signal AreaEntered
 # emited when Area is exited
@@ -28,6 +30,12 @@ func _process(delta):
 	pass
 	#print(raycast.is_colliding())
 
+func take_damage(attack_damage: int):
+	health -= attack_damage
+	print(str(name) + "took " + str(attack_damage) + " damage!")
+	if health <= 0:
+		print("Enemy slain!")
+		
 #func _on_area_entered(area: Area2D):
 	#AreaEntered.emit()
 	#

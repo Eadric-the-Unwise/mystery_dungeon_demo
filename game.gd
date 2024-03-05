@@ -17,6 +17,7 @@ var enemy := preload("res://enemy.tscn")
 var enemy_list: Array = [
 		enemy
 ]
+var active_enemies: Array = []
 
 var _is_moving: bool
 
@@ -48,6 +49,9 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		_select_check()
 		
+	if Input.is_action_just_pressed("attack"):
+		player.animation_player.play("AttackSword")
+		
 	if _is_moving:
 		return
 	if Input.is_action_pressed("move_up"):
@@ -60,6 +64,12 @@ func _process(_delta: float) -> void:
 	elif Input.is_action_pressed("move_right"):
 		_move_to_coord(Vector2i.RIGHT)
 		player.sprite.flip_h = false
+#######		
+	for enemy in active_enemies:
+		if active_enemies:
+			if enemy.health <= 0:
+				active_enemies.remove_at(active_enemies[enemy])
+				enemy.queue_free()
 
 func _init_astargrid2d():
 	# Initialize tilemap 2D array
@@ -93,6 +103,7 @@ func _init_astargrid2d():
 func _init_enemies():
 	
 	var next_enemy : Node2D = enemy_list[0].instantiate()
+	active_enemies.append(next_enemy)
 	next_enemy.position.x = 112 
 	next_enemy.position.y = 64 
 	add_child(next_enemy)
@@ -130,8 +141,6 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	# If target_grid_point is an "is_blocked" tile, prevent movement
 	if Autoload.grid_data.is_point_solid(target_grid_point):
 		return
-		
-	# IF ENEMY IS ON TARGET TILE, PREVENT MOVEMENT
 
 	Autoload.current_grid_point = target_grid_point
 	var target_position = Autoload.grid_data.get_point_position(target_grid_point)

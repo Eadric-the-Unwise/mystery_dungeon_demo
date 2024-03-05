@@ -1,14 +1,14 @@
 CollisionShape2D
+Hurtbox
+Hitbox
+AnimationPlayer
 Area2D
 Node
 Node2D
 StaticBody2D
 RayCast2D
 Line2D
-AnimationPlayer
 Sprite2D
 Camera2D
 Label
 ColorRect
-CanvasLayer
-Button
