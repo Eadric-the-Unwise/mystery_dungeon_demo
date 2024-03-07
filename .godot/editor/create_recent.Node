@@ -1,8 +1,8 @@
+Area2D
 CollisionShape2D
 Hurtbox
 Hitbox
 AnimationPlayer
-Area2D
 Node
 Node2D
 StaticBody2D

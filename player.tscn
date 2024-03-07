@@ -76,23 +76,27 @@ _data = {
 
 [node name="Player" type="Node2D" groups=["Player"]]
 script = ExtResource("1_7s8n2")
+metadata/_edit_lock_ = true
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_yjl7r")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 16, 16, 16)
+metadata/_edit_lock_ = true
 
 [node name="Hitbox" type="Area2D" parent="Sprite"]
 collision_layer = 16
 collision_mask = 0
 script = ExtResource("3_nvd8m")
+metadata/_edit_lock_ = true
 
 [node name="HitboxCollisionShape" type="CollisionShape2D" parent="Sprite/Hitbox"]
 position = Vector2(16, 8)
 shape = SubResource("RectangleShape2D_4mbkh")
 disabled = true
-debug_color = Color(0.866667, 0, 0.117647, 0.419608)
+debug_color = Color(0.988235, 0, 0.321569, 0.419608)
+metadata/_edit_lock_ = true
 
 [node name="MoveTimer" type="Timer" parent="."]
 wait_time = 0.25

@@ -1,20 +1,21 @@
-[gd_scene load_steps=16 format=3 uid="uid://b1lyt1lcujjby"]
+[gd_scene load_steps=17 format=3 uid="uid://b1lyt1lcujjby"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_8dd8b"]
 [ext_resource type="Texture2D" uid="uid://duoo6pr43gjel" path="res://assets/enemy/enemy.png" id="1_hffh8"]
 [ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="3_6gxdd"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="3_jlln6"]
 [ext_resource type="Script" path="res://CombatArea.gd" id="4_0p4v6"]
+[ext_resource type="Script" path="res://body.gd" id="4_3yug0"]
 [ext_resource type="Script" path="res://state_machine/enemy_idle.gd" id="4_6jy8x"]
 [ext_resource type="Script" path="res://combat_scripts/hurtbox.gd" id="4_aqyfq"]
 [ext_resource type="Script" path="res://state_machine/enemy_follow.gd" id="5_8kjix"]
 [ext_resource type="Script" path="res://state_machine/enemy_combat.gd" id="7_obcra"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7rslp"]
-size = Vector2(16, 16)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nxfma"]
 size = Vector2(6, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7rslp"]
+size = Vector2(14, 14)
 
 [sub_resource type="Animation" id="Animation_hd0ty"]
 resource_name = "Confused"
@@ -154,6 +155,15 @@ texture = ExtResource("3_6gxdd")
 region_enabled = true
 region_rect = Rect2(80, 32, 16, 16)
 
+[node name="Body" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("4_3yug0")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Body"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_nxfma")
+
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 16
@@ -169,25 +179,25 @@ collision_layer = 4
 collision_mask = 0
 script = ExtResource("4_0p4v6")
 
-[node name="CollisionShape2D5" type="CollisionShape2D" parent="CombatArea"]
-position = Vector2(8, 8)
-shape = SubResource("RectangleShape2D_nxfma")
-
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="CombatArea"]
 position = Vector2(-8, 8)
 shape = SubResource("RectangleShape2D_nxfma")
+debug_color = Color(0.886275, 0.329412, 0, 0.419608)
 
 [node name="CollisionShape2D7" type="CollisionShape2D" parent="CombatArea"]
 position = Vector2(8, -8)
 shape = SubResource("RectangleShape2D_nxfma")
+debug_color = Color(0.886275, 0.329412, 0, 0.419608)
 
 [node name="CollisionShape2D8" type="CollisionShape2D" parent="CombatArea"]
 position = Vector2(24, 8)
 shape = SubResource("RectangleShape2D_nxfma")
+debug_color = Color(0.886275, 0.329412, 0, 0.419608)
 
 [node name="CollisionShape2D9" type="CollisionShape2D" parent="CombatArea"]
 position = Vector2(8, 24)
 shape = SubResource("RectangleShape2D_nxfma")
+debug_color = Color(0.886275, 0.329412, 0, 0.419608)
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_jlln6")

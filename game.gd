@@ -160,9 +160,11 @@ func _on_tween_finished():
 	# After moving, check surrounding to see if Enemy is in combat range
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is CombatArea:
-			print("There's an enemy in front of me!")
 			var target_enemy = area.get_parent()
 			return
+		# Print if Enemy is next to Player (4 directions)
+		elif area is Body:
+			print("The enemy is directly in front of me!")
 
 func _update_ui():
 	player_coords.text = str(player.position / Autoload.grid_data.cell_size)
