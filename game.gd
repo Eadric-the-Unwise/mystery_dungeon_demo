@@ -48,7 +48,9 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		_select_check()
-		
+	
+	# Add checks for UP/DOWN/LEFT/RIGHT Attack Animations
+	# Begin with just LEFT/RIGHT	
 	if Input.is_action_just_pressed("attack"):
 		player.animation_player.play("AttackSword")
 		
