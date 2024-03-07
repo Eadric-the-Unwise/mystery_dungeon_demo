@@ -76,10 +76,8 @@ func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 		var combat_area_grid_coord: Vector2i
 		combat_area_grid_coord.x = int(shape.global_position.x / Autoload.grid_data.cell_size.x)
 		combat_area_grid_coord.y = int(shape.global_position.y / Autoload.grid_data.cell_size.y)
+		#print(combat_area_grid_coord)
 		
-		print(combat_area_grid_coord)
-	
-	
 func _update_target_coordinate():
 	var id_path: Array[Vector2i] 
 	id_path = Autoload.grid_data.get_id_path(

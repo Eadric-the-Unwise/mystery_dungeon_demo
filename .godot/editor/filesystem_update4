@@ -2,5 +2,6 @@ res://game.tscn
 res://enemy.tscn
 res://player.tscn
 res://game.gd
-res://combat_scripts/hurtbox.gd
-res://body.gd
+res://state_machine/enemy_follow.gd
+res://room.gd
+res://combat_scripts/hitbox.gd

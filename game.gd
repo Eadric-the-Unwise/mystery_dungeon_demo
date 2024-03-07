@@ -13,11 +13,16 @@ extends Node2D
 @onready var player := $Player
 
 var enemy := preload("res://enemy.tscn")
-
-var enemy_list: Array = [
+# Full list of all RNG Spawnable Enemies
+var spawnable_enemies: Array = [
 		enemy
 ]
-var active_enemies: Array = []
+# All active enemies in game
+var all_active_enemies: Array = []
+# All enemies within melee combat distance of Player
+var combat_enemies: Array = []
+# Updated on selection during combat
+var selected_enemy: Node2D
 
 var _is_moving: bool
 
@@ -52,7 +57,7 @@ func _process(_delta: float) -> void:
 	# Add checks for UP/DOWN/LEFT/RIGHT Attack Animations
 	# Begin with just LEFT/RIGHT	
 	if Input.is_action_just_pressed("attack"):
-		player.animation_player.play("AttackSword")
+		attack()
 		
 	if _is_moving:
 		return
@@ -67,6 +72,19 @@ func _process(_delta: float) -> void:
 		_move_to_coord(Vector2i.RIGHT)
 		player.sprite.flip_h = false
 
+func attack():
+	# Return if no current enemies
+	if combat_enemies.is_empty():
+		return
+	selected_enemy = combat_enemies[0]
+	if selected_enemy.global_position.x > player.global_position.x:
+		player.animation_player.play("AttackRight")
+	elif selected_enemy.global_position.x < player.global_position.x:
+		player.animation_player.play("AttackLeft")
+	elif selected_enemy.global_position.y < player.global_position.y:
+		player.animation_player.play("AttackUp")
+	else:
+		player.animation_player.play("AttackDown")
 
 func _init_astargrid2d():
 	# Initialize tilemap 2D array
@@ -99,8 +117,8 @@ func _init_astargrid2d():
 
 func _init_enemies():
 	
-	var next_enemy : Node2D = enemy_list[0].instantiate()
-	active_enemies.append(next_enemy)
+	var next_enemy : Node2D = spawnable_enemies[0].instantiate()
+	all_active_enemies.append(next_enemy)
 	next_enemy.position.x = 112 
 	next_enemy.position.y = 64 
 	add_child(next_enemy)
@@ -158,13 +176,13 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	
 func _on_tween_finished():
 	# After moving, check surrounding to see if Enemy is in combat range
+	# (Consider moving this logic to Player.gd)
 	for area in player.interactable_detection_area.get_overlapping_areas():
-		if area is CombatArea:
+		if area is Body:
 			var target_enemy = area.get_parent()
-			return
-		# Print if Enemy is next to Player (4 directions)
-		elif area is Body:
+			combat_enemies.append(target_enemy)
 			print("The enemy is directly in front of me!")
+			print(combat_enemies.size())
 
 func _update_ui():
 	player_coords.text = str(player.position / Autoload.grid_data.cell_size)
