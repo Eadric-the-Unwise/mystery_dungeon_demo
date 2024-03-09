@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://jb4jfl5cjk1s"]
+[gd_scene load_steps=20 format=3 uid="uid://jb4jfl5cjk1s"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_g22w3"]
 [ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="2_b3020"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://room.gd" id="5_rf5wp"]
 [ext_resource type="Script" path="res://teleporter.gd" id="5_usb3d"]
 [ext_resource type="Script" path="res://door.gd" id="6_ec7ph"]
+[ext_resource type="Script" path="res://EnemySelection.gd" id="8_2bv5y"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hxfby"]
 texture = ExtResource("2_b3020")
@@ -141,6 +142,43 @@ size = Vector2(160, 144)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8ip42"]
 size = Vector2(16, 16)
+
+[sub_resource type="Animation" id="Animation_gr0ev"]
+resource_name = "CursorBlink"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_78khw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8vtwj"]
+_data = {
+"CursorBlink": SubResource("Animation_gr0ev"),
+"RESET": SubResource("Animation_78khw")
+}
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_g22w3")
@@ -351,6 +389,19 @@ theme_override_font_sizes/font_size = 8
 text = "00"
 vertical_alignment = 1
 metadata/_edit_lock_ = true
+
+[node name="EnemyCursor" type="Sprite2D" parent="."]
+top_level = true
+texture = ExtResource("2_b3020")
+centered = false
+region_enabled = true
+region_rect = Rect2(64, 16, 16, 16)
+script = ExtResource("8_2bv5y")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemyCursor"]
+libraries = {
+"": SubResource("AnimationLibrary_8vtwj")
+}
 
 [connection signal="area_entered" from="B1" to="B1" method="_on_area_entered"]
 [connection signal="area_exited" from="B1" to="B1" method="_on_area_exited"]

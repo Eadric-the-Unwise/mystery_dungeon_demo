@@ -1,6 +1,7 @@
 extends Node
 
 signal PlayerMovedSignal
+signal EnemySlain
 
 var grid_data: AStarGrid2D
 

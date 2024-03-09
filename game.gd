@@ -3,7 +3,10 @@ extends Node2D
 
 @onready var player_coords: Label = $"CanvasLayer/Debug UI/Debug/Position =/Coords"
 @onready var player_hp: Label = $"CanvasLayer/Game UI/HP/Health"
+@onready var enemy_cursor := $EnemyCursor
 @onready var message := $"CanvasLayer/Debug UI/Message"
+
+
 #----------------------------------------------------------
 @onready var button_damage := $Buttons/Damage
 @onready var button_heal := $Buttons/Heal
@@ -37,6 +40,7 @@ func _ready() -> void:
 	_update_ui()
 	# connect PlayerMovedSignal to _update_ui()
 	Autoload.PlayerMovedSignal.connect(_update_ui)
+	Autoload.EnemySlain.connect(_on_enemy_slain)
 	# Reset move_timer to wait_time
 	player.move_timer.timeout.connect(_reset_timer)
 	
@@ -76,7 +80,7 @@ func attack():
 	# Return if no current enemies
 	if combat_enemies.is_empty():
 		return
-	selected_enemy = combat_enemies[0]
+	
 	if selected_enemy.global_position.x > player.global_position.x:
 		player.animation_player.play("AttackRight")
 	elif selected_enemy.global_position.x < player.global_position.x:
@@ -117,7 +121,8 @@ func _init_astargrid2d():
 
 func _init_enemies():
 	
-	var next_enemy : Node2D = spawnable_enemies[0].instantiate()
+	#for next_enemy in range(2):
+	var next_enemy = spawnable_enemies[0].instantiate()
 	all_active_enemies.append(next_enemy)
 	next_enemy.position.x = 112 
 	next_enemy.position.y = 64 
@@ -181,9 +186,24 @@ func _on_tween_finished():
 		if area is Body:
 			var target_enemy = area.get_parent()
 			combat_enemies.append(target_enemy)
-			print("The enemy is directly in front of me!")
+			enemy_cursor.global_position = target_enemy.global_position
+			enemy_cursor.animation_player.play("CursorBlink")
+			print("Enemy pos: ", enemy_cursor.global_position)
+			print("Target enemy pos", target_enemy.global_position)
+			# Store the index of the enemy in combat_enemies[]
+			target_enemy.enemy_index = combat_enemies.size() - 1
+			selected_enemy = target_enemy
+			
 			print(combat_enemies.size())
 
+# connect enemy death signal to this function
+# combat_enemies.remove(target_enemy)
+func _on_enemy_slain(enemy_index: int):
+	print("THE ENEMY HAS BEEN SLAIN")
+	combat_enemies.remove_at(enemy_index)
+	enemy_cursor.animation_player.stop()
+	enemy_cursor.global_position = enemy_cursor.reset_position
+	
 func _update_ui():
 	player_coords.text = str(player.position / Autoload.grid_data.cell_size)
 	player_hp.text = str(player.health)	

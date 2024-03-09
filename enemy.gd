@@ -10,11 +10,13 @@ extends Node2D
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 
 var health := 10
+var enemy_index: int
 
 # emited when Area is entered
 signal AreaEntered
 # emited when Area is exited
 signal AreaExited
+signal EnemySlain
 
 var is_in_line_of_sight: bool = false
 #var is_in_range: bool = false
@@ -34,7 +36,7 @@ func take_damage(attack_damage: int):
 	health -= attack_damage
 	print(str(name) + "took " + str(attack_damage) + " damage!")
 	if health <= 0:
-		print("Enemy slain!")
+		Autoload.EnemySlain.emit(enemy_index)
 		self.queue_free()
 		
 #func _on_area_entered(area: Area2D):

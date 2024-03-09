@@ -1,14 +1,14 @@
+AnimationPlayer
+Sprite2D
 Area2D
 CollisionShape2D
 Hurtbox
 Hitbox
-AnimationPlayer
 Node
 Node2D
 StaticBody2D
 RayCast2D
 Line2D
-Sprite2D
 Camera2D
 Label
 ColorRect
