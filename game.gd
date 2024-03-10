@@ -77,7 +77,9 @@ func _process(_delta: float) -> void:
 		player.sprite.flip_h = false
 
 func attack():
-	# Return if no current enemies
+	## Return if no current enemies
+	#print(combat_enemies.size())
+	#return
 	if combat_enemies.is_empty():
 		return
 	
@@ -121,17 +123,21 @@ func _init_astargrid2d():
 
 func _init_enemies():
 	
-	#for next_enemy in range(2):
-	var next_enemy = spawnable_enemies[0].instantiate()
-	all_active_enemies.append(next_enemy)
-	next_enemy.position.x = 112 
-	next_enemy.position.y = 64 
-	add_child(next_enemy)
-	# Flip enemy sprite
-	if next_enemy.position.x >= player.position.x:
-		next_enemy.sprite.flip_h = true
-	else:
-		next_enemy.sprite.flip_h = false
+	for i in range(2):
+		var next_enemy = spawnable_enemies[0].instantiate()
+		all_active_enemies.append(next_enemy)
+		if all_active_enemies.size() == 1:
+			next_enemy.position.x = 112 
+			next_enemy.position.y = 48 
+		else:
+			next_enemy.position.x = all_active_enemies[i - 1].position.x
+			next_enemy.position.y = all_active_enemies[i - 1].position.y + 32
+		add_child(next_enemy)
+		# Flip enemy sprite
+		if next_enemy.position.x >= player.position.x:
+			next_enemy.sprite.flip_h = true
+		else:
+			next_enemy.sprite.flip_h = false
 
 func _select_check() -> void:
 	# Check for all overlapping areas in Player's Area2D (interactable_detection_area)
