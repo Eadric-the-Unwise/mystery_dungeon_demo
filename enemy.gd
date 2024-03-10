@@ -6,8 +6,9 @@ extends Node2D
 @onready var state_machine = $StateMachine
 @onready var idle = $StateMachine/EnemyIdle
 @onready var follow = $StateMachine/EnemyFollow
-
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
+
+var current_enemy_coordinate: Vector2i
 
 var health := 10
 var enemy_index: int
@@ -38,6 +39,7 @@ func take_damage(attack_damage: int):
 	if health <= 0:
 		Autoload.EnemySlain.emit(enemy_index)
 		self.queue_free()
+		Autoload.grid_data.set_point_solid(current_enemy_coordinate, false)
 		
 #func _on_area_entered(area: Area2D):
 	#AreaEntered.emit()

@@ -128,16 +128,17 @@ func _init_enemies():
 		all_active_enemies.append(next_enemy)
 		if all_active_enemies.size() == 1:
 			next_enemy.position.x = 112 
-			next_enemy.position.y = 48 
+			next_enemy.position.y = 16 
 		else:
 			next_enemy.position.x = all_active_enemies[i - 1].position.x
-			next_enemy.position.y = all_active_enemies[i - 1].position.y + 32
+			next_enemy.position.y = all_active_enemies[i - 1].position.y + 16
 		add_child(next_enemy)
 		# Flip enemy sprite
 		if next_enemy.position.x >= player.position.x:
 			next_enemy.sprite.flip_h = true
 		else:
 			next_enemy.sprite.flip_h = false
+	print(all_active_enemies.size(), " Enemies spawned")
 
 func _select_check() -> void:
 	# Check for all overlapping areas in Player's Area2D (interactable_detection_area)
@@ -194,13 +195,9 @@ func _on_tween_finished():
 			combat_enemies.append(target_enemy)
 			enemy_cursor.global_position = target_enemy.global_position
 			enemy_cursor.animation_player.play("CursorBlink")
-			print("Enemy pos: ", enemy_cursor.global_position)
-			print("Target enemy pos", target_enemy.global_position)
 			# Store the index of the enemy in combat_enemies[]
 			target_enemy.enemy_index = combat_enemies.size() - 1
 			selected_enemy = target_enemy
-			
-			print(combat_enemies.size())
 
 # connect enemy death signal to this function
 # combat_enemies.remove(target_enemy)

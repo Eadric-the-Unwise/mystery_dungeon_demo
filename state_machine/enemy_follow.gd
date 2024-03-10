@@ -10,12 +10,11 @@ class_name EnemyFollow
 # If in "danger zone", player will be attacked by Enemy via Attack of Opportunity
 @onready var combat_area = $"../../CombatArea"
 # Enemy's current coordinate
-var current_enemy_coordinate: Vector2i
+
 
 func enter():
 	print("Enemy following player!")
-	animation_player.play("Surprised")
-	current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)
+	enemy.current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)
 	_flip_sprite()
 
 func _process(delta):
@@ -40,16 +39,16 @@ func check_line_of_sight():
 func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 	# Find next target location in AStarGrid2D
 	var _target_coordinate: Vector2i = _update_target_coordinate()
-	# Check if _target_coordinate is the Player's coordinate
-	if _target_coordinate == Autoload.current_grid_point:
-		print("Enemy can't collide with player. Enter combat!")
-		Transitioned.emit(self, "EnemyCombat")
-		return
+	# Enemy will hesistate to move if it means colliding with the player
+	#if _target_coordinate == Autoload.current_grid_point:
+		#print("Enemy can't collide with player. Enter combat!")
+		#Transitioned.emit(self, "EnemyCombat")
+		#return
 	# Check if _target_coordinate is the blocked
 	if Autoload.grid_data.is_point_solid(_target_coordinate):
 		print("Point is solid!")
 		return
-	# 
+	# CALLING THIS TWICE IS WEIRD, CAN WE FIX THIS?
 	for shape in combat_area.get_children():
 		var combat_area_grid_coord: Vector2i
 		combat_area_grid_coord.x = int(shape.global_position.x / Autoload.grid_data.cell_size.x)
@@ -59,6 +58,8 @@ func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 			print("I SEE YOU MOTHERFUCKER")
 			Transitioned.emit(self, "EnemyCombat")
 			return
+	
+	Autoload.grid_data.set_point_solid(enemy.current_enemy_coordinate, false)
 		
 	var tween = enemy.create_tween()
 	# Tween Move Enemy position to target coordinate
@@ -66,16 +67,32 @@ func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 	# Flip Enemy sprite, accordingly
 	_flip_sprite()
 	# Update current coordinate
-	current_enemy_coordinate = _target_coordinate
-	#######################################################
-	# COMBAT AREA CHECKS, UPDATE THIS COMMENT AND POSSIBLY TURN THIS INTO A FUNC LATER #
-	# AWAIT: The for loop doesn't print correctly if called before tween is finished, will call
-	# previous position, instead.
-	await tween.finished 
+	enemy.current_enemy_coordinate = _target_coordinate
+	Autoload.grid_data.set_point_solid(enemy.current_enemy_coordinate, true)
+	# After Enemy moves to tile, check to see if any of the Combat Area2D's are the same as the player's
+	# current_grid_point
+	await tween.finished
+	
+	# CALLING THIS TWICE IS WEIRD, CAN WE FIX THIS?
 	for shape in combat_area.get_children():
 		var combat_area_grid_coord: Vector2i
 		combat_area_grid_coord.x = int(shape.global_position.x / Autoload.grid_data.cell_size.x)
 		combat_area_grid_coord.y = int(shape.global_position.y / Autoload.grid_data.cell_size.y)
+		#
+		if combat_area_grid_coord == Autoload.current_grid_point:
+			print("I SEE YOU MOTHERFUCKER")
+			Transitioned.emit(self, "EnemyCombat")
+			return
+	#######################################################
+	# COMBAT AREA CHECKS, UPDATE THIS COMMENT AND POSSIBLY TURN THIS INTO A FUNC LATER #
+	# AWAIT: The for loop doesn't print correctly if called before tween is finished, will call
+	# previous position, instead.
+	
+	#await tween.finished 
+	#for shape in combat_area.get_children():
+		#var combat_area_grid_coord: Vector2i
+		#combat_area_grid_coord.x = int(shape.global_position.x / Autoload.grid_data.cell_size.x)
+		#combat_area_grid_coord.y = int(shape.global_position.y / Autoload.grid_data.cell_size.y)
 		#print(combat_area_grid_coord)
 		
 func _update_target_coordinate():
@@ -88,8 +105,8 @@ func _update_target_coordinate():
 	return id_path.front()
 	
 func _flip_sprite():# Flip horizonal sprite
-	if Autoload.current_grid_point.x > current_enemy_coordinate.x:
-		#print("Target.x = " + str(_target_coordinate.x) + ", current.x = " + str(current_enemy_coordinate.x))
+	if Autoload.current_grid_point.x > enemy.current_enemy_coordinate.x:
+		#print("Target.x = " + str(_target_coordinate.x) + ", current.x = " + str(enemy.current_enemy_coordinate.x))
 		enemy.sprite.flip_h = true
 	else:
 		enemy.sprite.flip_h = false

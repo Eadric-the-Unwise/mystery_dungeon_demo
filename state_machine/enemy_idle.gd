@@ -4,6 +4,8 @@ class_name EnemyIdle
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 @onready var enemy: Node2D = $"../.."
 @onready var raycasts = $"../../Raycasts"
+@onready var sprite = $"../../EnemySprite2D"
+@onready var animation_player = $"../../AnimationPlayer"
 
 func enter():
 	print("Enemy now idle")
@@ -21,6 +23,7 @@ func _process(delta):
 	if enemy.is_in_line_of_sight:
 		# Transition to Follow State
 		Transitioned.emit(self, "EnemyFollow")
+		animation_player.play("Surprised")
 
 func init_raycasts():
 	# RayCast
@@ -41,7 +44,8 @@ func check_line_of_sight():
 		else:
 			# Player is in Enemy's Line of Sight
 			enemy.is_in_line_of_sight = true
-			return #DO NOT DELETE THIS!
+			return #DO NOT DELETE THIS! 
+			# IT WILL OVERRIDE THE BOOL IF YOU LET THE LOOP CONTINUE
 			
 # ------------------------------------------------------------------------------
 func update():
