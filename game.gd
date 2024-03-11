@@ -123,7 +123,7 @@ func _init_astargrid2d():
 
 func _init_enemies():
 	
-	for i in range(2):
+	for i in range(7):
 		var next_enemy = spawnable_enemies[0].instantiate()
 		all_active_enemies.append(next_enemy)
 		if all_active_enemies.size() == 1:

@@ -34,4 +34,4 @@ func update():
 			return
 		else:
 			Transitioned.emit(self, "EnemyFollow")
-	#print("ATTACK OF OPPORTUNITY")
+			print("ATTACK OF OPPORTUNITY")
