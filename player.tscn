@@ -1,11 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://2kl5aewswdlf"]
+[gd_scene load_steps=15 format=3 uid="uid://2kl5aewswdlf"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_7s8n2"]
 [ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="2_yjl7r"]
 [ext_resource type="Script" path="res://combat_scripts/hitbox.gd" id="3_nvd8m"]
+[ext_resource type="Script" path="res://combat_scripts/hurtbox.gd" id="4_kbdrc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4mbkh"]
 size = Vector2(10, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_12hql"]
+size = Vector2(14, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gwej"]
 size = Vector2(6, 6)
@@ -271,13 +275,22 @@ region_rect = Rect2(0, 16, 16, 16)
 collision_layer = 16
 collision_mask = 0
 script = ExtResource("3_nvd8m")
-metadata/_edit_lock_ = true
 
 [node name="HitboxCollisionShape" type="CollisionShape2D" parent="Sprite/Hitbox"]
 position = Vector2(16, 8)
 shape = SubResource("RectangleShape2D_4mbkh")
 disabled = true
 debug_color = Color(0.988235, 0, 0.321569, 0.419608)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("4_kbdrc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_12hql")
+debug_color = Color(0.819608, 0.87451, 0, 0.419608)
 
 [node name="MoveTimer" type="Timer" parent="."]
 wait_time = 0.25

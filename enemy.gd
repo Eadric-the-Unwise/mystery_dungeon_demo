@@ -17,7 +17,7 @@ var enemy_index: int
 signal AreaEntered
 # emited when Area is exited
 signal AreaExited
-signal EnemySlain
+signal EnemyAttackTurn
 
 var is_in_line_of_sight: bool = false
 #var is_in_range: bool = false
@@ -36,10 +36,14 @@ func _process(delta):
 func take_damage(attack_damage: int):
 	health -= attack_damage
 	print(str(name) + "took " + str(attack_damage) + " damage!")
+	# SLAIN!
 	if health <= 0:
 		Autoload.EnemySlain.emit(enemy_index)
 		self.queue_free()
 		Autoload.grid_data.set_point_solid(current_enemy_coordinate, false)
+		return
+	# Attack, if able
+	EnemyAttackTurn.emit()
 		
 #func _on_area_entered(area: Area2D):
 	#AreaEntered.emit()

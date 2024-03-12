@@ -3,3 +3,7 @@ res://enemy.tscn
 res://player.tscn
 res://state_machine/enemy_follow.gd
 res://game.gd
+res://combat_scripts/hitbox.gd
+res://enemy.gd
+res://state_machine/enemy_combat.gd
+res://combat_scripts/hitbox_enemy.gd

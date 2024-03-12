@@ -1,7 +1,7 @@
 extends State
 class_name EnemyCombat
 
-@onready var enemy = $"."
+@onready var enemy = $"../.."
 @onready var animation_player = $"../../AnimationPlayer"
 @onready var sprite = $"../../EnemySprite2D"
 @onready var combat_area = $"../../CombatArea"
@@ -22,16 +22,21 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	enemy.EnemyAttackTurn.connect(_on_enemy_attack_turn)
 
 func update():
 	for shape in combat_area.get_children():
 		var combat_area_grid_coord: Vector2i
 		combat_area_grid_coord.x = int(shape.global_position.x / Autoload.grid_data.cell_size.x)
 		combat_area_grid_coord.y = int(shape.global_position.y / Autoload.grid_data.cell_size.y)
-		#
+		# Can this even be reached, ever?
 		if combat_area_grid_coord == Autoload.current_grid_point:
+			print("HEY THIS PRINTED SO CHECK ENEMY_COMBAT.GD UPDATE LOOP")
 			return
 		else:
+			# Switch back to EnemyFollow State
 			Transitioned.emit(self, "EnemyFollow")
 			print("ATTACK OF OPPORTUNITY")
+
+func _on_enemy_attack_turn():
+	print("MY TURN TO ATTACK")
