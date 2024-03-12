@@ -99,9 +99,20 @@ func _update_target_coordinate():
 	var id_path: Array[Vector2i] 
 	id_path = Autoload.grid_data.get_id_path(
 	Autoload.tilemap.local_to_map(enemy.global_position),
-	# slice(1) removes the first value in the id_path (enemy's current grid point)
-	Autoload.tilemap.local_to_map(player.global_position)).slice(1)
-	#_current_id_path = id_path
+	Autoload.tilemap.local_to_map(player.global_position))
+	
+	# if no open AStarGrid2D path, stand still
+	# .front() returns an error if the array is nill
+	if id_path.size() <= 1:
+		# stand in place
+		print("Nowhere to Enemy to go")
+		return enemy.current_enemy_coordinate
+	elif id_path.size() == 2:
+		print("2 spaces to go")
+	else:
+		# slice(1) removes id_path[0], and returns id_path[1] thru end of array 
+		# id_path[0] = (enemy's current standing grid point)
+		id_path = id_path.slice(1)
 	return id_path.front()
 	
 func _flip_sprite():# Flip horizonal sprite

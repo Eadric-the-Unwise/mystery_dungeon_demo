@@ -133,6 +133,11 @@ func _init_enemies():
 			next_enemy.position.x = all_active_enemies[i - 1].position.x
 			next_enemy.position.y = all_active_enemies[i - 1].position.y + 16
 		add_child(next_enemy)
+		next_enemy.current_enemy_coordinate = next_enemy.position / Autoload.grid_data.cell_size
+		# set spawn location to solid, preventing other NPC's from entering this space
+		# during AStarGrid2D path calculations
+		Autoload.grid_data.set_point_solid(next_enemy.current_enemy_coordinate, true)
+		print(next_enemy.current_enemy_coordinate)
 		# Flip enemy sprite
 		if next_enemy.position.x >= player.position.x:
 			next_enemy.sprite.flip_h = true
