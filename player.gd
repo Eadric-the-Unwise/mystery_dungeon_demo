@@ -10,6 +10,13 @@ var health := 10
 
 func _ready() -> void:
 	pass
+	
+func take_damage(attack_damage: int):
+	health -= attack_damage
+	print(str(name) + "took " + str(attack_damage) + " damage!")
+	
+	if health <= 0:
+		print("GAME OVER")
 
 func _move_player():
 	pass

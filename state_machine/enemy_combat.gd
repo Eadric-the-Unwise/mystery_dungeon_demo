@@ -39,4 +39,4 @@ func update():
 			print("ATTACK OF OPPORTUNITY")
 
 func _on_enemy_attack_turn():
-	print("MY TURN TO ATTACK")
+	animation_player.play("AttackLeft")

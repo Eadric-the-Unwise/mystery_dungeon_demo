@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b1lyt1lcujjby"]
+[gd_scene load_steps=20 format=3 uid="uid://b1lyt1lcujjby"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_8dd8b"]
 [ext_resource type="Texture2D" uid="uid://duoo6pr43gjel" path="res://assets/enemy/enemy.png" id="1_hffh8"]
@@ -10,12 +10,16 @@
 [ext_resource type="Script" path="res://combat_scripts/hurtbox.gd" id="4_aqyfq"]
 [ext_resource type="Script" path="res://state_machine/enemy_follow.gd" id="5_8kjix"]
 [ext_resource type="Script" path="res://state_machine/enemy_combat.gd" id="7_obcra"]
+[ext_resource type="Script" path="res://combat_scripts/hitbox.gd" id="11_1v3pe"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nxfma"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vjywc"]
 size = Vector2(6, 6)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7rslp"]
 size = Vector2(14, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nxfma"]
+size = Vector2(6, 6)
 
 [sub_resource type="Animation" id="Animation_hd0ty"]
 resource_name = "Confused"
@@ -97,6 +101,30 @@ tracks/2/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("EnemySprite2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("EnemySprite2D/Hitbox/CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_xbog2"]
 resource_name = "Surprised"
@@ -127,8 +155,36 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_q1ns7"]
+resource_name = "AttackLeft"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemySprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-8, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EnemySprite2D/Hitbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3spvj"]
 _data = {
+"AttackLeft": SubResource("Animation_q1ns7"),
 "Confused": SubResource("Animation_hd0ty"),
 "RESET": SubResource("Animation_oktdw"),
 "Surprised": SubResource("Animation_xbog2")
@@ -140,6 +196,26 @@ script = ExtResource("1_8dd8b")
 [node name="EnemySprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_hffh8")
 centered = false
+
+[node name="Hitbox" type="Area2D" parent="EnemySprite2D"]
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("11_1v3pe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySprite2D/Hitbox"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_vjywc")
+disabled = true
+
+[node name="Hurtbox" type="Area2D" parent="EnemySprite2D"]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("4_aqyfq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySprite2D/Hurtbox"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_7rslp")
+debug_color = Color(0.709804, 0.545098, 0.172549, 0.419608)
 
 [node name="!" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0)
@@ -163,17 +239,6 @@ script = ExtResource("4_3yug0")
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="Body"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_nxfma")
-
-[node name="Hurtbox" type="Area2D" parent="."]
-visible = false
-collision_layer = 0
-collision_mask = 16
-script = ExtResource("4_aqyfq")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(8, 8)
-shape = SubResource("RectangleShape2D_7rslp")
-debug_color = Color(0.709804, 0.545098, 0.172549, 0.419608)
 
 [node name="CombatArea" type="Area2D" parent="."]
 collision_layer = 4

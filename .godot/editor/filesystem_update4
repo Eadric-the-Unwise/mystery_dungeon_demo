@@ -1,3 +1,5 @@
 res://game.tscn
 res://enemy.tscn
 res://player.tscn
+res://state_machine/enemy_combat.gd
+res://player.gd
