@@ -262,6 +262,7 @@ _data = {
 }
 
 [node name="Player" type="Node2D" groups=["Player"]]
+top_level = true
 script = ExtResource("1_7s8n2")
 metadata/_edit_lock_ = true
 
