@@ -82,15 +82,15 @@ func attack():
 	#return
 	if combat_enemies.is_empty():
 		return
-	
-	if selected_enemy.global_position.x > player.global_position.x:
-		player.animation_player.play("AttackRight")
-	elif selected_enemy.global_position.x < player.global_position.x:
-		player.animation_player.play("AttackLeft")
-	elif selected_enemy.global_position.y < player.global_position.y:
-		player.animation_player.play("AttackUp")
-	else:
-		player.animation_player.play("AttackDown")
+	if selected_enemy.animation_player.is_playing() == false:
+		if selected_enemy.global_position.x > player.global_position.x:
+			player.animation_player.play("AttackRight")
+		elif selected_enemy.global_position.x < player.global_position.x:
+			player.animation_player.play("AttackLeft")
+		elif selected_enemy.global_position.y < player.global_position.y:
+			player.animation_player.play("AttackUp")
+		else:
+			player.animation_player.play("AttackDown")
 
 func _init_astargrid2d():
 	# Initialize tilemap 2D array

@@ -5,7 +5,7 @@ class_name EnemyCombat
 @onready var animation_player = $"../../AnimationPlayer"
 @onready var sprite = $"../../EnemySprite2D"
 @onready var combat_area = $"../../CombatArea"
-
+@onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 
 
 func enter():
@@ -18,11 +18,11 @@ func exit():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	enemy.EnemyAttackTurn.connect(_on_enemy_attack_turn)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	enemy.EnemyAttackTurn.connect(_on_enemy_attack_turn)
+func _process(_delta):
+	pass
 
 func update():
 	for shape in combat_area.get_children():
@@ -39,4 +39,6 @@ func update():
 			print("ATTACK OF OPPORTUNITY")
 
 func _on_enemy_attack_turn():
+	await player.animation_player.animation_finished
+
 	animation_player.play("AttackLeft")

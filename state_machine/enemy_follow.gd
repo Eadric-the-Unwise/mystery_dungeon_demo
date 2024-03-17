@@ -17,7 +17,7 @@ func enter():
 	enemy.current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)
 	_flip_sprite()
 
-func _process(delta):
+func _process(_delta):
 	# Loop all RayCast2D's to see if the player is visible
 	check_line_of_sight()
 

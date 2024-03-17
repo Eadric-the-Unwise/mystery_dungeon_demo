@@ -1,12 +1,12 @@
 extends Node2D
 
 #@onready var range_area = $RangeArea
-@onready var raycast = $Area2D/CollisionShape2D/RayCast2D
 @onready var sprite = $EnemySprite2D
 @onready var state_machine = $StateMachine
 @onready var idle = $StateMachine/EnemyIdle
 @onready var follow = $StateMachine/EnemyFollow
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
+@onready var animation_player = $AnimationPlayer
 
 var current_enemy_coordinate: Vector2i
 
@@ -29,7 +29,7 @@ func _ready():
 	#range_area.area_exited.connect(_on_area_exited)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 		
 

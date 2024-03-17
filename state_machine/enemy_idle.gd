@@ -16,7 +16,7 @@ func enter():
 	# thinking that player is in view because they are likely unblocked from runtime
 	init_raycasts()
 
-func _process(delta):
+func _process(_delta):
 	# Loop all RayCast2D's to see if the player is visible
 	check_line_of_sight()
 	# Check if the Player's Line of Sight isn't blocked by any wall or object
