@@ -39,11 +39,6 @@ func check_line_of_sight():
 func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 	# Find next target location in AStarGrid2D
 	var _target_coordinate: Vector2i = _update_target_coordinate()
-	# Enemy will hesistate to move if it means colliding with the player
-	#if _target_coordinate == Autoload.current_grid_point:
-		#print("Enemy can't collide with player. Enter combat!")
-		#Transitioned.emit(self, "EnemyCombat")
-		#return
 	# Check if _target_coordinate is the blocked
 	if Autoload.grid_data.is_point_solid(_target_coordinate):
 		print("Point is solid!")
@@ -83,17 +78,6 @@ func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 			print("I SEE YOU MOTHERFUCKER")
 			Transitioned.emit(self, "EnemyCombat")
 			return
-	#######################################################
-	# COMBAT AREA CHECKS, UPDATE THIS COMMENT AND POSSIBLY TURN THIS INTO A FUNC LATER #
-	# AWAIT: The for loop doesn't print correctly if called before tween is finished, will call
-	# previous position, instead.
-	
-	#await tween.finished 
-	#for shape in combat_area.get_children():
-		#var combat_area_grid_coord: Vector2i
-		#combat_area_grid_coord.x = int(shape.global_position.x / Autoload.grid_data.cell_size.x)
-		#combat_area_grid_coord.y = int(shape.global_position.y / Autoload.grid_data.cell_size.y)
-		#print(combat_area_grid_coord)
 		
 func _update_target_coordinate():
 	var id_path: Array[Vector2i] 
@@ -110,7 +94,7 @@ func _update_target_coordinate():
 	elif id_path.size() == 2:
 		print("2 spaces to go")
 	else:
-		# slice(1) removes id_path[0], and returns id_path[1] thru end of array 
+		# Slice(1) removes id_path[0], and returns id_path[1] thru end of array 
 		# id_path[0] = (enemy's current standing grid point)
 		id_path = id_path.slice(1)
 	return id_path.front()
@@ -122,27 +106,7 @@ func _flip_sprite():# Flip horizonal sprite
 	else:
 		enemy.sprite.flip_h = false
 		
-# --------------------------------------------------------------------------
-	# LINE OF SIGHT ARRAY SHRINKING WHEN NOT IN LINE OF SIGHT LOGIC
-	#if enemy.is_in_line_of_sight:
-		#id_path = Autoload.grid_data.get_id_path(
-		#Autoload.tilemap.local_to_map(enemy.global_position),
-		## slice(1) removes the first value in the id_path (enemy's current grid point)
-		#Autoload.tilemap.local_to_map(player.global_position)).slice(1)
-	#else:
-		## Remove the first value in array if player is out of line of sight
-		#id_path = _current_id_path.slice(1)
-	
-	#if id_path.is_empty() == false:
-		## Set the current coordinate path
-		#_current_id_path = id_path
-		## Set the EnemyFollow.target_coordinate to the first coordinate in the ID path
-		#_target_coordinate = _current_id_path.front()
-		#print("Current ID Path Size: ",_current_id_path.size())
-		#print(_current_id_path)		
-	#else:
-		#animation_player.play("Confused")
-		#Transitioned.emit(self, "EnemyIdle")
+
 
 
 

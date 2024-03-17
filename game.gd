@@ -60,7 +60,7 @@ func _process(_delta: float) -> void:
 	
 	# Add checks for UP/DOWN/LEFT/RIGHT Attack Animations
 	# Begin with just LEFT/RIGHT	
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_pressed("attack"):
 		attack()
 		
 	if _is_moving:
@@ -78,9 +78,9 @@ func _process(_delta: float) -> void:
 
 func attack():
 	## Return if no current enemies
-	#print(combat_enemies.size())
-	#return
 	if combat_enemies.is_empty():
+		return
+	if player.animation_player.is_playing():
 		return
 	if selected_enemy.animation_player.is_playing() == false:
 		if selected_enemy.global_position.x > player.global_position.x:
@@ -122,27 +122,31 @@ func _init_astargrid2d():
 	player.position = Autoload.grid_data.get_point_position(Autoload.current_grid_point)
 
 func _init_enemies():
-	
-	for i in range(7):
-		var next_enemy = spawnable_enemies[0].instantiate()
-		all_active_enemies.append(next_enemy)
-		if all_active_enemies.size() == 1:
-			next_enemy.position.x = 112 
-			next_enemy.position.y = 16 
-		else:
-			next_enemy.position.x = all_active_enemies[i - 1].position.x
-			next_enemy.position.y = all_active_enemies[i - 1].position.y + 16
-		add_child(next_enemy)
-		next_enemy.current_enemy_coordinate = next_enemy.position / Autoload.grid_data.cell_size
-		# set spawn location to solid, preventing other NPC's from entering this space
-		# during AStarGrid2D path calculations
-		Autoload.grid_data.set_point_solid(next_enemy.current_enemy_coordinate, true)
-		print(next_enemy.current_enemy_coordinate)
-		# Flip enemy sprite
-		if next_enemy.position.x >= player.position.x:
-			next_enemy.sprite.flip_h = true
-		else:
-			next_enemy.sprite.flip_h = false
+	var enemy_spawn_x = 64
+	var enemy_spawn_y = 16
+	for column in range(4):
+		for i in range(7):
+			var next_enemy = spawnable_enemies[0].instantiate()
+			all_active_enemies.append(next_enemy)
+			
+			next_enemy.position.x = enemy_spawn_x
+			next_enemy.position.y = enemy_spawn_y
+			
+			add_child(next_enemy)
+
+			next_enemy.current_enemy_coordinate = next_enemy.position / Autoload.grid_data.cell_size
+			# set spawn location to solid, preventing other NPC's from entering this space
+			# during AStarGrid2D path calculations
+			Autoload.grid_data.set_point_solid(next_enemy.current_enemy_coordinate, true)
+			print(next_enemy.current_enemy_coordinate)
+			# Flip enemy sprite
+			if next_enemy.position.x >= player.position.x:
+				next_enemy.sprite.flip_h = true
+			else:
+				next_enemy.sprite.flip_h = false
+			enemy_spawn_y += 16
+		enemy_spawn_x += 16
+		enemy_spawn_y = 16
 	print(all_active_enemies.size(), " Enemies spawned")
 
 func _select_check() -> void:
@@ -194,6 +198,25 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 func _on_tween_finished():
 	# After moving, check surrounding to see if Enemy is in combat range
 	# (Consider moving this logic to Player.gd)
+	##########################
+	for area in player.interactable_detection_area.get_overlapping_areas():
+		if area is Body:
+			var target_enemy = area.get_parent()
+			combat_enemies.append(target_enemy)
+			enemy_cursor.global_position = target_enemy.global_position
+			enemy_cursor.animation_player.play("CursorBlink")
+			selected_enemy = target_enemy	
+	###########################
+
+# connect enemy death signal to this function
+# combat_enemies.remove(target_enemy)
+func _on_enemy_slain():
+	print("THE ENEMY HAS BEEN SLAIN")
+	enemy_cursor.animation_player.stop()
+	enemy_cursor.global_position = enemy_cursor.reset_position
+	await player.animation_player.animation_finished
+	combat_enemies.clear()
+	#############################
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is Body:
 			var target_enemy = area.get_parent()
@@ -201,17 +224,9 @@ func _on_tween_finished():
 			enemy_cursor.global_position = target_enemy.global_position
 			enemy_cursor.animation_player.play("CursorBlink")
 			# Store the index of the enemy in combat_enemies[]
-			target_enemy.enemy_index = combat_enemies.size() - 1
 			selected_enemy = target_enemy
+	################################
 
-# connect enemy death signal to this function
-# combat_enemies.remove(target_enemy)
-func _on_enemy_slain(enemy_index: int):
-	print("THE ENEMY HAS BEEN SLAIN")
-	combat_enemies.remove_at(enemy_index)
-	enemy_cursor.animation_player.stop()
-	enemy_cursor.global_position = enemy_cursor.reset_position
-	
 func _update_ui():
 	player_coords.text = str(player.position / Autoload.grid_data.cell_size)
 	player_hp.text = str(player.health)	

@@ -11,7 +11,6 @@ extends Node2D
 var current_enemy_coordinate: Vector2i
 
 var health := 10
-var enemy_index: int
 
 # emited when Area is entered
 signal AreaEntered
@@ -20,37 +19,26 @@ signal AreaExited
 signal EnemyAttackTurn
 
 var is_in_line_of_sight: bool = false
-#var is_in_range: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
-	#range_area.area_entered.connect(_on_area_entered)
-	#range_area.area_exited.connect(_on_area_exited)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
-		
 
 func take_damage(attack_damage: int):
 	health -= attack_damage
 	print(str(name) + "took " + str(attack_damage) + " damage!")
 	# SLAIN!
 	if health <= 0:
-		Autoload.EnemySlain.emit(enemy_index)
 		self.queue_free()
+		Autoload.EnemySlain.emit()
 		Autoload.grid_data.set_point_solid(current_enemy_coordinate, false)
 		return
-	# Attack, if able
+	# Will Attack, if able
 	EnemyAttackTurn.emit()
-		
-#func _on_area_entered(area: Area2D):
-	#AreaEntered.emit()
-	#
-#func _on_area_exited(area: Area2D):
-	#AreaExited.emit()
-
 		
 	
 

@@ -40,5 +40,4 @@ func update():
 
 func _on_enemy_attack_turn():
 	await player.animation_player.animation_finished
-
 	animation_player.play("AttackLeft")
