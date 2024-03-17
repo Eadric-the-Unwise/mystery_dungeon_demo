@@ -55,13 +55,8 @@ func _ready() -> void:
 	button_reset.pressed.connect(_reset_game)
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_pressed("ui_accept"):
 		_select_check()
-	
-	# Add checks for UP/DOWN/LEFT/RIGHT Attack Animations
-	# Begin with just LEFT/RIGHT	
-	if Input.is_action_pressed("attack"):
-		attack()
 		
 	if _is_moving:
 		return
@@ -122,10 +117,10 @@ func _init_astargrid2d():
 	player.position = Autoload.grid_data.get_point_position(Autoload.current_grid_point)
 
 func _init_enemies():
-	var enemy_spawn_x = 64
-	var enemy_spawn_y = 16
-	for column in range(4):
-		for i in range(7):
+	var enemy_spawn_x = 96
+	var enemy_spawn_y = 48
+	for column in range(2):
+		for i in range(3):
 			var next_enemy = spawnable_enemies[0].instantiate()
 			all_active_enemies.append(next_enemy)
 			
@@ -146,10 +141,14 @@ func _init_enemies():
 				next_enemy.sprite.flip_h = false
 			enemy_spawn_y += 16
 		enemy_spawn_x += 16
-		enemy_spawn_y = 16
+		enemy_spawn_y = 48
 	print(all_active_enemies.size(), " Enemies spawned")
 
 func _select_check() -> void:
+	# Attack if there is any enemy selected
+	if combat_enemies:
+		attack()
+		return
 	# Check for all overlapping areas in Player's Area2D (interactable_detection_area)
 	for area in player.teleport_detection_area.get_overlapping_areas():
 		if area is Teleporter:
@@ -199,6 +198,8 @@ func _on_tween_finished():
 	# After moving, check surrounding to see if Enemy is in combat range
 	# (Consider moving this logic to Player.gd)
 	##########################
+	enemy_cursor.global_position = enemy_cursor.reset_position
+	combat_enemies.clear()
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is Body:
 			var target_enemy = area.get_parent()
