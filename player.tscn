@@ -313,22 +313,22 @@ shape = SubResource("RectangleShape2D_3gwej")
 collision_layer = 0
 collision_mask = 12
 
-[node name="CollisionShapeRIGHT" type="CollisionShape2D" parent="InteractableDetectionArea"]
+[node name="RIGHT" type="CollisionShape2D" parent="InteractableDetectionArea"]
 position = Vector2(24, 8)
 shape = SubResource("RectangleShape2D_vubon")
 debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)
 
-[node name="CollisionShapeDOWN" type="CollisionShape2D" parent="InteractableDetectionArea"]
+[node name="DOWN" type="CollisionShape2D" parent="InteractableDetectionArea"]
 position = Vector2(8, 24)
 shape = SubResource("RectangleShape2D_vubon")
 debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)
 
-[node name="CollisionShapeLEFT" type="CollisionShape2D" parent="InteractableDetectionArea"]
+[node name="LEFT" type="CollisionShape2D" parent="InteractableDetectionArea"]
 position = Vector2(-8, 8)
 shape = SubResource("RectangleShape2D_vubon")
 debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)
 
-[node name="CollisionShapeUP" type="CollisionShape2D" parent="InteractableDetectionArea"]
+[node name="UP" type="CollisionShape2D" parent="InteractableDetectionArea"]
 position = Vector2(8, -8)
 shape = SubResource("RectangleShape2D_vubon")
 debug_color = Color(0.662745, 0.505882, 0.266667, 0.419608)

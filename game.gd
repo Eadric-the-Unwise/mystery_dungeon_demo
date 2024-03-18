@@ -70,8 +70,8 @@ func _process(_delta: float) -> void:
 	elif Input.is_action_pressed("move_right"):
 		_move_to_coord(Vector2i.RIGHT)
 		player.sprite.flip_h = false
-
-func attack():
+	
+func melee_attack():
 	## Return if no current enemies
 	if combat_enemies.is_empty():
 		return
@@ -117,10 +117,10 @@ func _init_astargrid2d():
 	player.position = Autoload.grid_data.get_point_position(Autoload.current_grid_point)
 
 func _init_enemies():
-	var enemy_spawn_x = 96
-	var enemy_spawn_y = 48
-	for column in range(2):
-		for i in range(3):
+	var enemy_spawn_x = 80
+	var enemy_spawn_y = 16
+	for column in range(4):
+		for i in range(7):
 			var next_enemy = spawnable_enemies[0].instantiate()
 			all_active_enemies.append(next_enemy)
 			
@@ -141,13 +141,13 @@ func _init_enemies():
 				next_enemy.sprite.flip_h = false
 			enemy_spawn_y += 16
 		enemy_spawn_x += 16
-		enemy_spawn_y = 48
+		enemy_spawn_y = 16
 	print(all_active_enemies.size(), " Enemies spawned")
 
 func _select_check() -> void:
 	# Attack if there is any enemy selected
 	if combat_enemies:
-		attack()
+		melee_attack()
 		return
 	# Check for all overlapping areas in Player's Area2D (interactable_detection_area)
 	for area in player.teleport_detection_area.get_overlapping_areas():
@@ -173,6 +173,9 @@ func _select_check() -> void:
 
 func _move_to_coord(move_direction: Vector2i) -> void:
 	var target_grid_point = Autoload.current_grid_point + move_direction
+	# If there is an enemy within melee_combat range on this tile, select the enemy instead of moving
+	if is_in_combat(target_grid_point):
+		return
 	# If target_grid_point is an "is_blocked" tile, prevent movement
 	if Autoload.grid_data.is_point_solid(target_grid_point):
 		return
@@ -192,7 +195,14 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	tween.finished.connect(_on_tween_finished)
 	# emit signal
 	Autoload.PlayerMovedSignal.emit()
-	
+
+func is_in_combat(target_grid_point: Vector2i):
+	for enemy in combat_enemies:
+		if enemy.current_enemy_coordinate == target_grid_point:
+			enemy_cursor.global_position = enemy.global_position
+			selected_enemy = enemy
+			return true
+	return false
 	
 func _on_tween_finished():
 	# After moving, check surrounding to see if Enemy is in combat range
