@@ -26,8 +26,8 @@ var all_active_enemies: Array = []
 var combat_enemies: Array = []
 # Updated on selection during combat
 var selected_enemy: Node2D
-
-var _is_moving: bool
+# remove this?
+var _move_tween_timer: bool
 
 func _ready() -> void:
 	# Initialize the Autoload.tilemap TileMap
@@ -58,7 +58,7 @@ func _process(_delta: float) -> void:
 	if Input.is_action_pressed("ui_accept"):
 		_select_check()
 		
-	if _is_moving:
+	if _move_tween_timer:
 		return
 	if Input.is_action_pressed("move_up"):
 		_move_to_coord(Vector2i.UP)
@@ -173,20 +173,22 @@ func _select_check() -> void:
 
 func _move_to_coord(move_direction: Vector2i) -> void:
 	var target_grid_point = Autoload.current_grid_point + move_direction
+	if player.animation_player.is_playing():
+		return
 	# If there is an enemy within melee_combat range on this tile, select the enemy instead of moving
 	if is_in_combat(target_grid_point):
 		return
 	# If target_grid_point is an "is_blocked" tile, prevent movement
 	if Autoload.grid_data.is_point_solid(target_grid_point):
 		return
-
+	_move_tween_timer = true
 	Autoload.current_grid_point = target_grid_point
 	var target_position = Autoload.grid_data.get_point_position(target_grid_point)
 	var tween = player.create_tween()
 	tween.tween_property(player, "position", target_position, .10)
 	#player.position = target_position
 	# Prevents player from moving every in-game frame
-	_is_moving = true
+
 	# Start move_timer (player cannot move again until timer = timeout())
 	player.move_timer.start()
 	# Confirms when the player has finished animating to his position
@@ -243,7 +245,7 @@ func _update_ui():
 	player_hp.text = str(player.health)	
 
 func _reset_timer():
-	_is_moving = false
+	_move_tween_timer = false
 	
 func _reset_game():
 	get_tree().reload_current_scene()
