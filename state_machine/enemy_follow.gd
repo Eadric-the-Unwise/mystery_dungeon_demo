@@ -13,7 +13,7 @@ class_name EnemyFollow
 
 
 func enter():
-	print("Enemy following player!")
+	#print("Enemy following player!")
 	enemy.current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)
 	_flip_sprite()
 
@@ -50,7 +50,7 @@ func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 		combat_area_grid_coord.y = int(shape.global_position.y / Autoload.grid_data.cell_size.y)
 		#
 		if combat_area_grid_coord == Autoload.current_grid_point:
-			print("I SEE YOU MOTHERFUCKER")
+			#print("I SEE YOU MOTHERFUCKER")
 			Transitioned.emit(self, "EnemyCombat")
 			return
 	

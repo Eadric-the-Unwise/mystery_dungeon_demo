@@ -19,7 +19,7 @@ size = Vector2(6, 6)
 size = Vector2(14, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nxfma"]
-size = Vector2(6, 6)
+size = Vector2(14, 14)
 
 [sub_resource type="Animation" id="Animation_q1ns7"]
 resource_name = "AttackLeft"

@@ -19,6 +19,7 @@ func take_damage(attack_damage: int):
 	if health <= 0:
 		print("GAME OVER")
 
+
 func _move_player():
 	pass
 
