@@ -9,11 +9,12 @@ class_name EnemyCombat
 
 
 func enter():
-	print("Enemy in combat!")
+	#print("Enter enemy_combat")
 	# Turn enemy red
 	sprite.modulate = Color(0.871, 0, 0.024)
 	#animation_player.play("Surprised")
 func exit():
+	print("Exit enemy_combat")
 	sprite.modulate = Color(1, 1, 1)
 
 # Called when the node enters the scene tree for the first time.
@@ -37,7 +38,9 @@ func update():
 			# Switch back to EnemyFollow State
 			Transitioned.emit(self, "EnemyFollow")
 			print("ATTACK OF OPPORTUNITY")
+			return
 
 func _on_enemy_attack_turn():
 	await player.animation_player.animation_finished
 	animation_player.play("AttackLeft")
+

@@ -119,7 +119,7 @@ func _init_astargrid2d():
 	player.position = Autoload.grid_data.get_point_position(Autoload.current_grid_point)
 
 func _init_enemies():
-	var enemy_spawn_x = 80
+	var enemy_spawn_x = 48
 	var enemy_spawn_y = 48
 	for column in range(3):
 		for i in range(3):
@@ -182,45 +182,50 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	if Autoload.grid_data.is_point_solid(target_grid_point):
 		return
 	_move_tween_timer = true
+	# Clear current tile for movement
+	Autoload.grid_data.set_point_solid(Autoload.current_grid_point, false)
+	# Update current tile to the target grid point
 	Autoload.current_grid_point = target_grid_point
-	Autoload.PlayerMovedSignal.emit()
+	# Set position of the target grid point
 	var target_position = Autoload.grid_data.get_point_position(target_grid_point)
+	# Prevent enemies from entering your target grid point
+	Autoload.grid_data.set_point_solid(target_grid_point, true)
 	var tween = player.create_tween()
 	tween.tween_property(player, "position", target_position, .10)
 	#player.position = target_position
 	# Prevents player from moving every in-game frame
-
 	# Start move_timer (player cannot move again until timer = timeout())
 	player.move_timer.start()
-
+	# emit signal
+	Autoload.PlayerMovedSignal.emit()
 	# Confirms when the player has finished animating to his position
 	# If player lands in combat distance, the enemy will enter combat instead
 	# of moving.
 	tween.finished.connect(_on_tween_finished)
-	# emit signal
+	
 	
 func _on_tween_finished():
-	print("PLAYER TWEEN FINISHED")
 	# After moving, check surrounding to see if Enemy is in combat range
 	# (Consider moving this logic to Player.gd)
-	##########################
 	enemy_cursor.global_position = enemy_cursor.reset_position
 	combat_enemies.clear()
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is EnemyBody:
-			print("ENEMYBODY DETECTED")
 			var target_enemy = area.get_parent()
 			combat_enemies.append(target_enemy)
+			#target_enemy.enemy_combat.Transitioned.emit(target_enemy, "EnemyCombat")
 			print(combat_enemies.size())
 			enemy_cursor.global_position = target_enemy.global_position
 			enemy_cursor.animation_player.play("CursorBlink")
 			selected_enemy = target_enemy	
-	###########################
+			print(str(target_enemy.state_machine.current_state))
+		
+	
 func is_in_combat(target_grid_point: Vector2i):
-	for enemy in combat_enemies:
-		if enemy.current_enemy_coordinate == target_grid_point:
-			enemy_cursor.global_position = enemy.global_position
-			selected_enemy = enemy
+	for e in combat_enemies:
+		if e.current_enemy_coordinate == target_grid_point:
+			enemy_cursor.global_position = e.global_position
+			selected_enemy = e
 			return true
 	return false
 # connect enemy death signal to this function
