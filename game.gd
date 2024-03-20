@@ -54,6 +54,7 @@ func _ready() -> void:
 	button_reset.pressed.connect(_reset_game)
 
 func _process(_delta: float) -> void:
+	
 	if Input.is_action_pressed("ui_accept"):
 		_select_check()
 	# Prevent player from moving until at .25 sec from previous movement input	
@@ -118,7 +119,7 @@ func _init_astargrid2d():
 	player.position = Autoload.grid_data.get_point_position(Autoload.current_grid_point)
 
 func _init_enemies():
-	var enemy_spawn_x = 48
+	var enemy_spawn_x = 64
 	var enemy_spawn_y = 48
 	for column in range(3):
 		for i in range(3):
@@ -143,11 +144,7 @@ func _init_enemies():
 		enemy_spawn_x += 16
 		enemy_spawn_y = 48
 	print(all_active_enemies.size(), " Enemies spawned")
-
-func _on_enemy_entered_combat():
-	pass
-	#_update_combat_enemies()
-			
+	
 
 func _select_check() -> void:
 	# Attack if there is any enemy selected
@@ -179,7 +176,7 @@ func _select_check() -> void:
 func _move_to_coord(move_direction: Vector2i) -> void:
 	var target_grid_point = Autoload.current_grid_point + move_direction
 	# If there is an enemy within melee_combat range on this tile, select the enemy instead of moving
-	if is_in_combat(target_grid_point):
+	if _is_in_combat_range(target_grid_point):
 		return
 	# If target_grid_point is an "is_blocked" tile, prevent movement
 	if Autoload.grid_data.is_point_solid(target_grid_point):
@@ -211,10 +208,9 @@ func _on_tween_finished():
 	# After moving, check surrounding to see if Enemy is in combat range
 	# (Consider moving this logic to Player.gd)
 	#_reset_cursor()
-	#combat_enemies.clear()
 	_update_combat_enemies()
 			
-func is_in_combat(target_grid_point: Vector2i):
+func _is_in_combat_range(target_grid_point: Vector2i):
 	for e in combat_enemies:
 		if e.current_enemy_coordinate == target_grid_point:
 			enemy_cursor.global_position = e.global_position
@@ -231,7 +227,9 @@ func _on_enemy_slain():
 	################################
 
 func _update_combat_enemies():
+	# Move cursor off-screen
 	_reset_cursor()
+	# Clear the current combat_enemies[] Array2D
 	combat_enemies.clear()
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is EnemyBody:

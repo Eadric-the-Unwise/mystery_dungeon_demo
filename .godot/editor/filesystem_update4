@@ -4,3 +4,4 @@ res://enemy.tscn
 res://game.gd
 res://enemy.gd
 res://state_machine/enemy_combat.gd
+res://state_machine/enemy_follow.gd

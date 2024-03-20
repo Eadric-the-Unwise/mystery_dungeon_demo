@@ -46,6 +46,7 @@ func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 	
 		##################################################################
 	## CHECK ONCE PRIOR TO MOVING
+	await player.move_timer.timeout
 	if _check_for_combat():
 		# Prevent Enemy from moving, go to combat State
 		return
