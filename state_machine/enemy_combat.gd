@@ -10,7 +10,6 @@ class_name EnemyCombat
 
 func enter():
 	print("Enter enemy_combat")
-	enemy.EnemyEnteredCombat.emit()
 	# Turn enemy red
 	sprite.modulate = Color(0.871, 0, 0.024)
 	#animation_player.play("Surprised")

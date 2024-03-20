@@ -1,8 +1,6 @@
 res://game.tscn
-res://game.gd
-res://enemy.tscn
 res://player.tscn
-res://player.gd
+res://enemy.tscn
+res://game.gd
 res://enemy.gd
 res://state_machine/enemy_combat.gd
-res://state_machine/enemy_follow.gd

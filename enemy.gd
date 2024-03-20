@@ -18,7 +18,7 @@ signal AreaEntered
 # emited when Area is exited
 signal AreaExited
 signal EnemyAttackTurn
-signal EnemyEnteredCombat
+#signal EnemyEnteredCombat
 #signal EnemyExitedCombat
 
 # Used to track where it lives within Game.gd/combat_enemies[] Array2D

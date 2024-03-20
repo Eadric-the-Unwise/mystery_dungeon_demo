@@ -71,7 +71,7 @@ func _process(_delta: float) -> void:
 	elif Input.is_action_pressed("move_right"):
 		_move_to_coord(Vector2i.RIGHT)
 		player.sprite.flip_h = false
-	print(combat_enemies.size())
+	
 func melee_attack():
 	## Return if no current enemies
 	if combat_enemies.is_empty():
@@ -129,7 +129,6 @@ func _init_enemies():
 			next_enemy.position.y = enemy_spawn_y
 			
 			add_child(next_enemy)
-			next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)
 			next_enemy.current_enemy_coordinate = next_enemy.position / Autoload.grid_data.cell_size
 			# set spawn location to solid, preventing other NPC's from entering this space
 			# during AStarGrid2D path calculations
@@ -146,7 +145,8 @@ func _init_enemies():
 	print(all_active_enemies.size(), " Enemies spawned")
 
 func _on_enemy_entered_combat():
-	_update_combat_cursor()
+	pass
+	#_update_combat_enemies()
 			
 
 func _select_check() -> void:
@@ -210,9 +210,9 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 func _on_tween_finished():
 	# After moving, check surrounding to see if Enemy is in combat range
 	# (Consider moving this logic to Player.gd)
-	_reset_cursor()
-	combat_enemies.clear()
-	_update_combat_cursor()
+	#_reset_cursor()
+	#combat_enemies.clear()
+	_update_combat_enemies()
 			
 func is_in_combat(target_grid_point: Vector2i):
 	for e in combat_enemies:
@@ -225,14 +225,14 @@ func is_in_combat(target_grid_point: Vector2i):
 # combat_enemies.remove(target_enemy)
 func _on_enemy_slain():
 	print("THE ENEMY HAS BEEN SLAIN")
-	_reset_cursor()
 	await player.animation_player.animation_finished
-	combat_enemies.clear()
 	#############################
-	_update_combat_cursor()
+	_update_combat_enemies()
 	################################
 
-func _update_combat_cursor():
+func _update_combat_enemies():
+	_reset_cursor()
+	combat_enemies.clear()
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is EnemyBody:
 			var target_enemy = area.get_parent()
@@ -241,7 +241,8 @@ func _update_combat_cursor():
 			enemy_cursor.animation_player.play("CursorBlink")
 			# Store the index of the enemy in combat_enemies[]
 			selected_enemy = target_enemy
-			
+	print(combat_enemies.size())		
+	
 	
 
 func _reset_cursor():
