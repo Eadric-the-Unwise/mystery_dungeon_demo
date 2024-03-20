@@ -44,6 +44,12 @@ func _ready() -> void:
 	# Reset move_timer to wait_time
 	player.move_timer.timeout.connect(_reset_timer)
 	
+		##############################################
+	for area in player.interactable_detection_area.get_overlapping_areas():
+		if area is EnemyBody:
+			var target_enemy = area.get_parent()
+			_update_combat_cursor(target_enemy)
+	#################################################
 	#-----------------------------------------------------------#
 	# Temporary UI
 	message.text = "Welcome to the game!"
@@ -207,20 +213,14 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 func _on_tween_finished():
 	# After moving, check surrounding to see if Enemy is in combat range
 	# (Consider moving this logic to Player.gd)
-	enemy_cursor.global_position = enemy_cursor.reset_position
+	_reset_cursor()
 	combat_enemies.clear()
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is EnemyBody:
 			var target_enemy = area.get_parent()
-			combat_enemies.append(target_enemy)
-			#target_enemy.enemy_combat.Transitioned.emit(target_enemy, "EnemyCombat")
+			_update_combat_cursor(target_enemy)
 			print(combat_enemies.size())
-			enemy_cursor.global_position = target_enemy.global_position
-			enemy_cursor.animation_player.play("CursorBlink")
-			selected_enemy = target_enemy	
-			print(str(target_enemy.state_machine.current_state))
-		
-	
+			
 func is_in_combat(target_grid_point: Vector2i):
 	for e in combat_enemies:
 		if e.current_enemy_coordinate == target_grid_point:
@@ -239,12 +239,18 @@ func _on_enemy_slain():
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is EnemyBody:
 			var target_enemy = area.get_parent()
-			combat_enemies.append(target_enemy)
-			enemy_cursor.global_position = target_enemy.global_position
-			enemy_cursor.animation_player.play("CursorBlink")
-			# Store the index of the enemy in combat_enemies[]
-			selected_enemy = target_enemy
+			_update_combat_cursor(target_enemy)
+
 	################################
+
+func _update_combat_cursor(target_enemy: Node2D):
+	combat_enemies.append(target_enemy)
+	enemy_cursor.global_position = target_enemy.global_position
+	enemy_cursor.animation_player.play("CursorBlink")
+	# Store the index of the enemy in combat_enemies[]
+	selected_enemy = target_enemy
+	
+
 func _reset_cursor():
 	enemy_cursor.animation_player.stop()
 	enemy_cursor.global_position = enemy_cursor.reset_position
