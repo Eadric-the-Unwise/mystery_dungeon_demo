@@ -17,7 +17,7 @@ func enter():
 	enemy.current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)
 	_flip_sprite()
 func exit():
-	print("Exiting Follow Mode")
+	#print("Exiting Follow Mode")
 	pass
 
 func _process(_delta):
@@ -52,10 +52,8 @@ func update(): # Called on every PlayerMovedSignal emit (state_machine.gd)
 	################################################################
 	# Check if _target_coordinate is the blocked
 	if Autoload.grid_data.is_point_solid(_target_coordinate):
-		print("Point is solid!")
+		#print("Point is solid!")
 		return
-
-
 	# Flip Enemy sprite, accordingly
 	_flip_sprite()
 	# Clear current tile for movement

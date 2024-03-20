@@ -10,6 +10,7 @@ class_name EnemyCombat
 
 func enter():
 	print("Enter enemy_combat")
+	enemy.EnemyEnteredCombat.emit()
 	# Turn enemy red
 	sprite.modulate = Color(0.871, 0, 0.024)
 	#animation_player.play("Surprised")
@@ -36,6 +37,7 @@ func update():
 			return
 		else:
 			# Switch back to EnemyFollow State
+			# self = EnemyCombat
 			Transitioned.emit(self, "EnemyFollow")
 			print("ATTACK OF OPPORTUNITY")
 			return

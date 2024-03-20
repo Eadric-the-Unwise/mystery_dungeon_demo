@@ -1,5 +1,6 @@
 extends Node2D
 
+# currently a bit messy. This time starts, and ends, turning off and on a _tween_move_timer bool in Game.gd
 @onready var move_timer := $MoveTimer
 @onready var teleport_detection_area: Area2D = $TeleportDetectionArea
 @onready var sprite := $Sprite

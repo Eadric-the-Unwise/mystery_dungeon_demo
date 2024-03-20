@@ -18,7 +18,11 @@ signal AreaEntered
 # emited when Area is exited
 signal AreaExited
 signal EnemyAttackTurn
+signal EnemyEnteredCombat
+#signal EnemyExitedCombat
 
+# Used to track where it lives within Game.gd/combat_enemies[] Array2D
+#var combat_enemies_variable: int
 var is_in_line_of_sight: bool = false
 
 # Called when the node enters the scene tree for the first time.
@@ -36,6 +40,11 @@ func take_damage(attack_damage: int):
 	if health <= 0:
 		Autoload.grid_data.set_point_solid(current_enemy_coordinate, false)
 		Autoload.EnemySlain.emit()
+		# add a Death Animation state, so enemy can exit EnemyCombat, removing itself from the combat_enemies array
+		# before dying
+		######################################
+		#EnemyExitedCombat.emit(self)
+		######################################
 		self.queue_free()
 		return
 	# Will Attack, if able

@@ -32,24 +32,17 @@ var _move_tween_timer: bool
 func _ready() -> void:
 	# Initialize the Autoload.tilemap TileMap
 	Autoload.tilemap = $TileMap
-	# initialize astargrid2d data
+	# Initialize astargrid2d data
 	_init_astargrid2d()
-	# initialize enemies
+	# Initialize enemies
 	_init_enemies()
-	# initialize ui
+	# Initialize ui
 	_update_ui()
-	# connect PlayerMovedSignal to _update_ui()
+	# Connect PlayerMovedSignal to _update_ui()
 	Autoload.PlayerMovedSignal.connect(_update_ui)
 	Autoload.EnemySlain.connect(_on_enemy_slain)
 	# Reset move_timer to wait_time
 	player.move_timer.timeout.connect(_reset_timer)
-	
-		##############################################
-	for area in player.interactable_detection_area.get_overlapping_areas():
-		if area is EnemyBody:
-			var target_enemy = area.get_parent()
-			_update_combat_cursor(target_enemy)
-	#################################################
 	#-----------------------------------------------------------#
 	# Temporary UI
 	message.text = "Welcome to the game!"
@@ -78,7 +71,7 @@ func _process(_delta: float) -> void:
 	elif Input.is_action_pressed("move_right"):
 		_move_to_coord(Vector2i.RIGHT)
 		player.sprite.flip_h = false
-	
+	print(combat_enemies.size())
 func melee_attack():
 	## Return if no current enemies
 	if combat_enemies.is_empty():
@@ -136,7 +129,7 @@ func _init_enemies():
 			next_enemy.position.y = enemy_spawn_y
 			
 			add_child(next_enemy)
-
+			next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)
 			next_enemy.current_enemy_coordinate = next_enemy.position / Autoload.grid_data.cell_size
 			# set spawn location to solid, preventing other NPC's from entering this space
 			# during AStarGrid2D path calculations
@@ -151,6 +144,10 @@ func _init_enemies():
 		enemy_spawn_x += 16
 		enemy_spawn_y = 48
 	print(all_active_enemies.size(), " Enemies spawned")
+
+func _on_enemy_entered_combat():
+	_update_combat_cursor()
+			
 
 func _select_check() -> void:
 	# Attack if there is any enemy selected
@@ -215,11 +212,7 @@ func _on_tween_finished():
 	# (Consider moving this logic to Player.gd)
 	_reset_cursor()
 	combat_enemies.clear()
-	for area in player.interactable_detection_area.get_overlapping_areas():
-		if area is EnemyBody:
-			var target_enemy = area.get_parent()
-			_update_combat_cursor(target_enemy)
-			print(combat_enemies.size())
+	_update_combat_cursor()
 			
 func is_in_combat(target_grid_point: Vector2i):
 	for e in combat_enemies:
@@ -236,19 +229,19 @@ func _on_enemy_slain():
 	await player.animation_player.animation_finished
 	combat_enemies.clear()
 	#############################
+	_update_combat_cursor()
+	################################
+
+func _update_combat_cursor():
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is EnemyBody:
 			var target_enemy = area.get_parent()
-			_update_combat_cursor(target_enemy)
-
-	################################
-
-func _update_combat_cursor(target_enemy: Node2D):
-	combat_enemies.append(target_enemy)
-	enemy_cursor.global_position = target_enemy.global_position
-	enemy_cursor.animation_player.play("CursorBlink")
-	# Store the index of the enemy in combat_enemies[]
-	selected_enemy = target_enemy
+			combat_enemies.append(target_enemy)
+			enemy_cursor.global_position = target_enemy.global_position
+			enemy_cursor.animation_player.play("CursorBlink")
+			# Store the index of the enemy in combat_enemies[]
+			selected_enemy = target_enemy
+			
 	
 
 func _reset_cursor():

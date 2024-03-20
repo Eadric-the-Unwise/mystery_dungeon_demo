@@ -8,7 +8,7 @@ var states : Dictionary = {}
 func _ready():
 	for child in get_children():
 		if child is State:
-			# lowercase child Node name
+			# Add child (state) to States Dictionary (lowercase child Node name)
 			states[child.name.to_lower()] = child
 			child.Transitioned.connect(_on_child_transition)
 			# disable _process for States
@@ -29,7 +29,7 @@ func _on_player_moved():
 func _on_child_transition(state, new_state_name): # these two arguments are passed during .emit
 	if state != current_state:
 		return
-	# change Node name to lowercase	
+	# Get New State from States Dictionary
 	var new_state = states.get(new_state_name.to_lower())
 	if !new_state:
 		return
