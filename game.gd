@@ -1,12 +1,9 @@
 extends Node2D
 
-
 @onready var player_coords: Label = $"CanvasLayer/Debug UI/Debug/Position =/Coords"
 @onready var player_hp: Label = $"CanvasLayer/Game UI/HP/Health"
 @onready var enemy_cursor := $EnemyCursor
 @onready var message := $"CanvasLayer/Debug UI/Message"
-
-
 #----------------------------------------------------------
 @onready var button_damage := $Buttons/Damage
 @onready var button_heal := $Buttons/Heal
@@ -72,7 +69,7 @@ func _process(_delta: float) -> void:
 	elif Input.is_action_pressed("move_right"):
 		_move_to_coord(Vector2i.RIGHT)
 		player.sprite.flip_h = false
-	
+
 func melee_attack():
 	## Return if no current enemies
 	if combat_enemies.is_empty():
@@ -88,9 +85,6 @@ func melee_attack():
 			player.animation_player.play("AttackUp")
 		else:
 			player.animation_player.play("AttackDown")
-		
-		
-		
 
 func _init_astargrid2d():
 	# Initialize tilemap 2D array
@@ -210,14 +204,12 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	# of moving.
 	tween.finished.connect(_on_tween_finished)
 	
-	
 func _on_tween_finished():
 	pass
 	# After moving, check surrounding to see if Enemy is in combat range
 	# (Consider moving this logic to Player.gd)
-	#_reset_cursor()
 	#_update_combat_enemies()
-			
+
 func _is_in_combat_range(target_grid_point: Vector2i):
 	for e in combat_enemies:
 		if e.current_enemy_coordinate == target_grid_point:
@@ -233,13 +225,14 @@ func _on_enemy_entered_combat(entered_enemy: Node2D):
 	combat_enemies.append(entered_enemy)
 	enemy_cursor.global_position = entered_enemy.global_position
 	enemy_cursor.animation_player.play("CursorBlink")
-			# Store the index of the enemy in combat_enemies[]
 	selected_enemy = entered_enemy
 	print(combat_enemies.size())	
+	
 func _on_enemy_exited_combat(exited_enemy: Node2D):
 	_reset_cursor()
 	combat_enemies.erase(exited_enemy)
 	print(combat_enemies.size())	
+	
 # connect enemy death signal to this function
 # combat_enemies.remove(target_enemy)
 func _on_enemy_slain(slain_enemy: Node2D):
@@ -251,27 +244,25 @@ func _on_enemy_slain(slain_enemy: Node2D):
 	print(combat_enemies.size())
 	################################
 
-func _update_combat_enemies():
-	# Move cursor off-screen
-	_reset_cursor()
-	# Clear the current combat_enemies[] Array2D
-	combat_enemies.clear()
-	for area in player.interactable_detection_area.get_overlapping_areas():
-		if area is EnemyBody:
-			var target_enemy = area.get_parent()
-			combat_enemies.append(target_enemy)
-			enemy_cursor.global_position = target_enemy.global_position
-			enemy_cursor.animation_player.play("CursorBlink")
-			# Store the index of the enemy in combat_enemies[]
-			selected_enemy = target_enemy
-	print(combat_enemies.size())		
-	
-	
-
 func _reset_cursor():
 	enemy_cursor.animation_player.stop()
 	enemy_cursor.global_position = enemy_cursor.reset_position
 
+#func _update_combat_enemies():
+	## Move cursor off-screen
+	#_reset_cursor()
+	## Clear the current combat_enemies[] Array2D
+	#combat_enemies.clear()
+	#for area in player.interactable_detection_area.get_overlapping_areas():
+		#if area is EnemyBody:
+			#var target_enemy = area.get_parent()
+			#combat_enemies.append(target_enemy)
+			#enemy_cursor.global_position = target_enemy.global_position
+			#enemy_cursor.animation_player.play("CursorBlink")
+			## Store the index of the enemy in combat_enemies[]
+			#selected_enemy = target_enemy
+	#print(combat_enemies.size())	
+#------------------------------------------------------------------------------#
 func _update_ui():
 	player_coords.text = str(player.position / Autoload.grid_data.cell_size)
 	player_hp.text = str(player.health)	
