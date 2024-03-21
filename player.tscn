@@ -301,6 +301,10 @@ debug_color = Color(0.819608, 0.87451, 0, 0.419608)
 wait_time = 0.25
 one_shot = true
 
+[node name="CursorTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
 [node name="TeleportDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 8

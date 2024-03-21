@@ -40,6 +40,7 @@ func _ready() -> void:
 	#Autoload.EnemySlain.connect(_on_enemy_slain)
 	# Reset move_timer to wait_time
 	player.move_timer.timeout.connect(_reset_timer)
+	player.cursor_timer.timeout.connect(_on_cursor_timer_timeout)
 	#-----------------------------------------------------------#
 	# Temporary UI
 	message.text = "Welcome to the game!"
@@ -52,6 +53,9 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	
+	#if combat_enemies:
+		#_update_cursor()
+		
 	if Input.is_action_pressed("ui_accept"):
 		_select_check()
 	# Prevent player from moving until at .25 sec from previous movement input	
@@ -116,9 +120,9 @@ func _init_astargrid2d():
 	player.position = Autoload.grid_data.get_point_position(Autoload.current_grid_point)
 
 func _init_enemies():
-	var enemy_spawn_x = 64
+	var enemy_spawn_x = 112
 	var enemy_spawn_y = 48
-	for column in range(3):
+	for column in range(1):
 		for i in range(3):
 			var next_enemy = spawnable_enemies[0].instantiate()
 			all_active_enemies.append(next_enemy)
@@ -205,49 +209,69 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	tween.finished.connect(_on_tween_finished)
 	
 func _on_tween_finished():
+	player.cursor_timer.start()
+	#_update_cursor()
+	#enemy_cursor.animation_player.play("CursorBlink")
 	pass
 	# After moving, check surrounding to see if Enemy is in combat range
 	# (Consider moving this logic to Player.gd)
 	#_update_combat_enemies()
-
-func _is_in_combat_range(target_grid_point: Vector2i):
-	for e in combat_enemies:
-		if e.current_enemy_coordinate == target_grid_point:
-			enemy_cursor.global_position = e.global_position
-			selected_enemy = e
-			return true
-	return false
 	
 func _on_enemy_entered_combat(entered_enemy: Node2D):
-	_reset_cursor()
 	# Clear the current combat_enemies[] Array2D
 	#combat_enemies.clear()
 	combat_enemies.append(entered_enemy)
-	enemy_cursor.global_position = entered_enemy.global_position
-	enemy_cursor.animation_player.play("CursorBlink")
 	selected_enemy = entered_enemy
+	#_update_cursor()
 	print(combat_enemies.size())	
 	
 func _on_enemy_exited_combat(exited_enemy: Node2D):
 	_reset_cursor()
 	combat_enemies.erase(exited_enemy)
 	print(combat_enemies.size())	
-	
+
 # connect enemy death signal to this function
 # combat_enemies.remove(target_enemy)
 func _on_enemy_slain(slain_enemy: Node2D):
 	print("THE ENEMY HAS BEEN SLAIN")
+	_reset_cursor()
 	await player.animation_player.animation_finished
 	#############################
-	_reset_cursor()
 	combat_enemies.erase(slain_enemy)
+	if combat_enemies:
+		selected_enemy = combat_enemies[0]
+	_update_cursor()
 	print(combat_enemies.size())
 	################################
+	
+func _is_in_combat_range(target_grid_point: Vector2i):
+	var old_enemy = selected_enemy
+	for e in combat_enemies:
+		if e.current_enemy_coordinate == target_grid_point:
+			enemy_cursor.global_position = e.global_position
+			selected_enemy = e
+			# Simply used to print the name of the Selected Enemy ONCE
+			if old_enemy != selected_enemy:
+				print("Selected Enemy = ", "combat_enemies[",combat_enemies.find(selected_enemy),"]")
+			return true
+	return false
+
+func _update_cursor():
+	if combat_enemies:
+		#selected_enemy = combat_enemies[0]
+		enemy_cursor.global_position = selected_enemy.global_position
+		enemy_cursor.animation_player.play("CursorBlink")
+		
+		#selected_enemy = target_enemy
 
 func _reset_cursor():
 	enemy_cursor.animation_player.stop()
 	enemy_cursor.global_position = enemy_cursor.reset_position
 
+func _on_cursor_timer_timeout():
+	_update_cursor()
+	#player.cursor_timer.wait_time ...
+	
 #func _update_combat_enemies():
 	## Move cursor off-screen
 	#_reset_cursor()

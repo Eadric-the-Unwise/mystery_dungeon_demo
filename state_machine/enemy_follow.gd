@@ -101,9 +101,6 @@ func _update_target_coordinate():
 		# stand in place
 		#print("Nowhere to Enemy to go")
 		return enemy.current_enemy_coordinate
-	elif id_path.size() == 2:
-		pass
-		#print("2 spaces to go")
 	else:
 		# Slice(1) removes id_path[0], and returns id_path[1] thru end of array 
 		# id_path[0] = (enemy's current standing grid point)

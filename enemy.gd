@@ -3,8 +3,8 @@ extends Node2D
 #@onready var range_area = $RangeArea
 @onready var sprite = $EnemySprite2D
 @onready var state_machine = $StateMachine
-@onready var idle = $StateMachine/EnemyIdle
-@onready var follow = $StateMachine/EnemyFollow
+@onready var enemy_idle = $StateMachine/EnemyIdle
+@onready var enemy_follow = $StateMachine/EnemyFollow
 @onready var enemy_combat = $StateMachine/EnemyCombat
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 @onready var animation_player = $AnimationPlayer
