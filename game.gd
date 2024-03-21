@@ -40,7 +40,7 @@ func _ready() -> void:
 	_update_ui()
 	# Connect PlayerMovedSignal to _update_ui()
 	Autoload.PlayerMovedSignal.connect(_update_ui)
-	Autoload.EnemySlain.connect(_on_enemy_slain)
+	#Autoload.EnemySlain.connect(_on_enemy_slain)
 	# Reset move_timer to wait_time
 	player.move_timer.timeout.connect(_reset_timer)
 	#-----------------------------------------------------------#
@@ -130,6 +130,11 @@ func _init_enemies():
 			next_enemy.position.y = enemy_spawn_y
 			
 			add_child(next_enemy)
+			#####
+			next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)
+			next_enemy.EnemyExitedCombat.connect(_on_enemy_exited_combat)
+			next_enemy.EnemySlain.connect(_on_enemy_slain)
+			#####
 			next_enemy.current_enemy_coordinate = next_enemy.position / Autoload.grid_data.cell_size
 			# set spawn location to solid, preventing other NPC's from entering this space
 			# during AStarGrid2D path calculations
@@ -144,7 +149,6 @@ func _init_enemies():
 		enemy_spawn_x += 16
 		enemy_spawn_y = 48
 	print(all_active_enemies.size(), " Enemies spawned")
-	
 
 func _select_check() -> void:
 	# Attack if there is any enemy selected
@@ -205,10 +209,11 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	
 	
 func _on_tween_finished():
+	pass
 	# After moving, check surrounding to see if Enemy is in combat range
 	# (Consider moving this logic to Player.gd)
 	#_reset_cursor()
-	_update_combat_enemies()
+	#_update_combat_enemies()
 			
 func _is_in_combat_range(target_grid_point: Vector2i):
 	for e in combat_enemies:
@@ -217,13 +222,30 @@ func _is_in_combat_range(target_grid_point: Vector2i):
 			selected_enemy = e
 			return true
 	return false
+	
+func _on_enemy_entered_combat(entered_enemy: Node2D):
+	_reset_cursor()
+	# Clear the current combat_enemies[] Array2D
+	#combat_enemies.clear()
+	combat_enemies.append(entered_enemy)
+	enemy_cursor.global_position = entered_enemy.global_position
+	enemy_cursor.animation_player.play("CursorBlink")
+			# Store the index of the enemy in combat_enemies[]
+	selected_enemy = entered_enemy
+	print(combat_enemies.size())	
+func _on_enemy_exited_combat(exited_enemy: Node2D):
+	_reset_cursor()
+	combat_enemies.erase(exited_enemy)
+	print(combat_enemies.size())	
 # connect enemy death signal to this function
 # combat_enemies.remove(target_enemy)
-func _on_enemy_slain():
+func _on_enemy_slain(slain_enemy: Node2D):
 	print("THE ENEMY HAS BEEN SLAIN")
 	await player.animation_player.animation_finished
 	#############################
-	_update_combat_enemies()
+	_reset_cursor()
+	combat_enemies.erase(slain_enemy)
+	print(combat_enemies.size())
 	################################
 
 func _update_combat_enemies():

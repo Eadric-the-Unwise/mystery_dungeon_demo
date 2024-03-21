@@ -18,8 +18,9 @@ signal AreaEntered
 # emited when Area is exited
 signal AreaExited
 signal EnemyAttackTurn
-#signal EnemyEnteredCombat
-#signal EnemyExitedCombat
+signal EnemyEnteredCombat
+signal EnemyExitedCombat
+signal EnemySlain
 
 # Used to track where it lives within Game.gd/combat_enemies[] Array2D
 #var combat_enemies_variable: int
@@ -39,7 +40,7 @@ func take_damage(attack_damage: int):
 	# SLAIN!
 	if health <= 0:
 		Autoload.grid_data.set_point_solid(current_enemy_coordinate, false)
-		Autoload.EnemySlain.emit()
+		EnemySlain.emit(self)
 		# add a Death Animation state, so enemy can exit EnemyCombat, removing itself from the combat_enemies array
 		# before dying
 		######################################
