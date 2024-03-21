@@ -5,3 +5,7 @@ res://game.gd
 res://player.gd
 res://state_machine/enemy_follow.gd
 res://enemy.gd
+res://room.gd
+res://autoload.gd
+res://state_machine/state.gd
+res://state_machine/enemy_combat.gd

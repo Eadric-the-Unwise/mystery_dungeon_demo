@@ -11,3 +11,6 @@ func exit():
 	
 func update():
 	pass
+
+func _on_room_exited():
+	pass

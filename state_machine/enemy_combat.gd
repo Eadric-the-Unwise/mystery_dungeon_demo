@@ -18,10 +18,15 @@ func exit():
 	#print("Exit enemy_combat")
 	enemy.EnemyExitedCombat.emit(enemy)
 	sprite.modulate = Color(1, 1, 1)
-
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy.EnemyAttackTurn.connect(_on_enemy_attack_turn)
+	Autoload.RoomExited.connect(_on_room_exited)
+
+func _on_room_exited():
+	enemy.queue_free()
+	#Transitioned.emit(self, "EnemyIdle")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

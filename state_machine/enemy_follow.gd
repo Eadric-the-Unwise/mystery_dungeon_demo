@@ -19,6 +19,13 @@ func enter():
 func exit():
 	#print("Exiting Follow Mode")
 	pass
+	
+func _ready():
+	Autoload.RoomExited.connect(_on_room_exited)
+
+func _on_room_exited():
+	enemy.queue_free()
+	#Transitioned.emit(self, "EnemyIdle")
 
 func _process(_delta):
 	# Loop all RayCast2D's to see if the player is visible

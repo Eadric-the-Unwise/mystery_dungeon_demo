@@ -37,6 +37,7 @@ func _ready() -> void:
 	_update_ui()
 	# Connect PlayerActionTaken to _update_ui()
 	Autoload.PlayerActionTaken.connect(_update_ui)
+	#Autoload.RoomExited.connect(_on_room_exited)
 	#Autoload.EnemySlain.connect(_on_enemy_slain)
 	# Reset move_timer to wait_time
 	player.move_timer.timeout.connect(_reset_timer)
@@ -271,7 +272,12 @@ func _reset_cursor():
 func _on_cursor_timer_timeout():
 	_update_cursor()
 	#player.cursor_timer.wait_time ...
-	
+
+#func _on_room_exited():
+	#for i in all_active_enemies:
+		#all_active_enemies[i].state_machine.Transitioned.emit(all_active_enemies[i], "EnemyIdle")
+	#all_active_enemies.clear()
+
 #func _update_combat_enemies():
 	## Move cursor off-screen
 	#_reset_cursor()
