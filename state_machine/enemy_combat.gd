@@ -9,13 +9,13 @@ class_name EnemyCombat
 
 
 func enter():
-	print("Enter enemy_combat")
+	#print("Enter enemy_combat")
 	enemy.EnemyEnteredCombat.emit(enemy)
 	# Turn enemy red
 	sprite.modulate = Color(0.871, 0, 0.024)
 	#animation_player.play("Surprised")
 func exit():
-	print("Exit enemy_combat")
+	#print("Exit enemy_combat")
 	enemy.EnemyExitedCombat.emit(enemy)
 	sprite.modulate = Color(1, 1, 1)
 

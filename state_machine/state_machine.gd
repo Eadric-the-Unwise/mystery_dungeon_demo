@@ -20,7 +20,7 @@ func _ready():
 		initial_state.set_process(true)
 		current_state = initial_state
 	# emits every time the player moves
-	Autoload.PlayerMovedSignal.connect(_on_player_moved)
+	Autoload.PlayerActionTaken.connect(_on_player_moved)
 
 func _on_player_moved():
 	if current_state:

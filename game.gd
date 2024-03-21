@@ -38,8 +38,8 @@ func _ready() -> void:
 	_init_enemies()
 	# Initialize ui
 	_update_ui()
-	# Connect PlayerMovedSignal to _update_ui()
-	Autoload.PlayerMovedSignal.connect(_update_ui)
+	# Connect PlayerActionTaken to _update_ui()
+	Autoload.PlayerActionTaken.connect(_update_ui)
 	#Autoload.EnemySlain.connect(_on_enemy_slain)
 	# Reset move_timer to wait_time
 	player.move_timer.timeout.connect(_reset_timer)
@@ -88,6 +88,9 @@ func melee_attack():
 			player.animation_player.play("AttackUp")
 		else:
 			player.animation_player.play("AttackDown")
+		
+		
+		
 
 func _init_astargrid2d():
 	# Initialize tilemap 2D array
@@ -201,7 +204,7 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	# Start move_timer (player cannot move again until timer = timeout())
 	player.move_timer.start()
 	# emit signal
-	Autoload.PlayerMovedSignal.emit()
+	Autoload.PlayerActionTaken.emit()
 	# Confirms when the player has finished animating to his position
 	# If player lands in combat distance, the enemy will enter combat instead
 	# of moving.
