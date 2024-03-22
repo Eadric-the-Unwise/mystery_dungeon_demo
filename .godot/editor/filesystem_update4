@@ -1,11 +1,9 @@
 res://game.tscn
+res://game.gd
+res://room.gd
+res://state_machine/enemy_combat.gd
+res://state_machine/enemy_follow.gd
 res://player.tscn
 res://enemy.tscn
-res://game.gd
-res://player.gd
-res://state_machine/enemy_follow.gd
+res://state_machine/state_machine.gd
 res://enemy.gd
-res://room.gd
-res://autoload.gd
-res://state_machine/state.gd
-res://state_machine/enemy_combat.gd

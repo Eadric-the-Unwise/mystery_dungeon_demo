@@ -37,7 +37,7 @@ func _ready() -> void:
 	_update_ui()
 	# Connect PlayerActionTaken to _update_ui()
 	Autoload.PlayerActionTaken.connect(_update_ui)
-	#Autoload.RoomExited.connect(_on_room_exited)
+	Autoload.RoomExited.connect(_on_room_exited)
 	#Autoload.EnemySlain.connect(_on_enemy_slain)
 	# Reset move_timer to wait_time
 	player.move_timer.timeout.connect(_reset_timer)
@@ -127,7 +127,8 @@ func _init_enemies():
 		for i in range(3):
 			var next_enemy = spawnable_enemies[0].instantiate()
 			all_active_enemies.append(next_enemy)
-			
+			# Allows Update to trigger on PlayerActionTaken in state_machine.gd
+			next_enemy.active = true
 			next_enemy.position.x = enemy_spawn_x
 			next_enemy.position.y = enemy_spawn_y
 			
@@ -150,6 +151,7 @@ func _init_enemies():
 			enemy_spawn_y += 16
 		enemy_spawn_x += 16
 		enemy_spawn_y = 48
+	
 	print(all_active_enemies.size(), " Enemies spawned")
 
 func _select_check() -> void:
@@ -169,7 +171,7 @@ func _select_check() -> void:
 	
 	for area in player.interactable_detection_area.get_overlapping_areas():
 		if area is Door:
-			print("The door opened!")
+			#print("The door opened!")
 			var target_cell: Vector2i = Autoload.tilemap.local_to_map(area.global_position)
 			var tile_data = Autoload.tilemap.get_cell_tile_data(0, target_cell)
 			if tile_data.get_custom_data("is_blocked"):
@@ -273,10 +275,13 @@ func _on_cursor_timer_timeout():
 	_update_cursor()
 	#player.cursor_timer.wait_time ...
 
-#func _on_room_exited():
-	#for i in all_active_enemies:
+func _on_room_exited():
+	print("_on_room_exited")
+	for active_enemy in all_active_enemies:
 		#all_active_enemies[i].state_machine.Transitioned.emit(all_active_enemies[i], "EnemyIdle")
-	#all_active_enemies.clear()
+		all_active_enemies[active_enemy].active = false
+	all_active_enemies.clear()
+	combat_enemies.clear()
 
 #func _update_combat_enemies():
 	## Move cursor off-screen

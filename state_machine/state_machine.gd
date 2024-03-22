@@ -1,9 +1,11 @@
 extends Node
+@onready var enemy = $".."
 
 @export var initial_state: State
 
 var current_state : State
 var states : Dictionary = {}
+
 
 func _ready():
 	for child in get_children():
@@ -23,8 +25,10 @@ func _ready():
 	Autoload.PlayerActionTaken.connect(_on_player_moved)
 
 func _on_player_moved():
+	if !enemy.active:
+		return
 	if current_state:
-		current_state.update()
+			current_state.update()
 
 func _on_child_transition(state, new_state_name): # these two arguments are passed during .emit
 	if state != current_state:

@@ -25,6 +25,7 @@ signal EnemySlain
 # Used to track where it lives within Game.gd/combat_enemies[] Array2D
 #var combat_enemies_variable: int
 var is_in_line_of_sight: bool = false
+var active: bool
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

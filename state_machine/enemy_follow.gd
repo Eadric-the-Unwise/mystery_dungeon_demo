@@ -21,10 +21,11 @@ func exit():
 	pass
 	
 func _ready():
-	Autoload.RoomExited.connect(_on_room_exited)
+	pass
+	#Autoload.RoomExited.connect(_on_room_exited)
 
-func _on_room_exited():
-	enemy.queue_free()
+#func _on_room_exited():
+	#enemy.queue_free()
 	#Transitioned.emit(self, "EnemyIdle")
 
 func _process(_delta):
