@@ -9,7 +9,7 @@ class_name EnemyIdle
 @onready var combat_area = $"../../CombatArea"
 
 func enter():
-	#print("Enemy now idle")
+	print("Enemy now idle")
 	enemy.AreaEntered.connect(_on_area_entered)
 	enemy.AreaExited.connect(_on_area_exited)
 	# Initialize Raycast positions from default Node position to Player's global position

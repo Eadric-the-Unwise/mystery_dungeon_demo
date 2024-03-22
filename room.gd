@@ -12,6 +12,8 @@ func _on_area_exited(_area: Area2D) -> void:
 
 func _on_area_entered(_area: Area2D) -> void:
 	print("Entered: Room ", name)
+	# This triggers for EVERY room. Attach roomB1.gd script, instead?
+	Autoload.RoomEntered.emit()
 	camera_2d.position = position
 
 

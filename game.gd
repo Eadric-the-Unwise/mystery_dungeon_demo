@@ -37,7 +37,9 @@ func _ready() -> void:
 	_update_ui()
 	# Connect PlayerActionTaken to _update_ui()
 	Autoload.PlayerActionTaken.connect(_update_ui)
+	# rooms
 	Autoload.RoomExited.connect(_on_room_exited)
+	Autoload.RoomEntered.connect(_on_room_entered)
 	#Autoload.EnemySlain.connect(_on_enemy_slain)
 	# Reset move_timer to wait_time
 	player.move_timer.timeout.connect(_reset_timer)
@@ -241,7 +243,7 @@ func _on_enemy_slain(slain_enemy: Node2D):
 	await player.animation_player.animation_finished
 	#############################
 	combat_enemies.erase(slain_enemy)
-	all_active_enemies.erase(slain_enemy)
+	#all_active_enemies.erase(slain_enemy)
 	if combat_enemies:
 		selected_enemy = combat_enemies[0]
 	_update_cursor()
@@ -277,14 +279,16 @@ func _on_cursor_timer_timeout():
 	#player.cursor_timer.wait_time ...
 
 func _on_room_exited():
-	print("_on_room_exited")
 	for active_enemy in all_active_enemies:
-		#all_active_enemies[i].state_machine.Transitioned.emit(all_active_enemies[i], "EnemyIdle")
+		var current_state = active_enemy.state_machine.current_state
 		active_enemy.active = false
-	print(all_active_enemies)
+		#active_enemy.state_machine.current_state.Transitioned.emit(current_state, "EnemyIdle")
 	#all_active_enemies.clear()
 	#combat_enemies.clear()
-
+func _on_room_entered():
+	print("_on_room_entered")
+	for active_enemy in all_active_enemies:
+		active_enemy.active = true
 #func _update_combat_enemies():
 	## Move cursor off-screen
 	#_reset_cursor()

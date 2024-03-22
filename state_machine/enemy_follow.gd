@@ -13,7 +13,7 @@ class_name EnemyFollow
 
 
 func enter():
-	#print("Enemy following player!")
+	print("Enemy following player!")
 	enemy.current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)
 	_flip_sprite()
 func exit():
