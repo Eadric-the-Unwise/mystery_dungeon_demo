@@ -12,10 +12,10 @@ extends Node2D
 #----------------------------------------------------------
 @onready var player := $Player
 
-var enemy := preload("res://enemy.tscn")
+var goblin_enemy := preload("res://enemy.tscn")
 # Full list of all RNG Spawnable Enemies
 var spawnable_enemies: Array = [
-		enemy
+		goblin_enemy
 ]
 # All active enemies in game
 var all_active_enemies: Array = []
@@ -122,9 +122,9 @@ func _init_astargrid2d():
 
 func _init_enemies():
 	var enemy_spawn_x = 112
-	var enemy_spawn_y = 48
+	var enemy_spawn_y = 16
 	for column in range(1):
-		for i in range(3):
+		for i in range(1):
 			var next_enemy = spawnable_enemies[0].instantiate()
 			all_active_enemies.append(next_enemy)
 			# Allows Update to trigger on PlayerActionTaken in state_machine.gd
@@ -241,6 +241,7 @@ func _on_enemy_slain(slain_enemy: Node2D):
 	await player.animation_player.animation_finished
 	#############################
 	combat_enemies.erase(slain_enemy)
+	all_active_enemies.erase(slain_enemy)
 	if combat_enemies:
 		selected_enemy = combat_enemies[0]
 	_update_cursor()
@@ -279,9 +280,10 @@ func _on_room_exited():
 	print("_on_room_exited")
 	for active_enemy in all_active_enemies:
 		#all_active_enemies[i].state_machine.Transitioned.emit(all_active_enemies[i], "EnemyIdle")
-		all_active_enemies[active_enemy].active = false
-	all_active_enemies.clear()
-	combat_enemies.clear()
+		active_enemy.active = false
+	print(all_active_enemies)
+	#all_active_enemies.clear()
+	#combat_enemies.clear()
 
 #func _update_combat_enemies():
 	## Move cursor off-screen
