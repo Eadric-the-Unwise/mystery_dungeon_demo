@@ -1,8 +1,8 @@
 extends Node
 
 signal PlayerActionTaken
-signal RoomEntered
-signal RoomExited
+#signal RoomEntered
+#signal RoomExited
 
 
 var grid_data: AStarGrid2D

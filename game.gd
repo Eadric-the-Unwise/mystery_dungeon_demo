@@ -38,8 +38,8 @@ func _ready() -> void:
 	# Connect PlayerActionTaken to _update_ui()
 	Autoload.PlayerActionTaken.connect(_update_ui)
 	# rooms
-	Autoload.RoomExited.connect(_on_room_exited)
-	Autoload.RoomEntered.connect(_on_room_entered)
+	#Autoload.RoomExited.connect(_on_room_exited)
+	#Autoload.RoomEntered.connect(_on_room_entered)
 	#Autoload.EnemySlain.connect(_on_enemy_slain)
 	# Reset move_timer to wait_time
 	player.move_timer.timeout.connect(_reset_timer)

@@ -1,8 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://jb4jfl5cjk1s"]
+[gd_scene load_steps=22 format=3 uid="uid://jb4jfl5cjk1s"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_g22w3"]
 [ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="2_b3020"]
 [ext_resource type="PackedScene" uid="uid://2kl5aewswdlf" path="res://player.tscn" id="3_860tr"]
+[ext_resource type="Script" path="res://room_B1.gd" id="4_cf8pw"]
+[ext_resource type="Script" path="res://rooms_handler.gd" id="4_ftgjc"]
 [ext_resource type="PackedScene" uid="uid://4i7vdx55hnjt" path="res://buttons.tscn" id="4_y5y7e"]
 [ext_resource type="Script" path="res://room.gd" id="5_rf5wp"]
 [ext_resource type="Script" path="res://teleporter.gd" id="5_usb3d"]
@@ -195,95 +197,97 @@ layer_0/tile_data = PackedInt32Array(0, 65541, 268435460, 65536, 65541, 5, 13107
 [node name="Player" parent="." instance=ExtResource("3_860tr")]
 position = Vector2(128, 96)
 
-[node name="B1" type="Area2D" parent="."]
-visible = false
+[node name="Rooms Handling" type="Node2D" parent="."]
+script = ExtResource("4_ftgjc")
+
+[node name="B1" type="Area2D" parent="Rooms Handling"]
 collision_layer = 0
 collision_mask = 2
-script = ExtResource("5_rf5wp")
+script = ExtResource("4_cf8pw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="B1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B1"]
 position = Vector2(80, 72)
 shape = SubResource("RectangleShape2D_p3k06")
 debug_color = Color(0, 0.6, 0.701961, 0.376471)
 metadata/_edit_lock_ = true
 
-[node name="B1toB2Teleport" type="Area2D" parent="B1" node_paths=PackedStringArray("target_teleporter")]
+[node name="B1toB2Teleport" type="Area2D" parent="Rooms Handling/B1" node_paths=PackedStringArray("target_teleporter")]
 position = Vector2(128, 16)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("5_usb3d")
 target_teleporter = NodePath("../../B2/B2toB1Teleport")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="B1/B1toB2Teleport"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B1/B1toB2Teleport"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_mvuwl")
 debug_color = Color(0.960784, 0, 0.513726, 0.419608)
 
-[node name="B1Door" type="Area2D" parent="B1"]
+[node name="B1Door" type="Area2D" parent="Rooms Handling/B1"]
 position = Vector2(152, 104)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("6_ec7ph")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="B1/B1Door"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B1/B1Door"]
 shape = SubResource("RectangleShape2D_eumwl")
 debug_color = Color(0.635294, 0.52549, 0, 0.419608)
 
-[node name="B2" type="Area2D" parent="."]
+[node name="B2" type="Area2D" parent="Rooms Handling"]
 visible = false
 position = Vector2(0, 144)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_rf5wp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="B2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B2"]
 position = Vector2(80, 72)
 shape = SubResource("RectangleShape2D_p3k06")
 metadata/_edit_lock_ = true
 
-[node name="B2toB1Teleport" type="Area2D" parent="B2" node_paths=PackedStringArray("target_teleporter")]
+[node name="B2toB1Teleport" type="Area2D" parent="Rooms Handling/B2" node_paths=PackedStringArray("target_teleporter")]
 position = Vector2(16, 0)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("5_usb3d")
 target_teleporter = NodePath("../../B1/B1toB2Teleport")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="B2/B2toB1Teleport"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B2/B2toB1Teleport"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_yqaj8")
 debug_color = Color(0.976471, 0, 0.403922, 0.419608)
 
-[node name="B3" type="Area2D" parent="."]
+[node name="B3" type="Area2D" parent="Rooms Handling"]
 visible = false
 position = Vector2(0, 288)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_rf5wp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="B3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B3"]
 position = Vector2(80, 72)
 shape = SubResource("RectangleShape2D_mmjt0")
 metadata/_edit_lock_ = true
 
-[node name="B4" type="Area2D" parent="."]
+[node name="B4" type="Area2D" parent="Rooms Handling"]
 visible = false
 position = Vector2(160, 0)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_rf5wp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="B4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B4"]
 position = Vector2(80, 72)
 shape = SubResource("RectangleShape2D_mmjt0")
 metadata/_edit_lock_ = true
 
-[node name="B4Door" type="Area2D" parent="B4"]
+[node name="B4Door" type="Area2D" parent="Rooms Handling/B4"]
 position = Vector2(120, 88)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("6_ec7ph")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="B4/B4Door"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B4/B4Door"]
 shape = SubResource("RectangleShape2D_8ip42")
 debug_color = Color(0.772549, 0.443137, 0.0431373, 0.419608)
 
@@ -402,12 +406,3 @@ script = ExtResource("8_2bv5y")
 libraries = {
 "": SubResource("AnimationLibrary_8vtwj")
 }
-
-[connection signal="area_entered" from="B1" to="B1" method="_on_area_entered"]
-[connection signal="area_exited" from="B1" to="B1" method="_on_area_exited"]
-[connection signal="area_entered" from="B2" to="B2" method="_on_area_entered"]
-[connection signal="area_exited" from="B2" to="B2" method="_on_area_exited"]
-[connection signal="area_entered" from="B3" to="B3" method="_on_area_entered"]
-[connection signal="area_exited" from="B3" to="B3" method="_on_area_exited"]
-[connection signal="area_entered" from="B4" to="B4" method="_on_area_entered"]
-[connection signal="area_exited" from="B4" to="B4" method="_on_area_exited"]
