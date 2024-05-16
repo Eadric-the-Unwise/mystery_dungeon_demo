@@ -1,5 +1,6 @@
 res://game.tscn
 res://player.tscn
 res://enemy.tscn
+res://room_B1.gd
 res://rooms_handler.gd
-res://room.gd
+res://game.gd

@@ -15,8 +15,10 @@ func _ready():
 			child.RoomExited.connect(_on_child_room_exited)
 
 func _on_child_room_entered(room_name):
-	# Update and keep track of the current room
+	# Update and keep track of the current room in a list
 	current_room = room_name
+	current_room.active_room_enemies()
+		
 
 func _on_child_room_exited():
 	pass

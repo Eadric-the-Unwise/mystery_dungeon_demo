@@ -6,16 +6,17 @@ var room_enemies: Array = [
 	goblin_enemy
 ]
 
-func _on_room_entered():
-	print("_on_room_entered", room_enemies)
 #func _ready():
 	#RoomExited.connect(_on_room_exited)
 	#RoomEntered.connect(_on_room_entered)
-#
-#func _on_room_exited():
-	#print("_on_room_exited ", room_name)
-#
 
+#func _on_room_entered():
+	#print("_on_room_entered", str(room_enemies))
+#func _on_room_exited():
+	#pass
+
+func active_room_enemies():
+	print("HEY THIS FUNCTION WORKED")
 #func _on_area_exited(_area: Area2D) -> void:
 	## Add logic for all current enemies in this room to be set to EnemyIdle State
 	#print("Exited: Room ", name)
