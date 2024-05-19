@@ -11,7 +11,7 @@ func _ready():
 			rooms[child.name.to_lower()] = child
 			# connect the RoomEntered and RoomExited signals that are emitted from Room class (room.gd)
 			# Pass the name of the room entered
-			child.RoomEntered.connect(_on_child_room_entered.bind(child))
+			#child.RoomEntered.connect(_on_child_room_entered.bind(child))
 			child.RoomExited.connect(_on_child_room_exited)
 
 func _on_child_room_entered(room_name):

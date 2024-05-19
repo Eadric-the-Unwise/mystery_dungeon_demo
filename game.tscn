@@ -197,97 +197,97 @@ layer_0/tile_data = PackedInt32Array(0, 65541, 268435460, 65536, 65541, 5, 13107
 [node name="Player" parent="." instance=ExtResource("3_860tr")]
 position = Vector2(112, 96)
 
-[node name="Rooms Handling" type="Node2D" parent="."]
+[node name="Rooms Handler" type="Node2D" parent="."]
 script = ExtResource("4_ftgjc")
 
-[node name="B1" type="Area2D" parent="Rooms Handling"]
+[node name="B1" type="Area2D" parent="Rooms Handler"]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("4_cf8pw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handler/B1"]
 position = Vector2(80, 72)
 shape = SubResource("RectangleShape2D_p3k06")
 debug_color = Color(0, 0.6, 0.701961, 0.376471)
 metadata/_edit_lock_ = true
 
-[node name="B1toB2Teleport" type="Area2D" parent="Rooms Handling/B1" node_paths=PackedStringArray("target_teleporter")]
+[node name="B1toB2Teleport" type="Area2D" parent="Rooms Handler/B1" node_paths=PackedStringArray("target_teleporter")]
 position = Vector2(128, 16)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("5_usb3d")
 target_teleporter = NodePath("../../B2/B2toB1Teleport")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B1/B1toB2Teleport"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handler/B1/B1toB2Teleport"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_mvuwl")
 debug_color = Color(0.960784, 0, 0.513726, 0.419608)
 
-[node name="B1Door" type="Area2D" parent="Rooms Handling/B1"]
+[node name="B1Door" type="Area2D" parent="Rooms Handler/B1"]
 position = Vector2(152, 104)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("6_ec7ph")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B1/B1Door"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handler/B1/B1Door"]
 shape = SubResource("RectangleShape2D_eumwl")
 debug_color = Color(0.635294, 0.52549, 0, 0.419608)
 
-[node name="B2" type="Area2D" parent="Rooms Handling"]
+[node name="B2" type="Area2D" parent="Rooms Handler"]
 visible = false
 position = Vector2(0, 144)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_rf5wp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handler/B2"]
 position = Vector2(80, 72)
 shape = SubResource("RectangleShape2D_p3k06")
 metadata/_edit_lock_ = true
 
-[node name="B2toB1Teleport" type="Area2D" parent="Rooms Handling/B2" node_paths=PackedStringArray("target_teleporter")]
+[node name="B2toB1Teleport" type="Area2D" parent="Rooms Handler/B2" node_paths=PackedStringArray("target_teleporter")]
 position = Vector2(16, 0)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("5_usb3d")
 target_teleporter = NodePath("../../B1/B1toB2Teleport")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B2/B2toB1Teleport"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handler/B2/B2toB1Teleport"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_yqaj8")
 debug_color = Color(0.976471, 0, 0.403922, 0.419608)
 
-[node name="B3" type="Area2D" parent="Rooms Handling"]
+[node name="B3" type="Area2D" parent="Rooms Handler"]
 visible = false
 position = Vector2(0, 288)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_rf5wp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handler/B3"]
 position = Vector2(80, 72)
 shape = SubResource("RectangleShape2D_mmjt0")
 metadata/_edit_lock_ = true
 
-[node name="B4" type="Area2D" parent="Rooms Handling"]
+[node name="B4" type="Area2D" parent="Rooms Handler"]
 visible = false
 position = Vector2(160, 0)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_rf5wp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handler/B4"]
 position = Vector2(80, 72)
 shape = SubResource("RectangleShape2D_mmjt0")
 metadata/_edit_lock_ = true
 
-[node name="B4Door" type="Area2D" parent="Rooms Handling/B4"]
+[node name="B4Door" type="Area2D" parent="Rooms Handler/B4"]
 position = Vector2(120, 88)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("6_ec7ph")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handling/B4/B4Door"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handler/B4/B4Door"]
 shape = SubResource("RectangleShape2D_8ip42")
 debug_color = Color(0.772549, 0.443137, 0.0431373, 0.419608)
 

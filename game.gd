@@ -4,6 +4,7 @@ extends Node2D
 @onready var player_hp: Label = $"CanvasLayer/Game UI/HP/Health"
 @onready var enemy_cursor := $EnemyCursor
 @onready var message := $"CanvasLayer/Debug UI/Message"
+
 #----------------------------------------------------------
 @onready var button_damage := $Buttons/Damage
 @onready var button_heal := $Buttons/Heal
@@ -11,6 +12,10 @@ extends Node2D
 @onready var button_reset := $Buttons/Reset
 #----------------------------------------------------------
 @onready var player := $Player
+#-----------------------------------------------------------
+@onready var rooms_handler = $"Rooms Handler"
+@onready var b_1 = $"Rooms Handler/B1"
+
 
 var goblin_enemy := preload("res://enemy.tscn")
 # Full list of all RNG Spawnable Enemies
@@ -123,36 +128,42 @@ func _init_astargrid2d():
 	player.position = Autoload.grid_data.get_point_position(Autoload.current_grid_point)
 
 func _init_enemies():
-	var enemy_spawn_x = 112
-	var enemy_spawn_y = 16
-	for column in range(1):
-		for i in range(1):
-			var next_enemy = spawnable_enemies[0].instantiate()
-			all_active_enemies.append(next_enemy)
-			# Allows Update to trigger on PlayerActionTaken in state_machine.gd
-			next_enemy.active = true
-			next_enemy.position.x = enemy_spawn_x
-			next_enemy.position.y = enemy_spawn_y
-			
-			add_child(next_enemy)
-			#####
-			next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)
-			next_enemy.EnemyExitedCombat.connect(_on_enemy_exited_combat)
-			next_enemy.EnemySlain.connect(_on_enemy_slain)
-			#####
-			next_enemy.current_enemy_coordinate = next_enemy.position / Autoload.grid_data.cell_size
-			# set spawn location to solid, preventing other NPC's from entering this space
-			# during AStarGrid2D path calculations
-			Autoload.grid_data.set_point_solid(next_enemy.current_enemy_coordinate, true)
-			#print(next_enemy.current_enemy_coordinate)D
-			# Flip enemy sprite
-			if next_enemy.position.x >= player.position.x:
-				next_enemy.sprite.flip_h = true
-			else:
-				next_enemy.sprite.flip_h = false
-			enemy_spawn_y += 16
-		enemy_spawn_x += 16
-		enemy_spawn_y = 48
+	#for column in range(1):
+	#for room in rooms_handler.get_children():
+	# delete this later (offsets spawning enemies)
+	var prev_enemy_pos
+	for enemy in b_1.room_enemies:
+		var next_enemy = enemy.instantiate()
+		next_enemy.position.x = b_1.enemy_x
+		next_enemy.position.y = b_1.enemy_y
+		if next_enemy.position == prev_enemy_pos:
+			next_enemy.position.x += 16
+		# delete this later (offsets spawning enemies)
+		prev_enemy_pos = next_enemy.position
+		all_active_enemies.append(next_enemy)
+		# Allows Update to trigger on PlayerActionTaken in state_machine.gd
+		next_enemy.active = true
+		
+		
+		add_child(next_enemy)
+		#####
+		next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)
+		next_enemy.EnemyExitedCombat.connect(_on_enemy_exited_combat)
+		next_enemy.EnemySlain.connect(_on_enemy_slain)
+		#####
+		next_enemy.current_enemy_coordinate = next_enemy.position / Autoload.grid_data.cell_size
+		# set spawn location to solid, preventing other NPC's from entering this space
+		# during AStarGrid2D path calculations
+		Autoload.grid_data.set_point_solid(next_enemy.current_enemy_coordinate, true)
+		#print(next_enemy.current_enemy_coordinate)D
+		# Flip enemy sprite
+		if next_enemy.position.x >= player.position.x:
+			next_enemy.sprite.flip_h = true
+		else:
+			next_enemy.sprite.flip_h = false
+	#enemy_spawn_y += 16
+#enemy_spawn_x += 16
+#enemy_spawn_y = 48
 	
 	print(all_active_enemies.size(), " Enemies spawned")
 
