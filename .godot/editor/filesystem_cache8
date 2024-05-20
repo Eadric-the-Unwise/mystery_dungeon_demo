@@ -6,20 +6,20 @@ buttons.tscn::PackedScene::2053972127479942289::1707324078::0::1::::<><>::
 CombatArea.gd::GDScript::-1::1710644589::0::1::::CombatArea<>Area2D<>::
 door.gd::GDScript::-1::1710642732::0::1::::Door<>Area2D<>::
 enemy.gd::GDScript::-1::1711074778::0::1::::<>Node2D<>::
-enemy.tscn::PackedScene::4235531294205102822::1715871764::0::1::::<><>::res://enemy.gd<>uid://duoo6pr43gjel::::res://assets/enemy/enemy.png<>uid://b63u1iitl221u::::res://assets/roguelike_spritesheet_16x16.png<>res://state_machine/state_machine.gd<>res://CombatArea.gd<>res://body.gd<>res://state_machine/enemy_idle.gd<>res://combat_scripts/hurtbox.gd<>res://state_machine/enemy_follow.gd<>res://state_machine/enemy_combat.gd<>res://combat_scripts/hitbox.gd
+enemy.tscn::PackedScene::4235531294205102822::1716139827::0::1::::<><>::res://enemy.gd<>uid://duoo6pr43gjel::::res://assets/enemy/enemy.png<>uid://b63u1iitl221u::::res://assets/roguelike_spritesheet_16x16.png<>res://state_machine/state_machine.gd<>res://CombatArea.gd<>res://body.gd<>res://state_machine/enemy_idle.gd<>res://combat_scripts/hurtbox.gd<>res://state_machine/enemy_follow.gd<>res://state_machine/enemy_combat.gd<>res://combat_scripts/hitbox.gd
 EnemySelection.gd::GDScript::-1::1710697095::0::1::::Cursor<>Sprite2D<>::
 export_presets.cfg::TextFile::-1::1708100670::0::1::::<><>::
-game.gd::GDScript::-1::1715871283::0::1::::<>Node2D<>::
-game.tscn::PackedScene::635541116407423638::1715872356::0::1::::<><>::res://game.gd<>uid://b63u1iitl221u::::res://assets/roguelike_spritesheet_16x16.png<>uid://2kl5aewswdlf::::res://player.tscn<>res://room_B1.gd<>res://rooms_handler.gd<>uid://4i7vdx55hnjt::::res://buttons.tscn<>res://room.gd<>res://teleporter.gd<>res://door.gd<>res://EnemySelection.gd
+game.gd::GDScript::-1::1716139784::0::1::::<>Node2D<>::
+game.tscn::PackedScene::635541116407423638::1716139827::0::1::::<><>::res://game.gd<>uid://b63u1iitl221u::::res://assets/roguelike_spritesheet_16x16.png<>uid://2kl5aewswdlf::::res://player.tscn<>res://room_B1.gd<>res://rooms_handler.gd<>uid://4i7vdx55hnjt::::res://buttons.tscn<>res://room.gd<>res://teleporter.gd<>res://door.gd<>res://EnemySelection.gd
 icon.svg::CompressedTexture2D::4740461764079186604::1706627873::1706750726::1::::<><>::
 lever.gd::GDScript::-1::1707324078::0::1::::<>Area2D<>::
 lever.tscn::PackedScene::7514158306453154848::1707324078::0::1::::<><>::uid://fdam250woj3a::::res://assets/Hexany's Monster Menagerie/roguelike_spritesheet.png<>res://lever.gd
 player.gd::GDScript::-1::1711031894::0::1::::<>Node2D<>::
-player.tscn::PackedScene::1916464023708769687::1715871764::0::1::::<><>::res://player.gd<>uid://b63u1iitl221u::::res://assets/roguelike_spritesheet_16x16.png<>res://combat_scripts/hitbox.gd<>res://combat_scripts/hurtbox.gd
+player.tscn::PackedScene::1916464023708769687::1716139827::0::1::::<><>::res://player.gd<>uid://b63u1iitl221u::::res://assets/roguelike_spritesheet_16x16.png<>res://combat_scripts/hitbox.gd<>res://combat_scripts/hurtbox.gd
 README.md::TextFile::-1::1706708934::0::1::::<><>::
 room.gd::GDScript::-1::1715102644::0::1::::Room<>Area2D<>::
-rooms_handler.gd::GDScript::-1::1715872145::0::1::::<>Node2D<>::
-room_B1.gd::GDScript::-1::1715872147::0::1::::<>Room<>::
+rooms_handler.gd::GDScript::-1::1716138388::0::1::::<>Node2D<>::
+room_B1.gd::GDScript::-1::1716139460::0::1::::<>Room<>::
 teleporter.gd::GDScript::-1::1707682948::0::1::::Teleporter<>Area2D<>::
 tilemap.gd::GDScript::-1::1707324078::0::1::::<>TileMap<>::
 ::res://animations/::1708701858

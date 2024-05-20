@@ -5,8 +5,8 @@ var goblin_enemy := preload("res://enemy.tscn")
 var room_enemies: Array = [
 	goblin_enemy, goblin_enemy
 ]
-var enemy_x = 112
-var enemy_y = 32
+var enemy_x = 16
+var enemy_y = 16
 
 #func _ready():
 	#RoomExited.connect(_on_room_exited)

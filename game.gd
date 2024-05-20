@@ -32,6 +32,8 @@ var selected_enemy: Node2D
 var _move_tween_timer: bool
 
 func _ready() -> void:
+	# Currently only randomizing the init_enemies func
+	randomize()
 	# Initialize the Autoload.tilemap TileMap
 	Autoload.tilemap = $TileMap
 	# Initialize astargrid2d data
@@ -134,8 +136,8 @@ func _init_enemies():
 	var prev_enemy_pos
 	for enemy in b_1.room_enemies:
 		var next_enemy = enemy.instantiate()
-		next_enemy.position.x = b_1.enemy_x
-		next_enemy.position.y = b_1.enemy_y
+		next_enemy.position = _randomize_enemy_spawn()
+		
 		if next_enemy.position == prev_enemy_pos:
 			next_enemy.position.x += 16
 		# delete this later (offsets spawning enemies)
@@ -166,6 +168,24 @@ func _init_enemies():
 #enemy_spawn_y = 48
 	
 	print(all_active_enemies.size(), " Enemies spawned")
+
+func _randomize_enemy_spawn():
+	var spawn_pos: Vector2i
+	var enemy_grid_point: Vector2i
+	for i in range(4):
+		spawn_pos.x = b_1.enemy_x * randi_range(1, 8)
+		spawn_pos.y = b_1.enemy_y * randi_range(1, 7)
+			
+		enemy_grid_point.x = int(spawn_pos.x / Autoload.grid_data.cell_size.x)
+		enemy_grid_point.y = int(spawn_pos.y / Autoload.grid_data.cell_size.y)
+			
+		if Autoload.grid_data.is_point_solid(enemy_grid_point):
+			print("CANT SPAWN" , i)
+		elif Autoload.grid_data.is_point_solid(enemy_grid_point) == false:
+			print("WE SPAWNED")
+		return spawn_pos
+	spawn_pos = Vector2i(16,16)
+	return spawn_pos
 
 func _select_check() -> void:
 	# Attack if there is any enemy selected
