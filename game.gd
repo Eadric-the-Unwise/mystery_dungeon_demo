@@ -15,6 +15,7 @@ extends Node2D
 #-----------------------------------------------------------
 @onready var rooms_handler = $"Rooms Handler"
 @onready var b_1 = $"Rooms Handler/B1"
+@onready var b_2 = $"Rooms Handler/B2"
 
 
 var goblin_enemy := preload("res://enemy.tscn")
@@ -134,58 +135,62 @@ func _init_enemies():
 	#for room in rooms_handler.get_children():
 	# delete this later (offsets spawning enemies)
 	var prev_enemy_pos
-	for enemy in b_1.room_enemies:
-		var next_enemy = enemy.instantiate()
-		next_enemy.position = _randomize_enemy_spawn()
-		
-		if next_enemy.position == prev_enemy_pos:
-			next_enemy.position.x += 16
-		# delete this later (offsets spawning enemies)
-		prev_enemy_pos = next_enemy.position
-		all_active_enemies.append(next_enemy)
-		# Allows Update to trigger on PlayerActionTaken in state_machine.gd
-		next_enemy.active = true
-		
-		
-		add_child(next_enemy)
-		#####
-		next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)
-		next_enemy.EnemyExitedCombat.connect(_on_enemy_exited_combat)
-		next_enemy.EnemySlain.connect(_on_enemy_slain)
-		#####
-		next_enemy.current_enemy_coordinate = next_enemy.position / Autoload.grid_data.cell_size
-		# set spawn location to solid, preventing other NPC's from entering this space
-		# during AStarGrid2D path calculations
-		Autoload.grid_data.set_point_solid(next_enemy.current_enemy_coordinate, true)
-		#print(next_enemy.current_enemy_coordinate)D
-		# Flip enemy sprite
-		if next_enemy.position.x >= player.position.x:
-			next_enemy.sprite.flip_h = true
-		else:
-			next_enemy.sprite.flip_h = false
+	for room in rooms_handler.get_children():
+		for enemy in room.room_enemies:
+			var next_enemy = enemy.instantiate()
+			next_enemy.position = _randomize_enemy_spawn(room)
+			
+			if next_enemy.position == prev_enemy_pos:
+				next_enemy.position.x += 16
+			# delete this later (offsets spawning enemies)
+			prev_enemy_pos = next_enemy.position
+			all_active_enemies.append(next_enemy)
+			# Allows Update to trigger on PlayerActionTaken in state_machine.gd
+			next_enemy.active = true
+			
+			
+			add_child(next_enemy)
+			#####
+			next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)
+			next_enemy.EnemyExitedCombat.connect(_on_enemy_exited_combat)
+			next_enemy.EnemySlain.connect(_on_enemy_slain)
+			#####
+			next_enemy.current_enemy_coordinate = next_enemy.position / Autoload.grid_data.cell_size
+			# set spawn location to solid, preventing other NPC's from entering this space
+			# during AStarGrid2D path calculations
+			Autoload.grid_data.set_point_solid(next_enemy.current_enemy_coordinate, true)
+			#print(next_enemy.current_enemy_coordinate)D
+			# Flip enemy sprite
+			if next_enemy.position.x >= player.position.x:
+				next_enemy.sprite.flip_h = true
+			else:
+				next_enemy.sprite.flip_h = false
 	#enemy_spawn_y += 16
 #enemy_spawn_x += 16
 #enemy_spawn_y = 48
 	
 	print(all_active_enemies.size(), " Enemies spawned")
 
-func _randomize_enemy_spawn():
+func _randomize_enemy_spawn(Room: Area2D):
 	var spawn_pos: Vector2i
 	var enemy_grid_point: Vector2i
-	for i in range(4):
-		spawn_pos.x = b_1.enemy_x * randi_range(1, 8)
-		spawn_pos.y = b_1.enemy_y * randi_range(1, 7)
+	for i in range(1):
+		spawn_pos.x = Room.enemy_x * randi_range(1, 8)
+		spawn_pos.y = Room.enemy_y * randi_range(1, 7)
 			
 		enemy_grid_point.x = int(spawn_pos.x / Autoload.grid_data.cell_size.x)
 		enemy_grid_point.y = int(spawn_pos.y / Autoload.grid_data.cell_size.y)
 			
 		if Autoload.grid_data.is_point_solid(enemy_grid_point):
-			print("CANT SPAWN" , i)
-		elif Autoload.grid_data.is_point_solid(enemy_grid_point) == false:
+			print("CANT SPAWN " , i)
+			spawn_pos = Vector2i(16,16)
+			
+		elif enemy_grid_point != Autoload.current_grid_point:
 			print("WE SPAWNED")
+		else: 
+			spawn_pos = Vector2i(16,16)
 		return spawn_pos
-	spawn_pos = Vector2i(16,16)
-	return spawn_pos
+
 
 func _select_check() -> void:
 	# Attack if there is any enemy selected
