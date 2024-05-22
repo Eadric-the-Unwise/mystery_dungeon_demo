@@ -174,20 +174,29 @@ func _init_enemies():
 func _randomize_enemy_spawn(Room: Area2D):
 	var spawn_pos: Vector2i
 	var enemy_grid_point: Vector2i
-	spawn_pos.x = Room.enemy_x #* randi_range(1, 8)
-	spawn_pos.y = Room.enemy_y #* randi_range(1, 7)
+	#for spawnable_tile in Room.spawn_map:
+	var spawn_tile = Room.spawn_map.get_used_cells(0)
+	spawn_pos = Room.spawn_map.to_global(Room.spawn_map.map_to_local(spawn_tile[0]))
+	spawn_pos.x -= 8
+	spawn_pos.y -= 8
+	print(spawn_pos)
+	#var tile_data = Autoload.tilemap.get_cell_tile_data(0, spawn_tile)
+	#if tile_data.get_custom_data("is_spawnable"):		
+		#spawn_pos = spawn_tile.position
+		#spawn_pos.x = Room.enemy_x #* randi_range(1, 8)
+		#spawn_pos.y = Room.enemy_y #* randi_range(1, 7)
 		
-	enemy_grid_point.x = int(spawn_pos.x / Autoload.grid_data.cell_size.x)
-	enemy_grid_point.y = int(spawn_pos.y / Autoload.grid_data.cell_size.y)
+	#enemy_grid_point.x = int(spawn_pos.x / Autoload.grid_data.cell_size.x)
+	#enemy_grid_point.y = int(spawn_pos.y / Autoload.grid_data.cell_size.y)
 		
-	if Autoload.grid_data.is_point_solid(enemy_grid_point):
-		print("CANT SPAWN ")
-		spawn_pos = Vector2i(16,16)
-		
-	elif enemy_grid_point != Autoload.current_grid_point:
-		print("WE SPAWNED")
-	else: 
-		spawn_pos = Vector2i(16,16)
+	#if Autoload.grid_data.is_point_solid(enemy_grid_point):
+		#print("CANT SPAWN ")
+		#spawn_pos = Vector2i(16,16)
+		#
+	#elif enemy_grid_point != Autoload.current_grid_point:
+		#print("WE SPAWNED")
+	#else: 
+		#spawn_pos = Vector2i(16,16)
 	return spawn_pos
 
 
