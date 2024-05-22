@@ -174,22 +174,21 @@ func _init_enemies():
 func _randomize_enemy_spawn(Room: Area2D):
 	var spawn_pos: Vector2i
 	var enemy_grid_point: Vector2i
-	for i in range(1):
-		spawn_pos.x = Room.enemy_x * randi_range(1, 8)
-		spawn_pos.y = Room.enemy_y * randi_range(1, 7)
-			
-		enemy_grid_point.x = int(spawn_pos.x / Autoload.grid_data.cell_size.x)
-		enemy_grid_point.y = int(spawn_pos.y / Autoload.grid_data.cell_size.y)
-			
-		if Autoload.grid_data.is_point_solid(enemy_grid_point):
-			print("CANT SPAWN " , i)
-			spawn_pos = Vector2i(16,16)
-			
-		elif enemy_grid_point != Autoload.current_grid_point:
-			print("WE SPAWNED")
-		else: 
-			spawn_pos = Vector2i(16,16)
-		return spawn_pos
+	spawn_pos.x = Room.enemy_x #* randi_range(1, 8)
+	spawn_pos.y = Room.enemy_y #* randi_range(1, 7)
+		
+	enemy_grid_point.x = int(spawn_pos.x / Autoload.grid_data.cell_size.x)
+	enemy_grid_point.y = int(spawn_pos.y / Autoload.grid_data.cell_size.y)
+		
+	if Autoload.grid_data.is_point_solid(enemy_grid_point):
+		print("CANT SPAWN ")
+		spawn_pos = Vector2i(16,16)
+		
+	elif enemy_grid_point != Autoload.current_grid_point:
+		print("WE SPAWNED")
+	else: 
+		spawn_pos = Vector2i(16,16)
+	return spawn_pos
 
 
 func _select_check() -> void:

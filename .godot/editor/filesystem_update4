@@ -2,6 +2,3 @@ res://game.tscn
 res://player.tscn
 res://enemy.tscn
 res://game.gd
-res://room_B2.gd
-res://room_B3.gd
-res://room_B4.gd

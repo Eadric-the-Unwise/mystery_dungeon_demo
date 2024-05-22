@@ -21,8 +21,8 @@ Autoload="*res://autoload.gd"
 
 [display]
 
-window/size/viewport_width=640
-window/size/viewport_height=720
+window/size/viewport_width=320
+window/size/viewport_height=432
 window/size/window_width_override=640
 window/size/window_height_override=576
 window/stretch/mode="viewport"
