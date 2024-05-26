@@ -145,7 +145,7 @@ func _init_enemies():
 			
 			#Only look for Player if Active enemy_idle.gd
 			# [REMOVED] Allows Update to trigger on PlayerActionTaken in state_machine.gd
-			next_enemy.active == false
+			next_enemy.active = false
 			Autoload.all_active_enemies.append(next_enemy)
 			room.room_enemies.append(next_enemy)
 			add_child(next_enemy)

@@ -31,4 +31,7 @@ func activate_room_enemies():
 func deactivate_room_enemies():
 	if room_enemies:
 		for enemy in room_enemies:
+
 			enemy.active = false
+			
+			

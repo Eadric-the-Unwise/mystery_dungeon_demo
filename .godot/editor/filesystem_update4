@@ -9,3 +9,4 @@ res://room_B4.gd
 res://room.gd
 res://rooms_handler.gd
 res://state_machine/state_machine.gd
+res://state_machine/enemy_combat.gd
