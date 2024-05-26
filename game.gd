@@ -141,7 +141,8 @@ func _init_enemies():
 			next_enemy.position = _randomize_enemy_spawn(room)
 			
 			if next_enemy.position == prev_enemy_pos:
-				next_enemy.position.x += 16
+				while next_enemy.position == prev_enemy_pos:
+					next_enemy.position = _randomize_enemy_spawn(room)
 			# delete this later (offsets spawning enemies)
 			prev_enemy_pos = next_enemy.position
 			all_active_enemies.append(next_enemy)
@@ -172,14 +173,18 @@ func _init_enemies():
 	print(all_active_enemies.size(), " Enemies spawned")
 
 func _randomize_enemy_spawn(Room: Area2D):
-	var spawn_pos: Vector2i
 	var enemy_grid_point: Vector2i
 	#for spawnable_tile in Room.spawn_map:
-	var spawn_tile = Room.spawn_map.get_used_cells(0)
-	spawn_pos = Room.spawn_map.to_global(Room.spawn_map.map_to_local(spawn_tile[0]))
+	var spawn_tiles = Room.spawn_map.get_used_cells(0)
+	var tile_count = spawn_tiles.size() - 1
+	var randomize = randi_range(0,tile_count)
+	var random_tile = Room.spawn_map.map_to_local(spawn_tiles[randomize])
+	var spawn_pos: Vector2i = Room.spawn_map.to_global(random_tile)
+	
+	#Enemies spawn offset by 8, FIX THIS!
 	spawn_pos.x -= 8
 	spawn_pos.y -= 8
-	print(spawn_pos)
+	
 	#var tile_data = Autoload.tilemap.get_cell_tile_data(0, spawn_tile)
 	#if tile_data.get_custom_data("is_spawnable"):		
 		#spawn_pos = spawn_tile.position
