@@ -143,14 +143,14 @@ func _init_enemies():
 			if next_enemy.position == prev_enemy_pos:
 				while next_enemy.position == prev_enemy_pos:
 					next_enemy.position = _randomize_enemy_spawn(room)
-			# delete this later (offsets spawning enemies)
-			prev_enemy_pos = next_enemy.position
+			
+			#Only look for Player if Active enemy_idle.gd
+			# [REMOVED] Allows Update to trigger on PlayerActionTaken in state_machine.gd
+			next_enemy.active == false
 			all_active_enemies.append(next_enemy)
-			# Allows Update to trigger on PlayerActionTaken in state_machine.gd
-			next_enemy.active = true
-			
-			
 			add_child(next_enemy)
+			
+
 			#####
 			next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)
 			next_enemy.EnemyExitedCombat.connect(_on_enemy_exited_combat)

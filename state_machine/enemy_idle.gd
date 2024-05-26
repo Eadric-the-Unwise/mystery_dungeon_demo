@@ -18,6 +18,8 @@ func enter():
 	init_raycasts()
 
 func _process(_delta):
+	if enemy.active == false:
+		return
 	_check_for_combat()
 	# Loop all RayCast2D's to see if the player is visible
 	check_line_of_sight()
