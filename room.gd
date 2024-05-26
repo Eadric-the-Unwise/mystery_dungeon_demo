@@ -5,6 +5,7 @@ extends Area2D
 
 signal RoomEntered
 signal RoomExited
+var room_enemies : Array
 
 #-----------------------------------------
 # Add an array for enemies for this room
@@ -23,4 +24,11 @@ func _on_area_entered(area: Area2D):
 	camera_2d.position = position
 	RoomEntered.emit()
 
-
+func activate_room_enemies():
+	if room_enemies:
+		for enemy in room_enemies:
+			enemy.active = true
+func deactivate_room_enemies():
+	if room_enemies:
+		for enemy in room_enemies:
+			enemy.active = false

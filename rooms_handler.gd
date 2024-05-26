@@ -11,14 +11,14 @@ func _ready():
 			rooms[child.name.to_lower()] = child
 			# connect the RoomEntered and RoomExited signals that are emitted from Room class (room.gd)
 			# Pass the name of the room entered
-			#child.RoomEntered.connect(_on_child_room_entered.bind(child))
-			child.RoomExited.connect(_on_child_room_exited)
+			child.RoomEntered.connect(_on_child_room_entered.bind(child))
+			child.RoomExited.connect(_on_child_room_exited.bind(child))
 
-func _on_child_room_entered(room_name):
+func _on_child_room_entered(entering_room):
 	# Update and keep track of the current room in a list
-	current_room = room_name
-	current_room.active_room_enemies()
+	current_room = entering_room
+	current_room.activate_room_enemies()
 		
 
-func _on_child_room_exited():
-	pass
+func _on_child_room_exited(exiting_room):
+	exiting_room.deactivate_room_enemies()

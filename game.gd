@@ -135,7 +135,7 @@ func _init_enemies():
 	# delete this later (offsets spawning enemies)
 	var prev_enemy_pos
 	for room in rooms_handler.get_children():
-		for enemy in room.room_enemies:
+		for enemy in room.spawn_enemies:
 			var next_enemy = enemy.instantiate()
 			next_enemy.position = _randomize_enemy_spawn(room)
 			
@@ -147,6 +147,7 @@ func _init_enemies():
 			# [REMOVED] Allows Update to trigger on PlayerActionTaken in state_machine.gd
 			next_enemy.active == false
 			Autoload.all_active_enemies.append(next_enemy)
+			room.room_enemies.append(next_enemy)
 			add_child(next_enemy)
 			
 
@@ -292,6 +293,9 @@ func _on_enemy_slain(slain_enemy: Node2D):
 	#############################
 	combat_enemies.erase(slain_enemy)
 	#all_active_enemies.erase(slain_enemy)
+	
+	rooms_handler.current_room.room_enemies.erase(slain_enemy)
+	
 	if combat_enemies:
 		selected_enemy = combat_enemies[0]
 	_update_cursor()

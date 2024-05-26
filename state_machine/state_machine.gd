@@ -25,8 +25,8 @@ func _ready():
 	Autoload.PlayerActionTaken.connect(_on_player_moved)
 
 func _on_player_moved():
-	#if !enemy.active:
-		#return
+	if !enemy.active:
+		return
 	if current_state:
 			current_state.update()
 
