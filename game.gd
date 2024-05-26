@@ -17,13 +17,6 @@ extends Node2D
 @onready var b_1 = $"Rooms Handler/B1"
 @onready var b_2 = $"Rooms Handler/B2"
 
-
-var goblin_enemy := preload("res://enemy.tscn")
-# Full list of all RNG Spawnable Enemies
-var spawnable_enemies: Array = [
-		goblin_enemy
-]
-
 # All enemies within melee combat distance of Player
 var combat_enemies: Array = []
 # Updated on selection during combat
@@ -44,10 +37,6 @@ func _ready() -> void:
 	_update_ui()
 	# Connect PlayerActionTaken to _update_ui()
 	Autoload.PlayerActionTaken.connect(_update_ui)
-	# rooms
-	#Autoload.RoomExited.connect(_on_room_exited)
-	#Autoload.RoomEntered.connect(_on_room_entered)
-	#Autoload.EnemySlain.connect(_on_enemy_slain)
 	# Reset move_timer to wait_time
 	player.move_timer.timeout.connect(_reset_timer)
 	player.cursor_timer.timeout.connect(_on_cursor_timer_timeout)
@@ -62,9 +51,9 @@ func _ready() -> void:
 	button_reset.pressed.connect(_reset_game)
 
 func _process(_delta: float) -> void:
-	#if combat_enemies:
-		#_update_cursor()
 	if Input.is_action_pressed("ui_accept"):
+		_combat_check()
+	if Input.is_action_just_pressed("ui_accept"):
 		_select_check()
 	# Prevent player from moving until at .25 sec from previous movement input	
 	if _move_tween_timer:
@@ -116,7 +105,7 @@ func _init_astargrid2d():
 	for tile_coord in Autoload.tilemap.get_used_cells(0):
 		# Get tile coordinate
 		var tile_data = Autoload.tilemap.get_cell_tile_data(0, tile_coord)
-		# Check for tile for TileSet Custom Data
+		# Check for TileMap/Tileset Custom Data
 		if tile_data.get_custom_data("is_blocked"):
 			# Sets this grid cell to be "solid", preventing player or enemies from moving into it
 			Autoload.grid_data.set_point_solid(tile_coord, true)
@@ -128,9 +117,7 @@ func _init_astargrid2d():
 	player.position = Autoload.grid_data.get_point_position(Autoload.current_grid_point)
 
 func _init_enemies():
-	#for column in range(1):
-	#for room in rooms_handler.get_children():
-	# delete this later (offsets spawning enemies)
+	#Spawn enemies based on room.room_enemies arrays define in each room script
 	var prev_enemy_pos
 	for room in rooms_handler.get_children():
 		for enemy in room.spawn_enemies:
@@ -140,9 +127,7 @@ func _init_enemies():
 			if next_enemy.position == prev_enemy_pos:
 				while next_enemy.position == prev_enemy_pos:
 					next_enemy.position = _randomize_enemy_spawn(room)
-			
-			#Only look for Player if Active enemy_idle.gd
-			# [REMOVED] Allows Update to trigger on PlayerActionTaken in state_machine.gd
+			# Enemy State Machine deactivated on init
 			next_enemy.active = false
 			Autoload.all_active_enemies.append(next_enemy)
 			room.room_enemies.append(next_enemy)
@@ -164,50 +149,33 @@ func _init_enemies():
 				next_enemy.sprite.flip_h = true
 			else:
 				next_enemy.sprite.flip_h = false
-	#enemy_spawn_y += 16
-#enemy_spawn_x += 16
-#enemy_spawn_y = 48
-	
+	# Print all enemies generated at init
 	print(Autoload.all_active_enemies.size(), " Enemies spawned")
 
+# Randomize Enemy Spawn based on Spawn Map TileMap for current room
 func _randomize_enemy_spawn(Room: Area2D):
-	var enemy_grid_point: Vector2i
-	#for spawnable_tile in Room.spawn_map:
-	var spawn_tiles = Room.spawn_map.get_used_cells(0)
-	var tile_count = spawn_tiles.size() - 1
-	var random_int = randi_range(0,tile_count)
-	var random_tile = Room.spawn_map.map_to_local(spawn_tiles[random_int])
-	var spawn_pos: Vector2i = Room.spawn_map.to_global(random_tile)
+	var spawn_tiles: Array = Room.spawn_map.get_used_cells(0)
+	var tile_size: Vector2i = Room.spawn_map.tile_set.tile_size
+	var tile_count: int = spawn_tiles.size() - 1
+	# Randomized int to help determine which tile to spawn on
+	var random_int: int = randi_range(0,tile_count)
+	# Create local grid coords for selected tile
+	var random_tile: Vector2i = Room.spawn_map.map_to_local(spawn_tiles[random_int])
+	# Convert local grid coords to global coords
+	# Random Tile's .x and .y are subtracted by tile_size/2 (they default to the center of the tile)
+	# If you would like to change this, you can Center the Enemy's Sprite node, but you will have to
+	# update the movement logic of the Enemy. Keep at top left for now... 
+	var spawn_pos: Vector2i = Room.spawn_map.to_global(random_tile - (tile_size / 2))
 	
-	#Enemies spawn offset by 8, FIX THIS!
-	spawn_pos.x -= 8
-	spawn_pos.y -= 8
-	
-	#var tile_data = Autoload.tilemap.get_cell_tile_data(0, spawn_tile)
-	#if tile_data.get_custom_data("is_spawnable"):		
-		#spawn_pos = spawn_tile.position
-		#spawn_pos.x = Room.enemy_x #* randi_range(1, 8)
-		#spawn_pos.y = Room.enemy_y #* randi_range(1, 7)
-		
-	#enemy_grid_point.x = int(spawn_pos.x / Autoload.grid_data.cell_size.x)
-	#enemy_grid_point.y = int(spawn_pos.y / Autoload.grid_data.cell_size.y)
-		
-	#if Autoload.grid_data.is_point_solid(enemy_grid_point):
-		#print("CANT SPAWN ")
-		#spawn_pos = Vector2i(16,16)
-		#
-	#elif enemy_grid_point != Autoload.current_grid_point:
-		#print("WE SPAWNED")
-	#else: 
-		#spawn_pos = Vector2i(16,16)
 	return spawn_pos
 
 
-func _select_check() -> void:
+func _combat_check() -> void:
 	# Attack if there is any enemy selected
 	if combat_enemies:
 		melee_attack()
 		return
+func _select_check():
 	# Check for all overlapping areas in Player's Area2D (interactable_detection_area)
 	for area in player.teleport_detection_area.get_overlapping_areas():
 		if area is Teleporter:
@@ -229,7 +197,6 @@ func _select_check() -> void:
 			# 5 is source id ???
 			# Vector21(1,0) is the Atlas coords	
 			Autoload.tilemap.set_cell(0, target_cell, 5, Vector2i(1,0))
-
 func _move_to_coord(move_direction: Vector2i) -> void:
 	var target_grid_point = Autoload.current_grid_point + move_direction
 	# If there is an enemy within melee_combat range on this tile, select the enemy instead of moving
