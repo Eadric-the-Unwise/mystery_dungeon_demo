@@ -177,8 +177,8 @@ func _randomize_enemy_spawn(Room: Area2D):
 	#for spawnable_tile in Room.spawn_map:
 	var spawn_tiles = Room.spawn_map.get_used_cells(0)
 	var tile_count = spawn_tiles.size() - 1
-	var randomize = randi_range(0,tile_count)
-	var random_tile = Room.spawn_map.map_to_local(spawn_tiles[randomize])
+	var random_int = randi_range(0,tile_count)
+	var random_tile = Room.spawn_map.map_to_local(spawn_tiles[random_int])
 	var spawn_pos: Vector2i = Room.spawn_map.to_global(random_tile)
 	
 	#Enemies spawn offset by 8, FIX THIS!
