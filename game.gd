@@ -176,6 +176,9 @@ func _combat_check() -> void:
 		melee_attack()
 		return
 func _select_check():
+	if combat_enemies:
+		#Exit function if there are enemies attacking player (must attack)
+		return
 	# Check for all overlapping areas in Player's Area2D (interactable_detection_area)
 	for area in player.teleport_detection_area.get_overlapping_areas():
 		if area is Teleporter:
@@ -292,37 +295,10 @@ func _reset_cursor():
 	enemy_cursor.global_position = enemy_cursor.reset_position
 
 func _on_cursor_timer_timeout():
+	
 	_update_cursor()
 	#player.cursor_timer.wait_time ...
-
-#func _on_room_exited():
-	#for active_enemy in all_active_enemies:
-		#var current_state = active_enemy.state_machine.current_state
-		#active_enemy.active = false
-		##active_enemy.state_machine.current_state.Transitioned.emit(current_state, "EnemyIdle")
-	##all_active_enemies.clear()
-	##combat_enemies.clear()
-#func _on_room_entered():
-	#print("_on_room_entered")
-	#for active_enemy in all_active_enemies:
-		#active_enemy.active = true
-		
-#------------------------------------------------------------		
-#func _update_combat_enemies():
-	## Move cursor off-screen
-	#_reset_cursor()
-	## Clear the current combat_enemies[] Array2D
-	#combat_enemies.clear()
-	#for area in player.interactable_detection_area.get_overlapping_areas():
-		#if area is EnemyBody:
-			#var target_enemy = area.get_parent()
-			#combat_enemies.append(target_enemy)
-			#enemy_cursor.global_position = target_enemy.global_position
-			#enemy_cursor.animation_player.play("CursorBlink")
-			## Store the index of the enemy in combat_enemies[]
-			#selected_enemy = target_enemy
-	#print(combat_enemies.size())	
-#------------------------------------------------------------------------------#
+# ---------------------------------------------------------------------------------
 func _update_ui():
 	player_coords.text = str(player.position / Autoload.grid_data.cell_size)
 	player_hp.text = str(player.health)	
