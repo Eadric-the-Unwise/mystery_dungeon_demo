@@ -62,10 +62,8 @@ func _ready() -> void:
 	button_reset.pressed.connect(_reset_game)
 
 func _process(_delta: float) -> void:
-	
 	#if combat_enemies:
 		#_update_cursor()
-
 	if Input.is_action_pressed("ui_accept"):
 		_select_check()
 	# Prevent player from moving until at .25 sec from previous movement input	
@@ -149,7 +147,7 @@ func _init_enemies():
 			Autoload.all_active_enemies.append(next_enemy)
 			room.room_enemies.append(next_enemy)
 			add_child(next_enemy)
-			
+			prev_enemy_pos = next_enemy.position
 
 			#####
 			next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)

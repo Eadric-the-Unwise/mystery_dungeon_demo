@@ -27,11 +27,16 @@ func _on_area_entered(area: Area2D):
 func activate_room_enemies():
 	if room_enemies:
 		for enemy in room_enemies:
+			#Activate Enemies' State Machines
 			enemy.active = true
 func deactivate_room_enemies():
+	
 	if room_enemies:
 		for enemy in room_enemies:
-			enemy.enemy_current_state.Transitioned.emit(enemy.enemy_current_state, "EnemyIdle")
+			var enemy_current_state = enemy.enemy_current_state
+			#Switch from EnemyFollow etc to EnemyIdle when player leaves room
+			enemy_current_state.Transitioned.emit(enemy_current_state, "EnemyIdle")
+			#Disable Enemy State Machines
 			enemy.active = false
 			
 			

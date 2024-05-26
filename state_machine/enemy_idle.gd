@@ -8,10 +8,13 @@ class_name EnemyIdle
 @onready var animation_player = $"../../AnimationPlayer"
 @onready var combat_area = $"../../CombatArea"
 
+func _ready():
+	pass
+	#enemy.AreaEntered.connect(_on_area_entered)
+	#enemy.AreaExited.connect(_on_area_exited)
+
 func enter():
 	print("Enemy now idle")
-	enemy.AreaEntered.connect(_on_area_entered)
-	enemy.AreaExited.connect(_on_area_exited)
 	# Initialize Raycast positions from default Node position to Player's global position
 	# This prevents is_in_line_of_sight from being true on frame 1, due to defaults Node position
 	# thinking that player is in view because they are likely unblocked from runtime
@@ -74,14 +77,14 @@ func _flip_sprite():# Flip horizonal sprite
 	else:
 		enemy.sprite.flip_h = false
 
-func _on_area_entered():
-	pass
-	## Enemy is in range of Player
-	#if !enemy.is_in_range:
-		#enemy.is_in_range = true
-
-func _on_area_exited():
-	pass
+#func _on_area_entered():
+	#pass
+	### Enemy is in range of Player
+	##if !enemy.is_in_range:
+		##enemy.is_in_range = true
+#
+#func _on_area_exited():
+	#pass
 	## Enemy is out of range of Player
 	#if enemy.is_in_range:
 		#enemy.is_in_range = false
