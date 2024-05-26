@@ -23,8 +23,7 @@ var goblin_enemy := preload("res://enemy.tscn")
 var spawnable_enemies: Array = [
 		goblin_enemy
 ]
-# All active enemies in game
-var all_active_enemies: Array = []
+
 # All enemies within melee combat distance of Player
 var combat_enemies: Array = []
 # Updated on selection during combat
@@ -147,7 +146,7 @@ func _init_enemies():
 			#Only look for Player if Active enemy_idle.gd
 			# [REMOVED] Allows Update to trigger on PlayerActionTaken in state_machine.gd
 			next_enemy.active == false
-			all_active_enemies.append(next_enemy)
+			Autoload.all_active_enemies.append(next_enemy)
 			add_child(next_enemy)
 			
 
@@ -170,7 +169,7 @@ func _init_enemies():
 #enemy_spawn_x += 16
 #enemy_spawn_y = 48
 	
-	print(all_active_enemies.size(), " Enemies spawned")
+	print(Autoload.all_active_enemies.size(), " Enemies spawned")
 
 func _randomize_enemy_spawn(Room: Area2D):
 	var enemy_grid_point: Vector2i

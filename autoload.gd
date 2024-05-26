@@ -4,6 +4,8 @@ signal PlayerActionTaken
 #signal RoomEntered
 #signal RoomExited
 
+# All active enemies in game
+var all_active_enemies: Array = []
 
 var grid_data: AStarGrid2D
 
