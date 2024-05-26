@@ -2,11 +2,6 @@ res://game.tscn
 res://player.tscn
 res://enemy.tscn
 res://game.gd
-res://room_B1.gd
-res://room_B2.gd
-res://room_B3.gd
-res://room_B4.gd
-res://room.gd
-res://rooms_handler.gd
+res://state_machine/enemy_idle.gd
+res://enemy.gd
 res://state_machine/state_machine.gd
-res://state_machine/enemy_combat.gd

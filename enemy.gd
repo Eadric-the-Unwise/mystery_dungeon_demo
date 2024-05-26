@@ -9,6 +9,7 @@ extends Node2D
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 @onready var animation_player = $AnimationPlayer
 
+var enemy_current_state : State
 var current_enemy_coordinate: Vector2i
 
 var health := 10
@@ -33,7 +34,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	pass
+	enemy_current_state = state_machine.current_state
 
 func take_damage(attack_damage: int):
 	health -= attack_damage

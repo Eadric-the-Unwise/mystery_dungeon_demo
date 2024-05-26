@@ -65,7 +65,13 @@ func _process(_delta: float) -> void:
 	
 	#if combat_enemies:
 		#_update_cursor()
-		
+	if Input.is_action_just_pressed("debug1"):
+		for enemy in rooms_handler.current_room.room_enemies:
+			enemy.enemy_current_state.Transitioned.emit(enemy.enemy_current_state, "EnemyIdle")
+			enemy.active = false
+	if Input.is_action_just_pressed("debug2"):
+		for enemy in rooms_handler.current_room.room_enemies:
+			enemy.active = true
 	if Input.is_action_pressed("ui_accept"):
 		_select_check()
 	# Prevent player from moving until at .25 sec from previous movement input	

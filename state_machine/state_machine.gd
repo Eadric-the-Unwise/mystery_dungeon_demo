@@ -8,13 +8,13 @@ var states : Dictionary = {}
 
 
 func _ready():
-	for child in get_children():
-		if child is State:
+	for child_state in get_children():
+		if child_state is State:
 			# Add child (state) to States Dictionary (lowercase child Node name)
-			states[child.name.to_lower()] = child
-			child.Transitioned.connect(_on_child_transition)
+			states[child_state.name.to_lower()] = child_state
+			child_state.Transitioned.connect(_on_child_transition)
 			# disable _process for States
-			child.set_process(false)
+			child_state.set_process(false)
 			
 	if initial_state:
 		initial_state.enter()
