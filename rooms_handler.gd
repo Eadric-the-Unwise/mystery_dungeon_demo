@@ -17,8 +17,10 @@ func _ready():
 func _on_child_room_entered(entering_room):
 	# Update and keep track of the current room in a list
 	current_room = entering_room
+	#(In room.gd)
 	current_room.activate_room_enemies()
 		
 
 func _on_child_room_exited(exiting_room):
-	exiting_room.deactivate_room_enemies()
+	#(In room.gd)
+	exiting_room.deactivate_room_enemies() 

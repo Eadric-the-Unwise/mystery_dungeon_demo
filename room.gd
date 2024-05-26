@@ -31,7 +31,7 @@ func activate_room_enemies():
 func deactivate_room_enemies():
 	if room_enemies:
 		for enemy in room_enemies:
-
+			enemy.enemy_current_state.Transitioned.emit(enemy.enemy_current_state, "EnemyIdle")
 			enemy.active = false
 			
 			
