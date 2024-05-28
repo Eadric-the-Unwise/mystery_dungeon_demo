@@ -1,9 +1,5 @@
-res://game.tscn
-res://player.tscn
 res://enemy.tscn
-res://game.gd
-res://state_machine/enemy_idle.gd
-res://enemy.gd
-res://state_machine/state_machine.gd
-res://rooms_handler.gd
-res://room.gd
+res://player.tscn
+res://game.tscn
+res://state_machine/enemy_combat.gd
+res://buttons.tscn

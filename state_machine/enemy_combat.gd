@@ -50,5 +50,13 @@ func update():
 
 func _on_enemy_attack_turn():
 	await player.animation_player.animation_finished
-	animation_player.play("AttackLeft")
+	#if player.animation_player.is_playing() == false:
+	if enemy.global_position.x < player.global_position.x:
+		animation_player.play("AttackRight")
+	elif enemy.global_position.x > player.global_position.x:
+		animation_player.play("AttackLeft")
+	elif enemy.global_position.y > player.global_position.y:
+		animation_player.play("AttackUp")
+	else:
+		animation_player.play("AttackDown")
 
