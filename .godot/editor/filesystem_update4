@@ -1,5 +1,9 @@
 res://enemy.tscn
-res://player.tscn
+res://goblin_regular.tscn
+res://room_B4.gd
+res://room_B3.gd
+res://room_B2.gd
+res://room_B1.gd
 res://game.tscn
-res://state_machine/enemy_combat.gd
+res://player.tscn
 res://buttons.tscn
