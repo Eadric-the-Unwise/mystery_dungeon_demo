@@ -7,3 +7,11 @@ res://room_B1.gd
 res://game.tscn
 res://player.tscn
 res://buttons.tscn
+res://goblin_green.tscn
+res://enemy.gd
+res://enemy/goblin_regular.tscn
+res://rooms/room_B1.gd
+res://rooms/room_B2.gd
+res://rooms/room_B3.gd
+res://rooms/room_B4.gd
+res://enemy/goblin_green.tscn

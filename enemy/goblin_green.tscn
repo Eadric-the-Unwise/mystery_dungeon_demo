@@ -1,16 +1,16 @@
-[gd_scene load_steps=23 format=3 uid="uid://b1lyt1lcujjby"]
+[gd_scene load_steps=23 format=3 uid="uid://dnhg2evvfq1x8"]
 
-[ext_resource type="Script" path="res://enemy.gd" id="1_6s6mq"]
-[ext_resource type="Texture2D" uid="uid://duoo6pr43gjel" path="res://assets/enemy/enemy.png" id="2_fw24q"]
-[ext_resource type="Script" path="res://combat_scripts/hitbox.gd" id="3_jkt6s"]
-[ext_resource type="Script" path="res://combat_scripts/hurtbox.gd" id="4_ykf5m"]
-[ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="5_yy24p"]
-[ext_resource type="Script" path="res://body.gd" id="6_w4l56"]
-[ext_resource type="Script" path="res://CombatArea.gd" id="7_sklmc"]
-[ext_resource type="Script" path="res://state_machine/state_machine.gd" id="8_ponf2"]
-[ext_resource type="Script" path="res://state_machine/enemy_idle.gd" id="9_qjfrf"]
-[ext_resource type="Script" path="res://state_machine/enemy_follow.gd" id="10_6dqiq"]
-[ext_resource type="Script" path="res://state_machine/enemy_combat.gd" id="11_o6r3s"]
+[ext_resource type="Script" path="res://enemy/enemy.gd" id="1_pqlyh"]
+[ext_resource type="Texture2D" uid="uid://bbwdfm81rnovm" path="res://assets/enemy/goblin_green.png" id="2_mk655"]
+[ext_resource type="Script" path="res://combat_scripts/hitbox.gd" id="3_6nmob"]
+[ext_resource type="Script" path="res://combat_scripts/hurtbox.gd" id="4_gt8ia"]
+[ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="5_0ohxg"]
+[ext_resource type="Script" path="res://body.gd" id="6_mn1ju"]
+[ext_resource type="Script" path="res://CombatArea.gd" id="7_pn0nw"]
+[ext_resource type="Script" path="res://state_machine/state_machine.gd" id="8_swu7s"]
+[ext_resource type="Script" path="res://state_machine/enemy_idle.gd" id="9_jats3"]
+[ext_resource type="Script" path="res://state_machine/enemy_follow.gd" id="10_7mb4r"]
+[ext_resource type="Script" path="res://state_machine/enemy_combat.gd" id="11_7w4k6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vjywc"]
 size = Vector2(6, 6)
@@ -414,18 +414,19 @@ _data = {
 "Surprised": SubResource("Animation_xbog2")
 }
 
-[node name="GoblinRegular" type="Node2D"]
+[node name="GoblinGreen" type="Node2D"]
 top_level = true
-script = ExtResource("1_6s6mq")
+script = ExtResource("1_pqlyh")
 
 [node name="EnemySprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_fw24q")
+texture = ExtResource("2_mk655")
 centered = false
 
 [node name="Hitbox" type="Area2D" parent="EnemySprite2D"]
+visible = false
 collision_layer = 32
 collision_mask = 0
-script = ExtResource("3_jkt6s")
+script = ExtResource("3_6nmob")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySprite2D/Hitbox"]
 position = Vector2(16, 8)
@@ -434,9 +435,10 @@ disabled = true
 debug_color = Color(0.960784, 0.196078, 0, 0.419608)
 
 [node name="Hurtbox" type="Area2D" parent="EnemySprite2D"]
+visible = false
 collision_layer = 0
 collision_mask = 16
-script = ExtResource("4_ykf5m")
+script = ExtResource("4_gt8ia")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySprite2D/Hurtbox"]
 position = Vector2(8, 8)
@@ -447,7 +449,7 @@ debug_color = Color(0.709804, 0.545098, 0.172549, 0.419608)
 visible = false
 self_modulate = Color(1, 1, 1, 0)
 position = Vector2(8, -9)
-texture = ExtResource("5_yy24p")
+texture = ExtResource("5_0ohxg")
 region_enabled = true
 region_rect = Rect2(64, 32, 16, 16)
 
@@ -455,23 +457,25 @@ region_rect = Rect2(64, 32, 16, 16)
 visible = false
 self_modulate = Color(1, 1, 1, 0)
 position = Vector2(8, -9)
-texture = ExtResource("5_yy24p")
+texture = ExtResource("5_0ohxg")
 region_enabled = true
 region_rect = Rect2(80, 32, 16, 16)
 
 [node name="Body" type="Area2D" parent="."]
+visible = false
 collision_layer = 4
 collision_mask = 0
-script = ExtResource("6_w4l56")
+script = ExtResource("6_mn1ju")
 
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="Body"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_nxfma")
 
 [node name="CombatArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 4
 collision_mask = 0
-script = ExtResource("7_sklmc")
+script = ExtResource("7_pn0nw")
 
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="CombatArea"]
 position = Vector2(-8, 8)
@@ -494,17 +498,17 @@ shape = SubResource("RectangleShape2D_nxfma")
 debug_color = Color(0.886275, 0.329412, 0, 0.419608)
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
-script = ExtResource("8_ponf2")
+script = ExtResource("8_swu7s")
 initial_state = NodePath("EnemyIdle")
 
 [node name="EnemyIdle" type="Node" parent="StateMachine"]
-script = ExtResource("9_qjfrf")
+script = ExtResource("9_jats3")
 
 [node name="EnemyFollow" type="Node" parent="StateMachine"]
-script = ExtResource("10_6dqiq")
+script = ExtResource("10_7mb4r")
 
 [node name="EnemyCombat" type="Node" parent="StateMachine"]
-script = ExtResource("11_o6r3s")
+script = ExtResource("11_7w4k6")
 
 [node name="Raycasts" type="Node2D" parent="."]
 visible = false
