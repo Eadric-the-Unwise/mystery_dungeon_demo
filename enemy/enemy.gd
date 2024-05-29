@@ -1,4 +1,5 @@
 extends Node2D
+class_name Enemy
 
 #@onready var range_area = $RangeArea
 @onready var sprite = $EnemySprite2D
@@ -12,7 +13,8 @@ extends Node2D
 var enemy_current_state : State
 var current_enemy_coordinate: Vector2i
 
-var health := 10
+# moved to enemy script 
+#var health := 10
 
 # emited when Area is entered
 signal AreaEntered
@@ -37,10 +39,10 @@ func _process(_delta):
 	enemy_current_state = state_machine.current_state
 
 func take_damage(attack_damage: int):
-	health -= attack_damage
+	self.health -= attack_damage
 	print(str(name) + "took " + str(attack_damage) + " damage!")
 	# SLAIN!
-	if health <= 0:
+	if self.health <= 0:
 		Autoload.grid_data.set_point_solid(current_enemy_coordinate, false)
 		EnemySlain.emit(self)
 		# add a Death Animation state, so enemy can exit EnemyCombat, removing itself from the combat_enemies array

@@ -1,8 +1,8 @@
 [gd_scene load_steps=23 format=3 uid="uid://dnhg2evvfq1x8"]
 
-[ext_resource type="Script" path="res://enemy/enemy.gd" id="1_pqlyh"]
-[ext_resource type="Texture2D" uid="uid://bbwdfm81rnovm" path="res://assets/enemy/goblin_green.png" id="2_mk655"]
-[ext_resource type="Script" path="res://combat_scripts/hitbox.gd" id="3_6nmob"]
+[ext_resource type="Script" path="res://enemy/enemy_goblin_green.gd" id="1_uerye"]
+[ext_resource type="Texture2D" uid="uid://ci0yrk8300stg" path="res://assets/enemy/goblin.png" id="2_wb1kc"]
+[ext_resource type="Script" path="res://combat_scripts/hitbox_gobline_green.gd" id="3_ol7p2"]
 [ext_resource type="Script" path="res://combat_scripts/hurtbox.gd" id="4_gt8ia"]
 [ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="5_0ohxg"]
 [ext_resource type="Script" path="res://body.gd" id="6_mn1ju"]
@@ -416,17 +416,19 @@ _data = {
 
 [node name="GoblinGreen" type="Node2D"]
 top_level = true
-script = ExtResource("1_pqlyh")
+script = ExtResource("1_uerye")
 
 [node name="EnemySprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_mk655")
+texture = ExtResource("2_wb1kc")
 centered = false
+hframes = 3
+frame = 1
 
 [node name="Hitbox" type="Area2D" parent="EnemySprite2D"]
 visible = false
 collision_layer = 32
 collision_mask = 0
-script = ExtResource("3_6nmob")
+script = ExtResource("3_ol7p2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySprite2D/Hitbox"]
 position = Vector2(16, 8)

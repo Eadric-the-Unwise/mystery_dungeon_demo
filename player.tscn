@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://player.gd" id="1_7s8n2"]
 [ext_resource type="Texture2D" uid="uid://b63u1iitl221u" path="res://assets/roguelike_spritesheet_16x16.png" id="2_yjl7r"]
-[ext_resource type="Script" path="res://combat_scripts/hitbox.gd" id="3_nvd8m"]
+[ext_resource type="Script" path="res://combat_scripts/hitbox_player.gd" id="3_xpvvj"]
 [ext_resource type="Script" path="res://combat_scripts/hurtbox.gd" id="4_kbdrc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4mbkh"]
@@ -266,7 +266,7 @@ region_rect = Rect2(0, 16, 16, 16)
 [node name="Hitbox" type="Area2D" parent="Sprite"]
 collision_layer = 16
 collision_mask = 0
-script = ExtResource("3_nvd8m")
+script = ExtResource("3_xpvvj")
 
 [node name="HitboxCollisionShape" type="CollisionShape2D" parent="Sprite/Hitbox"]
 position = Vector2(16, 8)

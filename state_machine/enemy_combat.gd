@@ -7,17 +7,19 @@ class_name EnemyCombat
 @onready var combat_area = $"../../CombatArea"
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 
+var default_frame
 
 func enter():
 	#print("Enter enemy_combat")
 	enemy.EnemyEnteredCombat.emit(enemy)
 	# Turn enemy red
-	sprite.modulate = Color(0.871, 0, 0.024)
+	default_frame = sprite.frame
+	sprite.frame = 2
 	#animation_player.play("Surprised")
 func exit():
 	#print("Exit enemy_combat")
 	enemy.EnemyExitedCombat.emit(enemy)
-	sprite.modulate = Color(1, 1, 1)
+	sprite.frame = default_frame
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
