@@ -133,7 +133,9 @@ sources/5 = SubResource("TileSetAtlasSource_hxfby")
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w8vih"]
 texture = ExtResource("6_qg5a3")
 0:0/0 = 0
-0:0/0/custom_data_0 = true
+1:0/0 = 0
+1:0/0/custom_data_0 = true
+1:2/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_royoo"]
 custom_data_layer_0/name = "is_spawnable"
@@ -263,7 +265,7 @@ script = ExtResource("8_oysok")
 visible = false
 tile_set = SubResource("TileSet_royoo")
 format = 2
-layer_0/tile_data = PackedInt32Array(458753, 1, 0, 458754, 1, 0, 458760, 1, 0, 458759, 1, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0, 458758, 1, 0)
+layer_0/tile_data = PackedInt32Array(458755, 1, 0, 458756, 1, 0, 458757, 1, 0, 458758, 1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms Handler/B2"]
 visible = false

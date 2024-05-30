@@ -118,21 +118,15 @@ func _init_astargrid2d():
 
 func _init_enemies():
 	#Spawn enemies based on room.room_enemies arrays define in each room script
-	var prev_enemy_pos
 	for room in rooms_handler.get_children():
 		for enemy in room.spawn_enemies:
 			var next_enemy = enemy.instantiate()
 			next_enemy.position = _randomize_enemy_spawn(room)
 			
-			if next_enemy.position == prev_enemy_pos:
-				while next_enemy.position == prev_enemy_pos:
-					next_enemy.position = _randomize_enemy_spawn(room)
-			# Enemy State Machine deactivated on init
 			next_enemy.active = false
 			Autoload.all_active_enemies.append(next_enemy)
 			room.room_enemies.append(next_enemy)
 			add_child(next_enemy)
-			prev_enemy_pos = next_enemy.position
 
 			#####
 			next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)
@@ -154,21 +148,29 @@ func _init_enemies():
 
 # Randomize Enemy Spawn based on Spawn Map TileMap for current room
 func _randomize_enemy_spawn(Room: Area2D):
+	# Get all spawn tiles in the spawn_map
 	var spawn_tiles: Array = Room.spawn_map.get_used_cells(0)
+	# Calculate spawn tile size
 	var tile_size: Vector2i = Room.spawn_map.tile_set.tile_size
-	var tile_count: int = spawn_tiles.size() - 1
+	# Calculate the amount of tiles
+	var tile_count: int = spawn_tiles.size()
 	# Randomized int to help determine which tile to spawn on
-	var random_int: int = randi_range(0,tile_count)
+	# Subtract 1 because array
+	var random_int: int = randi_range(0, tile_count - 1)
 	# Create local grid coords for selected tile
-	var random_tile: Vector2i = Room.spawn_map.map_to_local(spawn_tiles[random_int])
+	var random_tile_pos: Vector2i = Room.spawn_map.map_to_local(spawn_tiles[random_int])
 	# Convert local grid coords to global coords
 	# Random Tile's .x and .y are subtracted by tile_size/2 (they default to the center of the tile)
 	# If you would like to change this, you can Center the Enemy's Sprite node, but you will have to
 	# update the movement logic of the Enemy. Keep at top left for now... 
-	var spawn_pos: Vector2i = Room.spawn_map.to_global(random_tile - (tile_size / 2))
-	
+	var spawn_pos: Vector2i = Room.spawn_map.to_global(random_tile_pos - (tile_size / 2))
+	# --- ERASING THE CELL --- 
+	# Convert the random_tile's position to grid coordinates
+	var random_tile_grid_coordinates = random_tile_pos / tile_size
+	# Erase the spawn cell 
+	# Setting the source_id to -1 erases the cell
+	Room.spawn_map.set_cell(0, random_tile_grid_coordinates, -1)
 	return spawn_pos
-
 
 func _combat_check() -> void:
 	# Attack if there is any enemy selected
@@ -198,6 +200,8 @@ func _select_check():
 				Autoload.grid_data.set_point_solid(target_cell, false)
 			# set the atlas tile in place of the door
 			# 5 is source id ???
+			# USE GET SOURCE ID INSTEAD OF HARD CODED VALUES IN CASE THEY UPDATE
+			# ...AUTIOMATICALLY OVER TIME
 			# Vector21(1,0) is the Atlas coords	
 			Autoload.tilemap.set_cell(0, target_cell, 5, Vector2i(1,0))
 func _move_to_coord(move_direction: Vector2i) -> void:
