@@ -130,36 +130,6 @@ custom_data_layer_0/name = "is_blocked"
 custom_data_layer_0/type = 1
 sources/5 = SubResource("TileSetAtlasSource_hxfby")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w8vih"]
-texture = ExtResource("6_qg5a3")
-0:0/0 = 0
-1:0/0 = 0
-1:0/0/custom_data_0 = true
-1:2/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_royoo"]
-custom_data_layer_0/name = "is_spawnable"
-custom_data_layer_0/type = 1
-sources/1 = SubResource("TileSetAtlasSource_w8vih")
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p3k06"]
-size = Vector2(160, 144)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mvuwl"]
-size = Vector2(16, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_eumwl"]
-size = Vector2(16, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yqaj8"]
-size = Vector2(16, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mmjt0"]
-size = Vector2(160, 144)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ip42"]
-size = Vector2(16, 16)
-
 [sub_resource type="Animation" id="Animation_gr0ev"]
 resource_name = "CursorBlink"
 loop_mode = 1
@@ -197,6 +167,36 @@ _data = {
 "RESET": SubResource("Animation_78khw")
 }
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w8vih"]
+texture = ExtResource("6_qg5a3")
+0:0/0 = 0
+1:0/0 = 0
+1:0/0/custom_data_0 = true
+1:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_royoo"]
+custom_data_layer_0/name = "is_spawnable"
+custom_data_layer_0/type = 1
+sources/1 = SubResource("TileSetAtlasSource_w8vih")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p3k06"]
+size = Vector2(160, 144)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mvuwl"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eumwl"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yqaj8"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mmjt0"]
+size = Vector2(160, 144)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ip42"]
+size = Vector2(16, 16)
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_g22w3")
 metadata/_edit_horizontal_guides_ = [144.0, 288.0, 432.0]
@@ -211,6 +211,21 @@ layer_0/tile_data = PackedInt32Array(0, 65541, 268435460, 65536, 65541, 5, 13107
 
 [node name="Player" parent="." instance=ExtResource("3_860tr")]
 position = Vector2(96, 64)
+
+[node name="EnemyContainer" type="Node2D" parent="."]
+
+[node name="EnemyCursor" type="Sprite2D" parent="."]
+top_level = true
+texture = ExtResource("2_b3020")
+centered = false
+region_enabled = true
+region_rect = Rect2(64, 16, 16, 16)
+script = ExtResource("8_2bv5y")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemyCursor"]
+libraries = {
+"": SubResource("AnimationLibrary_8vtwj")
+}
 
 [node name="Rooms Handler" type="Node2D" parent="."]
 script = ExtResource("4_ftgjc")
@@ -340,19 +355,6 @@ limit_right = 320
 limit_bottom = 432
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
-
-[node name="EnemyCursor" type="Sprite2D" parent="."]
-top_level = true
-texture = ExtResource("2_b3020")
-centered = false
-region_enabled = true
-region_rect = Rect2(64, 16, 16, 16)
-script = ExtResource("8_2bv5y")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemyCursor"]
-libraries = {
-"": SubResource("AnimationLibrary_8vtwj")
-}
 
 [node name="Buttons" parent="." instance=ExtResource("4_y5y7e")]
 visible = false

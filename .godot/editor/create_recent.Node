@@ -1,5 +1,5 @@
-TileMap
 Node2D
+TileMap
 Timer
 CollisionShape2D
 Hitbox
@@ -12,4 +12,3 @@ StaticBody2D
 RayCast2D
 Line2D
 Camera2D
-Label

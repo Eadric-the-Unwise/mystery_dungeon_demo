@@ -4,6 +4,7 @@ extends Node2D
 @onready var player_hp: Label = $"CanvasLayer/Game UI/HP/Health"
 @onready var enemy_cursor := $EnemyCursor
 @onready var message := $"CanvasLayer/Debug UI/Message"
+@onready var enemy_container = $EnemyContainer
 
 #----------------------------------------------------------
 @onready var button_damage := $Buttons/Damage
@@ -126,7 +127,9 @@ func _init_enemies():
 			next_enemy.active = false
 			Autoload.all_active_enemies.append(next_enemy)
 			room.room_enemies.append(next_enemy)
-			add_child(next_enemy)
+			# Placed inside of EnemyContainer in order to control Sprite draw order
+			# (enemy cursors etc)
+			enemy_container.add_child(next_enemy)
 
 			#####
 			next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)
@@ -256,8 +259,6 @@ func _on_enemy_exited_combat(exited_enemy: Node2D):
 	combat_enemies.erase(exited_enemy)
 	print(combat_enemies.size())	
 
-# connect enemy death signal to this function
-# combat_enemies.remove(target_enemy)
 func _on_enemy_slain(slain_enemy: Node2D):
 	print("THE ENEMY HAS BEEN SLAIN")
 	_reset_cursor()
@@ -289,10 +290,8 @@ func _is_in_combat_range(target_grid_point: Vector2i):
 
 func _update_cursor():
 	if combat_enemies:
-		#selected_enemy = combat_enemies[0]
 		enemy_cursor.global_position = selected_enemy.global_position
 		enemy_cursor.animation_player.play("CursorBlink")
-		#selected_enemy = target_enemy
 
 func _reset_cursor():
 	enemy_cursor.animation_player.stop()
