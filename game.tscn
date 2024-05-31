@@ -341,6 +341,19 @@ limit_bottom = 432
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
+[node name="EnemyCursor" type="Sprite2D" parent="."]
+top_level = true
+texture = ExtResource("2_b3020")
+centered = false
+region_enabled = true
+region_rect = Rect2(64, 16, 16, 16)
+script = ExtResource("8_2bv5y")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemyCursor"]
+libraries = {
+"": SubResource("AnimationLibrary_8vtwj")
+}
+
 [node name="Buttons" parent="." instance=ExtResource("4_y5y7e")]
 visible = false
 offset_left = 133.0
@@ -433,16 +446,3 @@ theme_override_font_sizes/font_size = 8
 text = "00"
 vertical_alignment = 1
 metadata/_edit_lock_ = true
-
-[node name="EnemyCursor" type="Sprite2D" parent="."]
-top_level = true
-texture = ExtResource("2_b3020")
-centered = false
-region_enabled = true
-region_rect = Rect2(64, 16, 16, 16)
-script = ExtResource("8_2bv5y")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemyCursor"]
-libraries = {
-"": SubResource("AnimationLibrary_8vtwj")
-}

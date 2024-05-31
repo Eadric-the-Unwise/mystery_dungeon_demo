@@ -4,3 +4,4 @@ res://enemy/goblin_regular.tscn
 res://enemy/goblin_green.tscn
 res://buttons.tscn
 res://game.gd
+res://enemy/EnemySelection.gd

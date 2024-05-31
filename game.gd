@@ -249,7 +249,7 @@ func _on_enemy_entered_combat(entered_enemy: Node2D):
 	combat_enemies.append(entered_enemy)
 	selected_enemy = entered_enemy
 	#_update_cursor()
-	print(combat_enemies.size())	
+	print("Enemies in Combat: ",combat_enemies.size())	
 	
 func _on_enemy_exited_combat(exited_enemy: Node2D):
 	_reset_cursor()
@@ -267,7 +267,8 @@ func _on_enemy_slain(slain_enemy: Node2D):
 	#all_active_enemies.erase(slain_enemy)
 	
 	rooms_handler.current_room.room_enemies.erase(slain_enemy)
-	
+	# If there are enemies remaining
+	# UPDATE THIS TO BE BETTER
 	if combat_enemies:
 		selected_enemy = combat_enemies[0]
 	_update_cursor()
@@ -291,7 +292,6 @@ func _update_cursor():
 		#selected_enemy = combat_enemies[0]
 		enemy_cursor.global_position = selected_enemy.global_position
 		enemy_cursor.animation_player.play("CursorBlink")
-		
 		#selected_enemy = target_enemy
 
 func _reset_cursor():
