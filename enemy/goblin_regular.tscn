@@ -385,7 +385,6 @@ shape = SubResource("RectangleShape2D_7rslp")
 debug_color = Color(0.709804, 0.545098, 0.172549, 0.419608)
 
 [node name="!" type="Sprite2D" parent="."]
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 position = Vector2(8, -9)
 texture = ExtResource("5_2cbqk")
@@ -393,7 +392,6 @@ region_enabled = true
 region_rect = Rect2(64, 32, 16, 16)
 
 [node name="?" type="Sprite2D" parent="."]
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 position = Vector2(8, -9)
 texture = ExtResource("5_2cbqk")
