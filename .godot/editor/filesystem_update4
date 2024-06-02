@@ -4,4 +4,3 @@ res://enemy/goblin_regular.tscn
 res://enemy/goblin_green.tscn
 res://buttons.tscn
 res://game.gd
-res://state_machine/enemy_combat.gd

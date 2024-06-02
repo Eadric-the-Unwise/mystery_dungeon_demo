@@ -80,6 +80,7 @@ func melee_attack():
 		return
 	if selected_enemy.animation_player.is_playing() == false:
 		if selected_enemy.global_position.x > player.global_position.x:
+			print("Attack Right!!!!!!!!!!!!!!")
 			player.animation_player.play("AttackRight")
 		elif selected_enemy.global_position.x < player.global_position.x:
 			player.animation_player.play("AttackLeft")
