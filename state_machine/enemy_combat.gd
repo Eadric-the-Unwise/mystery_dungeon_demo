@@ -24,6 +24,7 @@ func exit():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy.EnemyAttackTurn.connect(_on_enemy_attack_turn)
+	enemy.EnemyAttackOpportunity.connect(_on_enemy_attack_opportunity)
 	#Autoload.RoomExited.connect(_on_room_exited)
 
 #func _on_room_exited():
@@ -46,13 +47,14 @@ func update():
 		else:
 			# Switch back to EnemyFollow State
 			# self = EnemyCombat
+			#enemy.EnemyAttackTurn.emit()
 			Transitioned.emit(self, "EnemyFollow")
 			print("ATTACK OF OPPORTUNITY")
 			return
 
 func _on_enemy_attack_turn():
 	await player.animation_player.animation_finished
-	#if player.animation_player.is_playing() == false:
+
 	if enemy.global_position.x < player.global_position.x:
 		animation_player.play("AttackRight")
 	elif enemy.global_position.x > player.global_position.x:
@@ -62,3 +64,15 @@ func _on_enemy_attack_turn():
 	else:
 		animation_player.play("AttackDown")
 
+func _on_enemy_attack_opportunity():
+	if enemy.global_position.x < player.global_position.x:
+		animation_player.play("AttackRight")
+	elif enemy.global_position.x > player.global_position.x:
+		animation_player.play("AttackLeft")
+	elif enemy.global_position.y > player.global_position.y:
+		animation_player.play("AttackUp")
+	else:
+		animation_player.play("AttackDown")
+	
+	#await player.animation_player.animation_finished
+	#Transitioned.emit(self, "EnemyFollow")

@@ -80,7 +80,6 @@ func melee_attack():
 		return
 	if selected_enemy.animation_player.is_playing() == false:
 		if selected_enemy.global_position.x > player.global_position.x:
-			print("Attack Right!!!!!!!!!!!!!!")
 			player.animation_player.play("AttackRight")
 		elif selected_enemy.global_position.x < player.global_position.x:
 			player.animation_player.play("AttackLeft")
@@ -216,6 +215,12 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	# If target_grid_point is an "is_blocked" tile, prevent movement
 	if Autoload.grid_data.is_point_solid(target_grid_point):
 		return
+	#Atttack of Opporunity
+	if combat_enemies:
+		combat_enemies[0].EnemyAttackOpportunity.emit()
+		await combat_enemies[0].animation_player.animation_finished
+		
+		
 	_move_tween_timer = true
 	# Clear current tile for movement
 	Autoload.grid_data.set_point_solid(Autoload.current_grid_point, false)

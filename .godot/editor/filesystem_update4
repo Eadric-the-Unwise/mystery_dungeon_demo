@@ -3,4 +3,6 @@ res://player.tscn
 res://enemy/goblin_regular.tscn
 res://enemy/goblin_green.tscn
 res://buttons.tscn
+res://state_machine/enemy_combat.gd
 res://game.gd
+res://enemy/enemy.gd

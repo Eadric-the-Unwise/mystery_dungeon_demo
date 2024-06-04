@@ -21,6 +21,7 @@ signal AreaEntered
 # emited when Area is exited
 signal AreaExited
 signal EnemyAttackTurn
+signal EnemyAttackOpportunity
 signal EnemyEnteredCombat
 signal EnemyExitedCombat
 signal EnemySlain
