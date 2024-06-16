@@ -61,16 +61,32 @@ func _process(_delta: float) -> void:
 		return
 	if player.animation_player.is_playing():
 		return
+		
 	if Input.is_action_pressed("move_up"):
+		_attack_of_opportunity_check()
 		_move_to_coord(Vector2i.UP)
 	elif Input.is_action_pressed("move_down"):
+		_attack_of_opportunity_check()
 		_move_to_coord(Vector2i.DOWN)
 	elif Input.is_action_pressed("move_left"):
+		_attack_of_opportunity_check()	
 		_move_to_coord(Vector2i.LEFT)
 		player.sprite.flip_h = true
 	elif Input.is_action_pressed("move_right"):
+		_attack_of_opportunity_check()	
+		#for enemy in combat_enemies:
+			##enemy.EnemyAttackOpportunity.emit()
+			#await enemy.animation_player.animation_finished
 		_move_to_coord(Vector2i.RIGHT)
 		player.sprite.flip_h = false
+
+func _attack_of_opportunity_check():
+	if combat_enemies:
+		for enemy in combat_enemies:
+			enemy.EnemyAttackOpportunity.emit()
+		# We need to check that this animation_finished signal is being called correctly
+			#await enemy.animation_player.animation_finished
+		return
 
 func melee_attack():
 	## Return if no current enemies
@@ -215,10 +231,11 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	# If target_grid_point is an "is_blocked" tile, prevent movement
 	if Autoload.grid_data.is_point_solid(target_grid_point):
 		return
+		
 	#Atttack of Opporunity
-	if combat_enemies:
-		combat_enemies[0].EnemyAttackOpportunity.emit()
-		await combat_enemies[0].animation_player.animation_finished
+	#if combat_enemies:
+		#combat_enemies[0].EnemyAttackOpportunity.emit()
+		##await combat_enemies[0].animation_player.animation_finished
 		
 		
 	_move_tween_timer = true
@@ -268,7 +285,7 @@ func _on_enemy_exited_combat(exited_enemy: Node2D):
 func _on_enemy_slain(slain_enemy: Node2D):
 	print("THE ENEMY HAS BEEN SLAIN")
 	_reset_cursor()
-	await player.animation_player.animation_finished
+	#await player.animation_player.animation_finished
 	#############################
 	combat_enemies.erase(slain_enemy)
 	#all_active_enemies.erase(slain_enemy)

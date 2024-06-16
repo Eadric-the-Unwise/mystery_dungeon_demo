@@ -25,6 +25,7 @@ func exit():
 func _ready():
 	enemy.EnemyAttackTurn.connect(_on_enemy_attack_turn)
 	enemy.EnemyAttackOpportunity.connect(_on_enemy_attack_opportunity)
+	player.animation_player.animation_finished.connect(_on_enemy_attack_turn)
 	#Autoload.RoomExited.connect(_on_room_exited)
 
 #func _on_room_exited():
@@ -53,7 +54,7 @@ func update():
 			return
 
 func _on_enemy_attack_turn():
-	await player.animation_player.animation_finished
+	#await player.animation_player.animation_finished
 
 	if enemy.global_position.x < player.global_position.x:
 		animation_player.play("AttackRight")
