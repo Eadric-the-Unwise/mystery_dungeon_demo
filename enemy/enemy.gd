@@ -44,6 +44,14 @@ func take_damage(attack_damage: int):
 	print(str(name) + "took " + str(attack_damage) + " damage!")
 	# SLAIN!
 	if self.health <= 0:
+		animation_player.play("Death")
+	# Will Attack, if able
+	else: 
+		EnemyAttackTurn.emit()
+		
+	
+
+func slay_enemy():
 		Autoload.grid_data.set_point_solid(current_enemy_coordinate, false)
 		EnemySlain.emit(self)
 		# add a Death Animation state, so enemy can exit EnemyCombat, removing itself from the combat_enemies array
@@ -53,8 +61,3 @@ func take_damage(attack_damage: int):
 		######################################
 		self.queue_free()
 		return
-	# Will Attack, if able
-	EnemyAttackTurn.emit()
-		
-	
-

@@ -1,7 +1,6 @@
 res://game.tscn
-res://state_machine/enemy_combat.gd
-res://game.gd
 res://player.tscn
 res://enemy/goblin_regular.tscn
 res://enemy/goblin_green.tscn
 res://buttons.tscn
+res://enemy/enemy.gd

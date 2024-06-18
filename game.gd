@@ -56,10 +56,11 @@ func _process(_delta: float) -> void:
 		_combat_check()
 	if Input.is_action_just_pressed("ui_accept"):
 		_select_check()
-	# Prevent player from moving until at .25 sec from previous movement input	
-	if _move_tween_timer:
-		return
+	# Return if Player movement is still animating
 	if player.animation_player.is_playing():
+		return
+	# Prevent player from moving until .25 sec after previous movement	
+	if _move_tween_timer:
 		return
 		
 	if Input.is_action_pressed("move_up"):
@@ -74,9 +75,6 @@ func _process(_delta: float) -> void:
 		player.sprite.flip_h = true
 	elif Input.is_action_pressed("move_right"):
 		_attack_of_opportunity_check()	
-		#for enemy in combat_enemies:
-			##enemy.EnemyAttackOpportunity.emit()
-			#await enemy.animation_player.animation_finished
 		_move_to_coord(Vector2i.RIGHT)
 		player.sprite.flip_h = false
 
