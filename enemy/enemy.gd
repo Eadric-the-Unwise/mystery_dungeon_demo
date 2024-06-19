@@ -24,6 +24,7 @@ signal AreaEntered
 signal AreaExited
 signal EnemyAttackTurn
 signal EnemyAttackOpportunity
+signal EnemyAttackFinished
 signal EnemyEnteredCombat
 signal EnemyExitedCombat
 signal EnemySlain
@@ -53,7 +54,8 @@ func take_damage(attack_damage: int):
 	else: 
 		EnemyAttackTurn.emit()
 		
-	
+func enemy_attack_finished():
+	EnemyAttackFinished.emit()	
 
 func slay_enemy():
 		Autoload.grid_data.set_point_solid(current_enemy_coordinate, false)

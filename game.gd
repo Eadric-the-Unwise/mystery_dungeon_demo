@@ -95,9 +95,10 @@ func _move_check(move_direction: Vector2i):
 func _on_player_to_move(move_direction: Vector2i, target_grid_point: Vector2i):
 	# Enemies will attack if there is an Opportunity, prior to Player movement to new tile
 	if combat_enemies:
+		#for enemy in combat_enemies:
+			#enemy.attack_of_opportunity = true
 		_attack_of_opportunity_check()	
-	else:
-		_move_to_coord(move_direction, target_grid_point)
+	_move_to_coord(move_direction, target_grid_point)
 
 func _next_enemy_attack():
 	pass
@@ -127,8 +128,7 @@ func _move_to_coord(move_direction: Vector2i, target_grid_point: Vector2i) -> vo
 	tween.finished.connect(_on_tween_finished)
 
 func _attack_of_opportunity_check():
-	if combat_enemies:
-		for enemy in combat_enemies:
+	for enemy in combat_enemies:
 			enemy.EnemyAttackOpportunity.emit()
 			
 		## NoCombatEnemies.emit()
@@ -199,6 +199,7 @@ func _init_enemies():
 			#####
 			next_enemy.EnemyEnteredCombat.connect(_on_enemy_entered_combat)
 			next_enemy.EnemyExitedCombat.connect(_on_enemy_exited_combat)
+			next_enemy.EnemyAttackFinished.connect(_on_enemy_attack_finished)
 			next_enemy.EnemySlain.connect(_on_enemy_slain)
 			#####
 			next_enemy.current_enemy_coordinate = next_enemy.position / Autoload.grid_data.cell_size
@@ -239,6 +240,9 @@ func _randomize_enemy_spawn(Room: Area2D):
 	# Setting the source_id to -1 erases the cell
 	Room.spawn_map.set_cell(0, random_tile_grid_coordinates, -1)
 	return spawn_pos
+
+func _on_enemy_attack_finished():
+	print("Enemy Attack Finished")
 
 func _combat_check() -> void:
 	# Attack if there is any enemy selected

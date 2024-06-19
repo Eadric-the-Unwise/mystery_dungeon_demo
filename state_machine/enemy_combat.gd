@@ -8,6 +8,7 @@ class_name EnemyCombat
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 
 var default_frame
+#var attack_of_opportunity : bool
 
 func enter():
 	#print("Enter enemy_combat")
@@ -64,7 +65,7 @@ func _on_enemy_attack_turn():
 		animation_player.play("AttackDown")
 
 func _on_enemy_attack_opportunity():
-	print(str(owner)," ATTACK OF OPPORTUNITY!")
+	print(str(enemy)," ATTACK OF OPPORTUNITY!")
 	if enemy.global_position.x < player.global_position.x:
 		animation_player.play("AttackRight")
 	elif enemy.global_position.x > player.global_position.x:
@@ -73,6 +74,8 @@ func _on_enemy_attack_opportunity():
 		animation_player.play("AttackUp")
 	else:
 		animation_player.play("AttackDown")
+	
+	#enemy.attack_of_opportunity = false
 	
 	#await player.animation_player.animation_finished
 	#Transitioned.emit(self, "EnemyFollow")
