@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b1lyt1lcujjby"]
+[gd_scene load_steps=25 format=3 uid="uid://b1lyt1lcujjby"]
 
 [ext_resource type="Script" path="res://enemy/enemy_goblin_regular.gd" id="1_fq5a2"]
 [ext_resource type="Texture2D" uid="uid://ci0yrk8300stg" path="res://assets/enemy/goblin.png" id="2_kugec"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://state_machine/enemy_idle.gd" id="9_e70ha"]
 [ext_resource type="Script" path="res://state_machine/enemy_follow.gd" id="10_oah54"]
 [ext_resource type="Script" path="res://state_machine/enemy_combat.gd" id="11_taiym"]
+[ext_resource type="Script" path="res://state_machine/enemy_death.gd" id="12_h51d6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vjywc"]
 size = Vector2(6, 6)
@@ -487,6 +488,9 @@ script = ExtResource("10_oah54")
 
 [node name="EnemyCombat" type="Node" parent="StateMachine"]
 script = ExtResource("11_taiym")
+
+[node name="EnemyDeath" type="Node" parent="StateMachine"]
+script = ExtResource("12_h51d6")
 
 [node name="Raycasts" type="Node2D" parent="."]
 visible = false
