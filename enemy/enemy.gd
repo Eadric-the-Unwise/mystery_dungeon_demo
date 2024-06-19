@@ -46,7 +46,7 @@ func take_damage(attack_damage: int):
 	print(str(name) + "took " + str(attack_damage) + " damage!")
 	# SLAIN!
 	if self.health <= 0:
-	#cthis must be called from the current_state
+		#Identify the Enemy's current State. Switch to enemy_death Death State
 		var current_state = state_machine.current_state
 		current_state.Transitioned.emit(current_state, "EnemyDeath")
 	# Will Attack, if able

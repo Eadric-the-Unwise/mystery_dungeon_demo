@@ -9,7 +9,6 @@ func _process(delta):
 	pass
 
 func enter():
-	print("Death State")
 	animation_player.play("Death")
 	
 func exit():

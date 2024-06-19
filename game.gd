@@ -64,17 +64,13 @@ func _process(_delta: float) -> void:
 		return
 		
 	if Input.is_action_pressed("move_up"):
-		_attack_of_opportunity_check()
 		_move_to_coord(Vector2i.UP)
 	elif Input.is_action_pressed("move_down"):
-		_attack_of_opportunity_check()
 		_move_to_coord(Vector2i.DOWN)
 	elif Input.is_action_pressed("move_left"):
-		_attack_of_opportunity_check()	
 		_move_to_coord(Vector2i.LEFT)
 		player.sprite.flip_h = true
 	elif Input.is_action_pressed("move_right"):
-		_attack_of_opportunity_check()	
 		_move_to_coord(Vector2i.RIGHT)
 		player.sprite.flip_h = false
 
@@ -194,6 +190,7 @@ func _combat_check() -> void:
 	if combat_enemies:
 		melee_attack()
 		return
+		
 func _select_check():
 	if combat_enemies:
 		#Exit function if there are enemies attacking player (must attack)
@@ -221,6 +218,7 @@ func _select_check():
 			# ...AUTIOMATICALLY OVER TIME
 			# Vector21(1,0) is the Atlas coords	
 			Autoload.tilemap.set_cell(0, target_cell, 5, Vector2i(1,0))
+			
 func _move_to_coord(move_direction: Vector2i) -> void:
 	var target_grid_point = Autoload.current_grid_point + move_direction
 	# If there is an enemy within melee_combat range on this tile, select the enemy instead of moving
@@ -229,12 +227,9 @@ func _move_to_coord(move_direction: Vector2i) -> void:
 	# If target_grid_point is an "is_blocked" tile, prevent movement
 	if Autoload.grid_data.is_point_solid(target_grid_point):
 		return
-		
-	#Atttack of Opporunity
-	#if combat_enemies:
-		#combat_enemies[0].EnemyAttackOpportunity.emit()
-		##await combat_enemies[0].animation_player.animation_finished
-		
+	
+	# Enemies will attack if there is an Opportunity, prior to Player movement to new tile
+	_attack_of_opportunity_check()	
 		
 	_move_tween_timer = true
 	# Clear current tile for movement

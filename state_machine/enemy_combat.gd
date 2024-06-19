@@ -25,7 +25,7 @@ func exit():
 func _ready():
 	enemy.EnemyAttackTurn.connect(_on_enemy_attack_turn)
 	enemy.EnemyAttackOpportunity.connect(_on_enemy_attack_opportunity)
-	player.animation_player.animation_finished.connect(_on_enemy_attack_turn)
+	#player.animation_player.animation_finished.connect(_on_enemy_attack_turn
 	#Autoload.RoomExited.connect(_on_room_exited)
 
 #func _on_room_exited():
@@ -48,9 +48,7 @@ func update():
 		else:
 			# Switch back to EnemyFollow State
 			# self = EnemyCombat
-			#enemy.EnemyAttackTurn.emit()
 			Transitioned.emit(self, "EnemyFollow")
-			print("ATTACK OF OPPORTUNITY")
 			return
 
 func _on_enemy_attack_turn():
@@ -66,6 +64,7 @@ func _on_enemy_attack_turn():
 		animation_player.play("AttackDown")
 
 func _on_enemy_attack_opportunity():
+	print(str(owner)," ATTACK OF OPPORTUNITY!")
 	if enemy.global_position.x < player.global_position.x:
 		animation_player.play("AttackRight")
 	elif enemy.global_position.x > player.global_position.x:
