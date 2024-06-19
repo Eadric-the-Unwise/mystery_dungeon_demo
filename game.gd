@@ -36,6 +36,8 @@ func _ready() -> void:
 	_init_enemies()
 	# Initialize ui
 	_update_ui()
+	# Connect PlayerToMove to delcare Player's intent to take a Move action
+	Autoload.PlayerToMove.connect(_on_player_to_move)
 	# Connect PlayerActionTaken to _update_ui()
 	Autoload.PlayerActionTaken.connect(_update_ui)
 	# Reset move_timer to wait_time
@@ -64,24 +66,77 @@ func _process(_delta: float) -> void:
 		return
 		
 	if Input.is_action_pressed("move_up"):
-		_move_to_coord(Vector2i.UP)
+		_move_check(Vector2i.UP)
 	elif Input.is_action_pressed("move_down"):
-		_move_to_coord(Vector2i.DOWN)
+		_move_check(Vector2i.DOWN)
 	elif Input.is_action_pressed("move_left"):
-		_move_to_coord(Vector2i.LEFT)
+		_move_check(Vector2i.LEFT)
 		player.sprite.flip_h = true
 	elif Input.is_action_pressed("move_right"):
-		_move_to_coord(Vector2i.RIGHT)
+		_move_check(Vector2i.RIGHT)
 		player.sprite.flip_h = false
+
+# If PLAYER can move, emit the move_direction and target_grid_pont
+func _move_check(move_direction: Vector2i):
+	# Define the target move location of Player
+	var target_grid_point = Autoload.current_grid_point + move_direction
+	# If there is an enemy within melee_combat range on this tile, select the enemy instead of moving
+	if _is_in_combat_range(target_grid_point):
+		return
+	# If target_grid_point is an "is_blocked" tile, prevent movement
+	if Autoload.grid_data.is_point_solid(target_grid_point):
+		return
+	# Emit signal declaring that the Player intends to move. This triggers other
+	# enemy actions like Attack Of Opportunity
+	Autoload.PlayerToMove.emit(move_direction, target_grid_point)
+
+# Check for Attacks of Opportunity. Then move the Player to the target_grid_point when all
+# combat_enemies have attacked
+func _on_player_to_move(move_direction: Vector2i, target_grid_point: Vector2i):
+	# Enemies will attack if there is an Opportunity, prior to Player movement to new tile
+	if combat_enemies:
+		_attack_of_opportunity_check()	
+	else:
+		_move_to_coord(move_direction, target_grid_point)
+
+func _next_enemy_attack():
+	pass
+
+func _move_to_coord(move_direction: Vector2i, target_grid_point: Vector2i) -> void:
+	
+	_move_tween_timer = true
+	# Clear current tile for movement
+	Autoload.grid_data.set_point_solid(Autoload.current_grid_point, false)
+	# Update current tile to the target grid point
+	Autoload.current_grid_point = target_grid_point
+	# Set position of the target grid point
+	var target_position = Autoload.grid_data.get_point_position(target_grid_point)
+	# Prevent enemies from entering your target grid point
+	Autoload.grid_data.set_point_solid(target_grid_point, true)
+	var tween = player.create_tween()
+	tween.tween_property(player, "position", target_position, .10)
+	#player.position = target_position
+	# Prevents player from moving every in-game frame
+	# Start move_timer (player cannot move again until timer = timeout())
+	player.move_timer.start()
+	# emit signal
+	Autoload.PlayerActionTaken.emit()
+	# Confirms when the player has finished animating to his position
+	# If player lands in combat distance, the enemy will enter combat instead
+	# of moving.
+	tween.finished.connect(_on_tween_finished)
 
 func _attack_of_opportunity_check():
 	if combat_enemies:
 		for enemy in combat_enemies:
 			enemy.EnemyAttackOpportunity.emit()
-		# We need to check that this animation_finished signal is being called correctly
-			#await enemy.animation_player.animation_finished
-		return
-
+			
+		## NoCombatEnemies.emit()
+		#return
+	#else:
+		## NoCombatEnemies.emit()
+		#pass
+		
 func melee_attack():
 	## Return if no current enemies
 	if combat_enemies.is_empty():
@@ -219,40 +274,6 @@ func _select_check():
 			# Vector21(1,0) is the Atlas coords	
 			Autoload.tilemap.set_cell(0, target_cell, 5, Vector2i(1,0))
 			
-func _move_to_coord(move_direction: Vector2i) -> void:
-	var target_grid_point = Autoload.current_grid_point + move_direction
-	# If there is an enemy within melee_combat range on this tile, select the enemy instead of moving
-	if _is_in_combat_range(target_grid_point):
-		return
-	# If target_grid_point is an "is_blocked" tile, prevent movement
-	if Autoload.grid_data.is_point_solid(target_grid_point):
-		return
-	
-	# Enemies will attack if there is an Opportunity, prior to Player movement to new tile
-	_attack_of_opportunity_check()	
-		
-	_move_tween_timer = true
-	# Clear current tile for movement
-	Autoload.grid_data.set_point_solid(Autoload.current_grid_point, false)
-	# Update current tile to the target grid point
-	Autoload.current_grid_point = target_grid_point
-	# Set position of the target grid point
-	var target_position = Autoload.grid_data.get_point_position(target_grid_point)
-	# Prevent enemies from entering your target grid point
-	Autoload.grid_data.set_point_solid(target_grid_point, true)
-	var tween = player.create_tween()
-	tween.tween_property(player, "position", target_position, .10)
-	#player.position = target_position
-	# Prevents player from moving every in-game frame
-	# Start move_timer (player cannot move again until timer = timeout())
-	player.move_timer.start()
-	# emit signal
-	Autoload.PlayerActionTaken.emit()
-	# Confirms when the player has finished animating to his position
-	# If player lands in combat distance, the enemy will enter combat instead
-	# of moving.
-	tween.finished.connect(_on_tween_finished)
-	
 func _on_tween_finished():
 	player.cursor_timer.start()
 	#_update_cursor()

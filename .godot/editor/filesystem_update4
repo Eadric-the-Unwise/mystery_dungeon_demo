@@ -6,3 +6,6 @@ res://enemy/goblin_green.tscn
 res://buttons.tscn
 res://game.gd
 res://state_machine/enemy_combat.gd
+res://autoload.gd
+res://rooms/room_B1.gd
+res://void/game_tutorial.gd

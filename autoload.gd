@@ -1,8 +1,13 @@
 extends Node
 
+# This signal is called when the Player declares intent to move a tile. The connected signal then
+# checks for enemies which can Attack of Opportunity the Player. If none, the Player can move 
+signal PlayerToMove
+
+signal NoCombatEnemiesPlayerCanMove
+# After the Player has taken an Action (Attack, Move), the Enemies may respond
 signal PlayerActionTaken
-#signal RoomEntered
-#signal RoomExited
+
 
 # All active enemies in game
 var all_active_enemies: Array = []
