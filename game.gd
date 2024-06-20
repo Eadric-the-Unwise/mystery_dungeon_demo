@@ -23,7 +23,9 @@ var combat_enemies: Array = []
 # Updated on selection during combat
 var selected_enemy: Node2D
 # remove this?
-var _move_tween_timer: bool
+var move_tween_timer: bool
+########
+var target_grid_point : Vector2i
 
 func _ready() -> void:
 	# Currently only randomizing the init_enemies func
@@ -62,7 +64,7 @@ func _process(_delta: float) -> void:
 	if player.animation_player.is_playing():
 		return
 	# Prevent player from moving until .25 sec after previous movement	
-	if _move_tween_timer:
+	if move_tween_timer:
 		return
 		
 	if Input.is_action_pressed("move_up"):
@@ -79,7 +81,7 @@ func _process(_delta: float) -> void:
 # If PLAYER can move, emit the move_direction and target_grid_pont
 func _move_check(move_direction: Vector2i):
 	# Define the target move location of Player
-	var target_grid_point = Autoload.current_grid_point + move_direction
+	target_grid_point = Autoload.current_grid_point + move_direction
 	# If there is an enemy within melee_combat range on this tile, select the enemy instead of moving
 	if _is_in_combat_range(target_grid_point):
 		return
@@ -88,24 +90,29 @@ func _move_check(move_direction: Vector2i):
 		return
 	# Emit signal declaring that the Player intends to move. This triggers other
 	# enemy actions like Attack Of Opportunity
-	Autoload.PlayerToMove.emit(move_direction, target_grid_point)
+	Autoload.PlayerToMove.emit()
 
 # Check for Attacks of Opportunity. Then move the Player to the target_grid_point when all
 # combat_enemies have attacked
-func _on_player_to_move(move_direction: Vector2i, target_grid_point: Vector2i):
+func _on_player_to_move():
 	# Enemies will attack if there is an Opportunity, prior to Player movement to new tile
 	if combat_enemies:
 		#for enemy in combat_enemies:
 			#enemy.attack_of_opportunity = true
 		_attack_of_opportunity_check()	
-	_move_to_coord(move_direction, target_grid_point)
+	else:
+		_move_to_coord()
 
 func _next_enemy_attack():
 	pass
 
-func _move_to_coord(move_direction: Vector2i, target_grid_point: Vector2i) -> void:
+func _on_enemy_attack_finished():
+	print("Enemy Attack Finished")
+	_move_to_coord()
+
+func _move_to_coord() -> void:
 	
-	_move_tween_timer = true
+	move_tween_timer = true
 	# Clear current tile for movement
 	Autoload.grid_data.set_point_solid(Autoload.current_grid_point, false)
 	# Update current tile to the target grid point
@@ -241,8 +248,7 @@ func _randomize_enemy_spawn(Room: Area2D):
 	Room.spawn_map.set_cell(0, random_tile_grid_coordinates, -1)
 	return spawn_pos
 
-func _on_enemy_attack_finished():
-	print("Enemy Attack Finished")
+
 
 func _combat_check() -> void:
 	# Attack if there is any enemy selected
@@ -348,7 +354,7 @@ func _update_ui():
 	player_hp.text = str(player.health)	
 
 func _reset_timer():
-	_move_tween_timer = false
+	move_tween_timer = false
 	
 func _reset_game():
 	get_tree().reload_current_scene()
