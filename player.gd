@@ -13,6 +13,8 @@ extends Node2D
 @onready var left = $InteractableDetectionArea/LEFT
 
 
+
+var bloodsplatter := preload("res://bloodsplat.tscn")
 var health := 10
 
 func _ready() -> void:
@@ -21,7 +23,8 @@ func _ready() -> void:
 func take_damage(attack_damage: int):
 	health -= attack_damage
 	print(str(name) + "took " + str(attack_damage) + " damage!")
-	
+	var bloodsplat = bloodsplatter.instantiate()
+	add_child(bloodsplat)
 	if health <= 0:
 		print("GAME OVER")
 

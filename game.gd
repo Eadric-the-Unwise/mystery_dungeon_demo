@@ -17,7 +17,7 @@ extends Node2D
 @onready var rooms_handler = $"Rooms Handler"
 @onready var b_1 = $"Rooms Handler/B1"
 @onready var b_2 = $"Rooms Handler/B2"
-
+var bloodsplat := preload("res://bloodsplat.tscn")
 # All enemies within melee combat distance of Player
 var combat_enemies: Array = []
 # Updated on selection during combat

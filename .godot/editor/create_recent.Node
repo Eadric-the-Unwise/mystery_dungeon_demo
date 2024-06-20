@@ -1,13 +1,13 @@
+AnimationPlayer
+Sprite2D
+Node
 Node2D
 TileMap
 Timer
 CollisionShape2D
 Hitbox
 Area2D
-AnimationPlayer
-Sprite2D
 Hurtbox
-Node
 StaticBody2D
 RayCast2D
 Line2D
