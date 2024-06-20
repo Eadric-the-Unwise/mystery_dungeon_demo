@@ -28,6 +28,7 @@ var move_tween_timer: bool
 var target_grid_point : Vector2i
 
 func _ready() -> void:
+	#Engine.time_scale = 0.5
 	# Currently only randomizing the init_enemies func
 	randomize()
 	# Initialize the Autoload.tilemap TileMap
@@ -77,17 +78,22 @@ func _process(_delta: float) -> void:
 	elif Input.is_action_pressed("move_right"):
 		_move_check(Vector2i.RIGHT)
 		player.sprite.flip_h = false
+	
+	#if Input.is_action_just_pressed("wait"):
+		#Autoload.PlayerActionTaken.emit()
 
 # If PLAYER can move, emit the move_direction and target_grid_pont
 func _move_check(move_direction: Vector2i):
 	# Define the target move location of Player
-	target_grid_point = Autoload.current_grid_point + move_direction
+	var target_location = Autoload.current_grid_point + move_direction
 	# If there is an enemy within melee_combat range on this tile, select the enemy instead of moving
-	if _is_in_combat_range(target_grid_point):
+	if _is_in_combat_range(target_location):
 		return
 	# If target_grid_point is an "is_blocked" tile, prevent movement
-	if Autoload.grid_data.is_point_solid(target_grid_point):
+	if Autoload.grid_data.is_point_solid(target_location):
 		return
+	# Update global target_grid_point for next Move Action
+	target_grid_point = Autoload.current_grid_point + move_direction
 	# Emit signal declaring that the Player intends to move. This triggers other
 	# enemy actions like Attack Of Opportunity
 	Autoload.PlayerToMove.emit()
@@ -103,15 +109,15 @@ func _on_player_to_move():
 	else:
 		_move_to_coord()
 
-func _next_enemy_attack():
-	pass
-
+func _attack_of_opportunity_check():
+	for enemy in combat_enemies:
+			enemy.EnemyAttackOpportunity.emit()
 func _on_enemy_attack_finished():
-	print("Enemy Attack Finished")
-	_move_to_coord()
+	# If Player has moved
+	if target_grid_point != Autoload.current_grid_point:
+		_move_to_coord()
 
 func _move_to_coord() -> void:
-	
 	move_tween_timer = true
 	# Clear current tile for movement
 	Autoload.grid_data.set_point_solid(Autoload.current_grid_point, false)
@@ -133,16 +139,9 @@ func _move_to_coord() -> void:
 	# If player lands in combat distance, the enemy will enter combat instead
 	# of moving.
 	tween.finished.connect(_on_tween_finished)
-
-func _attack_of_opportunity_check():
-	for enemy in combat_enemies:
-			enemy.EnemyAttackOpportunity.emit()
-			
-		## NoCombatEnemies.emit()
-		#return
-	#else:
-		## NoCombatEnemies.emit()
-		#pass
+#
+func _next_enemy_attack():
+	pass
 		
 func melee_attack():
 	## Return if no current enemies
@@ -304,7 +303,7 @@ func _on_enemy_entered_combat(entered_enemy: Node2D):
 func _on_enemy_exited_combat(exited_enemy: Node2D):
 	_reset_cursor()
 	combat_enemies.erase(exited_enemy)
-	print(combat_enemies.size())	
+	#print(combat_enemies.size())	
 
 func _on_enemy_slain(slain_enemy: Node2D):
 	print("THE ENEMY HAS BEEN SLAIN")
