@@ -15,6 +15,9 @@ class_name Enemy
 var enemy_current_state : State
 var current_enemy_coordinate: Vector2i
 
+var bloodsplatter := preload("res://bloodsplat.tscn")
+
+
 # moved to enemy script 
 #var health := 10
 
@@ -45,6 +48,9 @@ func _process(_delta):
 func take_damage(attack_damage: int):
 	self.health -= attack_damage
 	print(str(name) + "took " + str(attack_damage) + " damage!")
+	var bloodsplat = bloodsplatter.instantiate()
+	add_child(bloodsplat)
+	bloodsplat.damage_num.frame = attack_damage
 	# SLAIN!
 	if self.health <= 0:
 		#Identify the Enemy's current State. Switch to enemy_death Death State

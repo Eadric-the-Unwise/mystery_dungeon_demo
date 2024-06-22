@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var damage_num = $DamageNum
 @onready var animation_player = $AnimationPlayer
 #@onready var player: Node2D = get_tree().get_first_node_in_group("Player")
 # Called when the node enters the scene tree for the first time.

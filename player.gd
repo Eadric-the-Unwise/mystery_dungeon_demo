@@ -25,6 +25,7 @@ func take_damage(attack_damage: int):
 	print(str(name) + "took " + str(attack_damage) + " damage!")
 	var bloodsplat = bloodsplatter.instantiate()
 	add_child(bloodsplat)
+	bloodsplat.damage_num.frame = attack_damage
 	if health <= 0:
 		print("GAME OVER")
 
