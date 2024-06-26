@@ -1,11 +1,8 @@
-res://bloodsplat.tscn
-res://player.tscn
-res://player.gd
-res://enemy/goblin_regular.tscn
-res://combat_scripts/hitbox_gobline_regular.gd
-res://enemy/goblin_green.tscn
-res://combat_scripts/hitbox_gobline_green.gd
 res://game.tscn
+res://rooms/room.gd
+res://camera.gd
+res://player.tscn
+res://enemy/goblin_regular.tscn
+res://enemy/goblin_green.tscn
 res://buttons.tscn
-res://bloodsplat.gd
-res://enemy/enemy.gd
+res://bloodsplat.tscn
