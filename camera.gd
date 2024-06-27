@@ -2,7 +2,7 @@ class_name Camera
 extends Camera2D
 
 const FADE_DURATION: float = 1.0
-const SMOOTH_TRANSITION_DURATION: float = 0.5
+const SMOOTH_TRANSITION_DURATION: float = .25
 
 @export var smooth_transition_curve: Curve
 
@@ -28,9 +28,11 @@ func transition_to_room(target_room: Room):
 			#position = target_room.position
 	_smooth_transition_camera_start = position
 	_smooth_transition_camera_target = target_room.position
-			
+	# If player is bouncing between rooms quickly, this will cancel the previous Tween animation
+	# and start a new one		
 	if _smooth_transition_tween:
 		_smooth_transition_tween.kill()
+		
 	_smooth_transition_tween = get_tree().create_tween()
 	_smooth_transition_tween.tween_method(_smooth_transition, 0.0, 1.0, SMOOTH_TRANSITION_DURATION)
 	_current_room = target_room

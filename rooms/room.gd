@@ -17,6 +17,8 @@ func _on_area_entered(area: Area2D):
 	print("Entered: Room ", name)
 	# This triggers for EVERY room. Attach roomB1.gd script, instead?
 	#camera.position = position
+	
+	# Transition the camera toward the room just entered
 	camera.transition_to_room(self)
 	RoomEntered.emit()
 
