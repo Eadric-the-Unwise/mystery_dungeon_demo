@@ -4,7 +4,8 @@ res://enemy/goblin_regular.tscn
 res://enemy/goblin_green.tscn
 res://buttons.tscn
 res://bloodsplat.tscn
-res://camera.gd
-res://rooms/room.gd
-res://bloodsplat.gd
-res://enemy/enemy.gd
+res://fog.gd
+res://player.gd
+res://state_machine/enemy_follow.gd
+res://autoload.gd
+res://game.gd

@@ -7,6 +7,8 @@ signal PlayerToMove
 signal NoCombatEnemiesPlayerCanMove
 # After the Player has taken an Action (Attack, Move), the Enemies may respond
 signal PlayerActionTaken
+# After the Player has moved to a new tile coord
+signal PlayerMoved
 
 
 # All active enemies in game

@@ -455,7 +455,6 @@ _data = {
 }
 
 [node name="GoblinRegular" type="Node2D"]
-top_level = true
 script = ExtResource("1_fq5a2")
 
 [node name="EnemySprite2D" type="Sprite2D" parent="."]

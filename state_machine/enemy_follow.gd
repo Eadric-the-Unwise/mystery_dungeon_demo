@@ -14,6 +14,7 @@ class_name EnemyFollow
 
 func enter():
 	print("Enemy following player!")
+	# ? How are these Vector 2 coords?
 	enemy.current_enemy_coordinate = Autoload.tilemap.local_to_map(enemy.global_position)
 	_flip_sprite()
 func exit():

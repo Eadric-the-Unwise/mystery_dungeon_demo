@@ -5,6 +5,8 @@ extends Node2D
 @onready var enemy_cursor := $EnemyCursor
 @onready var message := $"CanvasLayer/Debug UI/Message"
 @onready var enemy_container = $EnemyContainer
+@onready var fog = $Fog
+
 
 #----------------------------------------------------------
 @onready var button_damage := $Buttons/Damage
@@ -39,6 +41,8 @@ func _ready() -> void:
 	_init_enemies()
 	# Initialize ui
 	_update_ui()
+	# Erase any fog surrounding the Player after his coords are loaded
+	fog.erase_fog()
 	# Connect PlayerToMove to delcare Player's intent to take a Move action
 	Autoload.PlayerToMove.connect(_on_player_to_move)
 	# Connect PlayerActionTaken to _update_ui()
@@ -285,6 +289,7 @@ func _select_check():
 			
 func _on_tween_finished():
 	player.cursor_timer.start()
+	Autoload.PlayerMoved.emit()
 	#_update_cursor()
 	#enemy_cursor.animation_player.play("CursorBlink")
 	pass
