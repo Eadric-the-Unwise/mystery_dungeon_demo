@@ -12,9 +12,9 @@ func _process(delta):
 
 func erase_fog():
 	# Erase Player cell fog
-	set_cell(0, Autoload.current_grid_point, -1)
+	#set_cell(0, Autoload.current_grid_point, -1)
 	# Erase Player interactable detection cell fog
-	for interactable_cell in player.interactable_detection_area.get_children():
+	for interactable_cell in player.vision_area.get_children():
 		var coord: Vector2 = fog.local_to_map(interactable_cell.global_position)
 		# Erase fog at coord : Vector2
 		set_cell(0, coord, -1)

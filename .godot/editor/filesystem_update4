@@ -6,6 +6,3 @@ res://buttons.tscn
 res://bloodsplat.tscn
 res://fog.gd
 res://player.gd
-res://state_machine/enemy_follow.gd
-res://autoload.gd
-res://game.gd
