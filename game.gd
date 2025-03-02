@@ -43,6 +43,8 @@ func _ready() -> void:
 	_update_ui()
 	# Erase any fog surrounding the Player after his coords are loaded
 	fog.erase_fog()
+	fog.update_enemy_fog_sprite()
+	
 	# Connect PlayerToMove to delcare Player's intent to take a Move action
 	Autoload.PlayerToMove.connect(_on_player_to_move)
 	# Connect PlayerActionTaken to _update_ui()

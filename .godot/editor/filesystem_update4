@@ -4,5 +4,3 @@ res://enemy/goblin_regular.tscn
 res://enemy/goblin_green.tscn
 res://buttons.tscn
 res://bloodsplat.tscn
-res://fog.gd
-res://player.gd
