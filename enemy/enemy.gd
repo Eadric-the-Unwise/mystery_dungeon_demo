@@ -22,15 +22,16 @@ var bloodsplatter := preload("res://bloodsplat.tscn")
 #var health := 10
 
 # emited when Area is entered
-signal AreaEntered
-# emited when Area is exited
-signal AreaExited
+#signal AreaEntered
+## emited when Area is exited
+#signal AreaExited
 signal EnemyAttackTurn
 signal EnemyAttackOpportunity
 signal EnemyAttackFinished
 signal EnemyEnteredCombat
 signal EnemyExitedCombat
 signal EnemySlain
+signal EnemyHidden
 
 # Used to track where it lives within Game.gd/combat_enemies[] Array2D
 #var combat_enemies_variable: int
@@ -73,3 +74,8 @@ func slay_enemy():
 		######################################
 		self.queue_free()
 		return
+
+func enemy_hidden():
+	sprite.frame = 3
+func enemy_reveal():
+	sprite.frame = self.default_sprite

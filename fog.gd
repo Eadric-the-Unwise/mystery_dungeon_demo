@@ -42,11 +42,20 @@ func update_enemy_fog_sprite():
 	
 	#Check all enemies in current room and erase their fog
 	for enemy in rooms_handler.current_room.room_enemies:
-		var coord: Vector2 = fog.local_to_map(enemy.global_position)
+		var coord: Vector2i = fog.local_to_map(enemy.global_position)
+		#IF COORD HAS A FOG TILE, HIDE ENEMY
+		if get_cell_tile_data(0, coord):
+			print("Enemy ",enemy, " is Hidden!")
+			enemy.enemy_hidden()
+		else:
+			enemy.enemy_reveal()
+
+		
 		#Decided to just erase the enemey fog, then have Enemy Sprite change to a '?' on Node2D
-		set_cell(0, coord, -1)
+		#set_cell(0, coord, -1)
 		#Update enemy sprite to '?' sprite
-		enemy.sprite.frame = 3
+
+		#enemy.sprite.frame = 3
 		
 		#print("There's an enemy somewhere in this room!")
 		#print(get_cell_source_id(0,coord))

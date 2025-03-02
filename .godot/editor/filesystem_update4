@@ -6,3 +6,6 @@ res://buttons.tscn
 res://bloodsplat.tscn
 res://fog.gd
 res://game.gd
+res://enemy/enemy.gd
+res://enemy/enemy_goblin_green.gd
+res://enemy/enemy_goblin_regular.gd
