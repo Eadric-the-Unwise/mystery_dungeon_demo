@@ -175,6 +175,7 @@ texture = ExtResource("5_b58q4")
 texture_region_size = Vector2i(8, 8)
 use_texture_padding = false
 0:0/0 = 0
+1:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_5f1g7"]
 sources/0 = SubResource("TileSetAtlasSource_2l3e5")
@@ -232,6 +233,7 @@ position = Vector2(96, 64)
 [node name="EnemyContainer" type="Node2D" parent="."]
 
 [node name="EnemyCursor" type="Sprite2D" parent="."]
+position = Vector2(-16, 0)
 texture = ExtResource("2_b3020")
 centered = false
 region_enabled = true

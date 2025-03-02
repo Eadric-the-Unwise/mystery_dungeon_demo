@@ -460,7 +460,7 @@ script = ExtResource("1_fq5a2")
 [node name="EnemySprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_kugec")
 centered = false
-hframes = 3
+hframes = 4
 
 [node name="Hitbox" type="Area2D" parent="EnemySprite2D"]
 collision_layer = 32
